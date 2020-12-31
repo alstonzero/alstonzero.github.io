@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en,default">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alstonzero.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="双指针——滑动窗口滑动窗口代码模板在数组arr中，arr[i…j]为滑动窗口 1234567891011121314151617181920i,j &#x3D; 0,-1  #初始时，窗口中不能有元素，右边界为-1&quot;&quot;&quot;result 初始值辅助变量等&quot;&quot;&quot;while i&lt;len(arr): #只要窗口左边不越界，就能一直滑动下去">
+<meta property="og:type" content="article">
+<meta property="og:title" content="双指针——滑动窗口 Two Pointer--Sliding Window">
+<meta property="og:url" content="https://alstonzero.github.io/2019/11/09/2019-11-09-%E5%8F%8C%E6%8C%87%E9%92%88%E2%80%94%E2%80%94%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/index.html">
+<meta property="og:site_name" content="MyNote">
+<meta property="og:description" content="双指针——滑动窗口滑动窗口代码模板在数组arr中，arr[i…j]为滑动窗口 1234567891011121314151617181920i,j &#x3D; 0,-1  #初始时，窗口中不能有元素，右边界为-1&quot;&quot;&quot;result 初始值辅助变量等&quot;&quot;&quot;while i&lt;len(arr): #只要窗口左边不越界，就能一直滑动下去">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%20%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_01.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%20%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_02.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%20%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_03.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%20%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_04.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%20%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_05.png">
+<meta property="article:published_time" content="2019-11-09T13:27:29.000Z">
+<meta property="article:modified_time" content="2020-12-31T13:52:07.553Z">
+<meta property="article:author" content="HOU YINGQIAO">
+<meta property="article:tag" content="data structures and algorithms">
+<meta property="article:tag" content="imooc">
+<meta property="article:tag" content="leetcode">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%20%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_01.png">
+
+<link rel="canonical" href="https://alstonzero.github.io/2019/11/09/2019-11-09-%E5%8F%8C%E6%8C%87%E9%92%88%E2%80%94%E2%80%94%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>双指针——滑动窗口 Two Pointer--Sliding Window | MyNote</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MyNote</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/alstonzero" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2019/11/09/2019-11-09-%E5%8F%8C%E6%8C%87%E9%92%88%E2%80%94%E2%80%94%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          双指针——滑动窗口 Two Pointer--Sliding Window
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-09 22:27:29" itemprop="dateCreated datePublished" datetime="2019-11-09T22:27:29+09:00">2019-11-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-31 22:52:07" itemprop="dateModified" datetime="2020-12-31T22:52:07+09:00">2020-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/data-structures-and-algorithms/" itemprop="url" rel="index"><span itemprop="name">data structures and algorithms</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="双指针——滑动窗口"><a href="#双指针——滑动窗口" class="headerlink" title="双指针——滑动窗口"></a>双指针——滑动窗口</h2><h2 id="滑动窗口代码模板"><a href="#滑动窗口代码模板" class="headerlink" title="滑动窗口代码模板"></a>滑动窗口代码模板</h2><p>在数组arr中，arr[i…j]为滑动窗口</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">i,j = <span class="number">0</span>,-<span class="number">1</span>  <span class="comment">#初始时，窗口中不能有元素，右边界为-1</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">result 初始值</span></span><br><span class="line"><span class="string">辅助变量等</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> i&lt;<span class="built_in">len</span>(arr): <span class="comment">#只要窗口左边不越界，就能一直滑动下去</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> j+<span class="number">1</span>&lt;<span class="built_in">len</span>(arr) <span class="keyword">and</span> condition: <span class="comment">#只要窗口右边界不越界，且满足题目条件时进行操作</span></span><br><span class="line">        j+=<span class="number">1</span> </span><br><span class="line">        process(arr[j])</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">else</span>:  <span class="comment">#当前窗口不满足题目条件时，先进行操作，再使左边界向前滑动</span></span><br><span class="line">        process(arr[i]) </span><br><span class="line">        i-=<span class="number">1</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    记录，并更新result</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+
+<h3 id="LeetCode-209-Minimum-Size-Subarray-Sum"><a href="#LeetCode-209-Minimum-Size-Subarray-Sum" class="headerlink" title="LeetCode 209 Minimum Size Subarray Sum"></a>LeetCode 209 Minimum Size Subarray Sum</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/minimum-size-subarray-sum/">https://leetcode.com/problems/minimum-size-subarray-sum/</a></p>
+<p>题目理解：给定我们一个数字，让我们求子数组之和大于等于给定值的最小长度</p>
+<p>Input: s = 7, nums = [2,3,1,2,4,3]</p>
+<p>Output: 2</p>
+<p>解释：满足子数组和=7的最小长度数组是[4,3],所以output=2</p>
+<h3 id="解法1：暴力解法："><a href="#解法1：暴力解法：" class="headerlink" title="解法1：暴力解法："></a>解法1：暴力解法：</h3><p>遍历所有的连续子数组[i..j]，计算其和sum，验证sum&gt;=s，时间复杂度为O(n^3)</p>
+<p><strong>最大问题</strong>：大量重复计算</p>
+<h3 id="解法2：滑动窗口"><a href="#解法2：滑动窗口" class="headerlink" title="解法2：滑动窗口"></a>解法2：滑动窗口</h3><p><strong>整个过程保持一个窗口，而这个窗口的长度不是固定的，且不停向前滑动</strong></p>
+<p>从<code>i</code>到<code>j</code>的一个连续子数组构成滑动窗口</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_01.png"><img src="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%20%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_01.png" alt="图1"></a></p>
+<p>如果当前这个子数组<code>nums[i...j]</code>中元素的和sum&lt;s的话，则<code>j</code>向前移动一位，并将nums[j+1]纳入子数组中。j+1不能越界。</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_02.png"><img src="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%20%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_02.png" alt="图2"></a></p>
+<p><code>j</code>继续向前移动直到子数组的和sum&gt;s，并记录当前的<code>i</code>和<code>j</code>之间的距离（子数组长度）</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_03.png"><img src="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%20%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_03.png" alt="图3"></a></p>
+<p>随后从<code>i</code>端缩小这个连续子数组。</p>
+<p><strong>注意</strong>：代码实现时，要先是移除<code>i</code>所指元素，再进行i++</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_04.png"><img src="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%20%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_04.png" alt="图4"></a></p>
+<p>直到sum&lt;s，此时<code>j</code>又可以继续前进，去寻找下一个符合条件的连续子数组。左边界不越界就能一直滑下去。</p>
+<p><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_05.png"><img src="https://raw.githubusercontent.com/alstonzero/Playing-Leetcode/master/%E7%8E%A9%E8%BD%AC%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95/%E7%AC%AC3%E7%AB%A0%20%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E5%85%B6%E5%AE%9E%E6%9C%80%E5%B8%B8%E8%A7%81/pic/3-7_05.png" alt="图5"></a></p>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><p><strong>注意：这个窗口是前闭后闭的区间，初始时不能有任何元素，因此j需要从-1开始</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    <span class="function">def <span class="title">minSubArrayLen</span><span class="params">(self, s: <span class="keyword">int</span>, nums: List[<span class="keyword">int</span>])</span> -&gt; <span class="keyword">int</span>:</span></span><br><span class="line">        i,j = 0,-1 #注意j从-1开始</span><br><span class="line">        sum = 0  #初始时sum为0</span><br><span class="line">        res = len(s)+1 #初始设置为不可能取到的一个最大值</span><br><span class="line">       </span><br><span class="line">      #窗口滑动的过程，只要左边界不越界就能滑动下去</span><br><span class="line">        <span class="keyword">while</span> i&lt;len(nums):</span><br><span class="line">            if sum&lt;s and j+1&lt;len(s):#j+1不能越界 </span><br><span class="line">                j+=1  #j向前滑动，并将所指元素纳入子数组中</span><br><span class="line">                sum+=nums[j]</span><br><span class="line">            else: #sum&gt;=s，先移除i所指元素，i向前移动</span><br><span class="line">                sum-=nums[i]</span><br><span class="line">                i+=<span class="number">1</span></span><br><span class="line">            </span><br><span class="line">            #经过一系列操作后，满足条件的子数组出现了</span><br><span class="line">            #此时存储当前满足条件的子数组的结果</span><br><span class="line">            <span class="keyword">if</span> sum &gt;= s: </span><br><span class="line">                res = min(res,j-l+<span class="number">1</span>)</span><br><span class="line">        #注意：遍历一遍没有解的情况</span><br><span class="line">        <span class="keyword">if</span> res == len(nums): </span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+
+<h4 id="其他例题"><a href="#其他例题" class="headerlink" title="其他例题"></a>其他例题</h4><h4 id="子数组类题目"><a href="#子数组类题目" class="headerlink" title="子数组类题目"></a>子数组类题目</h4><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>题目</th>
+<th>难度</th>
+<th>代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>78</td>
+<td><a target="_blank" rel="noopener" href="https://leetcode.com/problems/subsets/">Subsets</a></td>
+<td>medium</td>
+<td>python、java、c++</td>
+</tr>
+<tr>
+<td>90</td>
+<td><a target="_blank" rel="noopener" href="https://leetcode.com/problems/subsets-ii/">Subsets II</a></td>
+<td>medium</td>
+<td>python、java、c++</td>
+</tr>
+<tr>
+<td>53</td>
+<td><a target="_blank" rel="noopener" href="https://leetcode.com/problems/maximum-subarray/">Maximum Subarray</a></td>
+<td>easy</td>
+<td>python、java、c++</td>
+</tr>
+<tr>
+<td>152</td>
+<td><a target="_blank" rel="noopener" href="https://leetcode.com/problems/maximum-product-subarray/">Maximum Product Subarray</a></td>
+<td>medium</td>
+<td>python、java、c++</td>
+</tr>
+<tr>
+<td>239</td>
+<td><a target="_blank" rel="noopener" href="https://leetcode.com/problems/sliding-window-maximum/">Sliding Window Maximum</a></td>
+<td>hard</td>
+<td>python、java、c++</td>
+</tr>
+<tr>
+<td>295</td>
+<td><a target="_blank" rel="noopener" href="https://leetcode.com/problems/find-median-from-data-stream/">Find Median from Data Stream</a></td>
+<td>hard</td>
+<td>python、java、c++</td>
+</tr>
+<tr>
+<td>228</td>
+<td><a target="_blank" rel="noopener" href="https://leetcode.com/problems/summary-ranges/">Summary Ranges</a></td>
+<td>medium</td>
+<td>python、java、c++</td>
+</tr>
+<tr>
+<td>163</td>
+<td><a target="_blank" rel="noopener" href="https://leetcode.com/problems/missing-ranges/">Missing Ranges</a></td>
+<td>medium</td>
+<td>python、java、c++</td>
+</tr>
+<tr>
+<td>325</td>
+<td><a target="_blank" rel="noopener" href="https://leetcode.com/problems/maximum-size-subarray-sum-equals-k/">Maximum Size Subarray Sum Equals k</a></td>
+<td>medium</td>
+<td>python、java、c++</td>
+</tr>
+<tr>
+<td>209</td>
+<td><a target="_blank" rel="noopener" href="https://leetcode.com/problems/minimum-size-subarray-sum/">Minimum Size Subarray Sum</a></td>
+<td>medium</td>
+<td>python、java、c++</td>
+</tr>
+<tr>
+<td>238</td>
+<td><a target="_blank" rel="noopener" href="https://leetcode.com/problems/product-of-array-except-self/">Product of Array Except Self</a></td>
+<td>medium</td>
+<td>python、java、c++</td>
+</tr>
+<tr>
+<td>128</td>
+<td><a target="_blank" rel="noopener" href="https://leetcode.com/problems/longest-consecutive-sequence">Longest Consecutive Sequence</a></td>
+<td>Hard</td>
+<td>python、java、c++</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/data-structures-and-algorithms/" rel="tag"># data structures and algorithms</a>
+              <a href="/tags/imooc/" rel="tag"># imooc</a>
+              <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/08/Quick-Sort%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" rel="prev" title="Quick Sort快速排序">
+      <i class="fa fa-chevron-left"></i> Quick Sort快速排序
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/10/%E5%9C%A8%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E4%B8%AD%E5%81%9A%E8%AE%B0%E5%BD%95%20Longest%20Substring%20Without%20Repeating%20Characters/" rel="next" title="在滑动窗口中做记录 Longest Substring Without Repeating Characters">
+      在滑动窗口中做记录 Longest Substring Without Repeating Characters <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8C%E6%8C%87%E9%92%88%E2%80%94%E2%80%94%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="nav-number">1.</span> <span class="nav-text">双指针——滑动窗口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E4%BB%A3%E7%A0%81%E6%A8%A1%E6%9D%BF"><span class="nav-number">2.</span> <span class="nav-text">滑动窗口代码模板</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LeetCode-209-Minimum-Size-Subarray-Sum"><span class="nav-number">2.1.</span> <span class="nav-text">LeetCode 209 Minimum Size Subarray Sum</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E6%B3%951%EF%BC%9A%E6%9A%B4%E5%8A%9B%E8%A7%A3%E6%B3%95%EF%BC%9A"><span class="nav-number">2.2.</span> <span class="nav-text">解法1：暴力解法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E6%B3%952%EF%BC%9A%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="nav-number">2.3.</span> <span class="nav-text">解法2：滑动窗口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.3.1.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E4%BE%8B%E9%A2%98"><span class="nav-number">2.3.2.</span> <span class="nav-text">其他例题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%90%E6%95%B0%E7%BB%84%E7%B1%BB%E9%A2%98%E7%9B%AE"><span class="nav-number">2.3.3.</span> <span class="nav-text">子数组类题目</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HOU YINGQIAO</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alstonzero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alstonzero" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://qiita.com/alstonzero" title="Qiita → https:&#x2F;&#x2F;qiita.com&#x2F;alstonzero" rel="noopener" target="_blank"><i class="qiita fa-fw"></i>Qiita</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://linux.51yip.com/" title="http:&#x2F;&#x2F;linux.51yip.com&#x2F;" rel="noopener" target="_blank">Linux命令手册</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HOU YINGQIAO</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en,default">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alstonzero.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Imperative vs DeclarativeCertification Tips - Imperative Commands with KubectlWhile you would be working mostly the declarative（声明式） way - using definition files, imperative（命令式） commands can help in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s-Imperative vs Declarative">
+<meta property="og:url" content="https://alstonzero.github.io/2020/11/25/k8s-Imperative%20vs%20Declarative/index.html">
+<meta property="og:site_name" content="MyNote">
+<meta property="og:description" content="Imperative vs DeclarativeCertification Tips - Imperative Commands with KubectlWhile you would be working mostly the declarative（声明式） way - using definition files, imperative（命令式） commands can help in">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-11-25T13:27:29.000Z">
+<meta property="article:modified_time" content="2020-12-31T10:36:30.274Z">
+<meta property="article:author" content="HOU YINGQIAO">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="udemy">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://alstonzero.github.io/2020/11/25/k8s-Imperative%20vs%20Declarative/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>k8s-Imperative vs Declarative | MyNote</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MyNote</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/alstonzero" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/11/25/k8s-Imperative%20vs%20Declarative/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          k8s-Imperative vs Declarative
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-25 22:27:29" itemprop="dateCreated datePublished" datetime="2020-11-25T22:27:29+09:00">2020-11-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-31 19:36:30" itemprop="dateModified" datetime="2020-12-31T19:36:30+09:00">2020-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Imperative-vs-Declarative"><a href="#Imperative-vs-Declarative" class="headerlink" title="Imperative vs Declarative"></a>Imperative vs Declarative</h1><h3 id="Certification-Tips-Imperative-Commands-with-Kubectl"><a href="#Certification-Tips-Imperative-Commands-with-Kubectl" class="headerlink" title="Certification Tips - Imperative Commands with Kubectl"></a>Certification Tips - Imperative Commands with Kubectl</h3><p>While you would be working mostly the declarative（声明式） way - using definition files, imperative（命令式） commands can help in getting one time tasks done quickly, as well as generate a definition template easily. This would help save a considerable amount of time during your exams.</p>
+<p>Before we begin, familiarize with the two options that can come in handy while working with the below commands:</p>
+<p><code>--dry-run</code>: By default as soon as the command is run, the resource will be created. If you simply want to test your command, use the <code>--dry-run=client</code> option. This will not create the resource, instead, tell you whether the resource can be created and if your command is right.(<code>--dry-run</code>:默认情况下，命令运行后将立即创建资源。如果只想测试命令，请使用该<code>--dry-run=client</code>选项，该选项不会创建资源，而是告诉您是否可以创建资源以及您的命令是否正确。)</p>
+<p><code>-o yaml</code>: This will output the resource definition in YAML format on the screen.</p>
+<p>(在屏幕上以YAML格式输出资源定义)</p>
+<p>Use the above two in combination to generate a resource definition file quickly, that you can then modify and create resources as required, instead of creating the files from scratch.(结合使用以上两种方法可以快速生成资源定义文件，然后可以根据需要修改和创建资源，而不必从头开始创建文件。)</p>
+<h4 id="POD"><a href="#POD" class="headerlink" title="POD"></a>POD</h4><p><strong>Create an NGINX Pod</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl run nginx --image&#x3D;nginx</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>Generate POD Manifest YAML file (-o yaml). Don’t create it(–dry-run)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl run nginx --image&#x3D;nginx  --dry-run&#x3D;client -o yaml</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h4><p><strong>Create a deployment</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create deployment --image&#x3D;nginx nginx</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>Generate Deployment YAML file (-o yaml). Don’t create it(–dry-run)</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create deployment --image&#x3D;nginx nginx --dry-run -o yaml</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>Generate Deployment with 4 Replicas</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create deployment nginx --image&#x3D;nginx --replicas&#x3D;4</span><br></pre></td></tr></table></figure>
+
+
+
+<p>You can also scale(扩展) a deployment using the <code>kubectl scale</code> command.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl scale deployment nginx --replicas&#x3D;4</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>Another way to do this is to save the YAML definition to a file.</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create deployment nginx --image&#x3D;nginx--dry-run&#x3D;client -o yaml &gt; nginx-deployment.yaml</span><br></pre></td></tr></table></figure>
+
+<p>You can then update the YAML file with the replicas or any other field before creating the deployment.</p>
+<h4 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h4><p><strong>Create a Service named redis-service of type ClusterIP to expose pod redis on port 6379</strong>（<strong>创建一个名为redis-service的服务，其类型为ClusterIP，在端口6379上公开pod redis</strong>）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl expose pod redis --port&#x3D;6379 --name redis-service --dry-run&#x3D;client -o yaml</span><br></pre></td></tr></table></figure>
+
+<p>(This will automatically use the pod’s labels as selectors)会自动把pod的label作为selectors</p>
+<p>Or</p>
+<p><code>kubectl create service clusterip redis --tcp=6379:6379 --dry-run=client -o yaml</code>  (This will not use the pods labels as selectors, instead it will assume selectors as <strong>app=redis.</strong> <a target="_blank" rel="noopener" href="https://github.com/kubernetes/kubernetes/issues/46191">You cannot pass in selectors as an option.</a> So it does not work very well if your pod has a different label set. So generate the file and modify the selectors before creating the service)</p>
+<p><strong>Create a Service named nginx of type NodePort to expose pod nginx’s port 80 on port 30080 on the nodes:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl expose pod nginx --port&#x3D;80 --name nginx-service --type&#x3D;NodePort --dry-run&#x3D;client -o yaml</span><br></pre></td></tr></table></figure>
+
+<p>(This will automatically use the pod’s labels as selectors, but you cannot specify the node port. You have to generate a definition file and then add the node port in manually before creating the service with the pod.)</p>
+<p>Or</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create service nodeport nginx --tcp&#x3D;80:80 --node-port&#x3D;30080 --dry-run&#x3D;client -o yaml</span><br></pre></td></tr></table></figure>
+
+<p>(This will not use the pods labels as selectors)</p>
+<p>Both the above commands have their own challenges. While one of it cannot accept a selector the other cannot accept a node port. I would recommend going with the <code>kubectl expose</code> command. If you need to specify a node port, generate a definition file using the same command and manually input the nodeport before creating the service.</p>
+<h3 id="Practise"><a href="#Practise" class="headerlink" title="Practise"></a>Practise</h3><ul>
+<li><p>Create a new pod called <code>custom-nginx</code> using the <code>nginx</code> image and expose it on <code>container port</code> <code>8080</code></p>
+<p><code>kubectl run custom-nginx --image=nginx --port=8080</code></p>
+</li>
+<li><p>Create a new deployment called <code>redis-deploy</code> in the <code>dev-ns</code> namespace with the <code>redis</code> image. It should have <code>2</code> replicas.</p>
+<p><code>kubectl create deployment redis-deploy --image=redis --replicas=2 --namespace=dev-ns</code></p>
+<p>或者：</p>
+<p>Step 1: Create the deployment YAML file<br><code>kubectl create deployment redis-deploy --image redis --namespace=dev-ns --dry-run=client -o yaml &gt; deploy.yaml</code><br>Step 2: Edit the YAML file and add update the replicas to <code>2</code><br>Step 3: Run <code>kubectl apply -f deploy.yaml</code> to create the deployment in the <code>dev-ns</code> namespace.<br>You can also use <code>kubectl scale deployment or kubectl edit deployment</code> to change the number of replicas once the object has been created.</p>
+</li>
+<li><p>Create a pod called <code>httpd</code> using the image <code>httpd:alpine</code> in the default namespace. Next, create a service of type <code>ClusterIP</code> by the same name <code>(httpd)</code>. The target port for the service should be <code>80</code>.</p>
+<p><code>kubectl run httpd --image=httpd:alpine </code></p>
+<p><code>kubectl expose pod httpd --port=80 --name httpd --type=ClusterIP --dry-run=client -o yaml &gt; httpd-service.yaml</code></p>
+<p><code>kubectl create -f httpd-service.yaml</code></p>
+<p>或者：</p>
+<p><code>kubectl run httpd --image=httpd:alpine --port 80 --expose</code></p>
+<p>自动创建service和pod</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/k8s/" rel="tag"># k8s</a>
+              <a href="/tags/udemy/" rel="tag"># udemy</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/24/k8s-Microservices-Architecture/" rel="prev" title="k8s_Microservices_Architecture">
+      <i class="fa fa-chevron-left"></i> k8s_Microservices_Architecture
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/25/k8s-ETCD%20-%20Commands%20(Optional)/" rel="next" title="k8s-ETCD - Commands">
+      k8s-ETCD - Commands <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Imperative-vs-Declarative"><span class="nav-number">1.</span> <span class="nav-text">Imperative vs Declarative</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Certification-Tips-Imperative-Commands-with-Kubectl"><span class="nav-number">1.0.1.</span> <span class="nav-text">Certification Tips - Imperative Commands with Kubectl</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#POD"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">POD</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deployment"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">Deployment</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Service"><span class="nav-number">1.0.1.3.</span> <span class="nav-text">Service</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Practise"><span class="nav-number">1.0.2.</span> <span class="nav-text">Practise</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HOU YINGQIAO</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alstonzero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alstonzero" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://qiita.com/alstonzero" title="Qiita → https:&#x2F;&#x2F;qiita.com&#x2F;alstonzero" rel="noopener" target="_blank"><i class="qiita fa-fw"></i>Qiita</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://linux.51yip.com/" title="http:&#x2F;&#x2F;linux.51yip.com&#x2F;" rel="noopener" target="_blank">Linux命令手册</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HOU YINGQIAO</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

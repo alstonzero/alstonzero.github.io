@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en,default">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alstonzero.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Kubernetes の基礎Kubernetes は、Kubernetes Master と Kubernetes Node の 2 種類のノードから成り立っています。  CLI ツールのkubectl はマニフェストファイル（.yaml,.yml,.json）の情報を元にKubernetes Master が持つ API にリクエストを送ることで Kubernetes を操作します。 また、Ku">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes の基礎">
+<meta property="og:url" content="https://alstonzero.github.io/2020/12/30/Kubernetes%20%E3%81%AE%E5%9F%BA%E7%A4%8E/index.html">
+<meta property="og:site_name" content="MyNote">
+<meta property="og:description" content="Kubernetes の基礎Kubernetes は、Kubernetes Master と Kubernetes Node の 2 種類のノードから成り立っています。  CLI ツールのkubectl はマニフェストファイル（.yaml,.yml,.json）の情報を元にKubernetes Master が持つ API にリクエストを送ることで Kubernetes を操作します。 また、Ku">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:/Users/alston/AppData/Roaming/Typora/typora-user-images/1609320771787.png">
+<meta property="og:image" content="c:/Users/alston/AppData/Roaming/Typora/typora-user-images/1609321734245.png">
+<meta property="og:image" content="c:/Users/alston/AppData/Roaming/Typora/typora-user-images/1609324087858.png">
+<meta property="og:image" content="c:/Users/alston/AppData/Roaming/Typora/typora-user-images/1609324451333.png">
+<meta property="og:image" content="c:/Users/alston/AppData/Roaming/Typora/typora-user-images/1609334844802.png">
+<meta property="article:published_time" content="2020-12-30T13:27:29.000Z">
+<meta property="article:modified_time" content="2020-12-31T02:54:27.001Z">
+<meta property="article:author" content="HOU YINGQIAO">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:/Users/alston/AppData/Roaming/Typora/typora-user-images/1609320771787.png">
+
+<link rel="canonical" href="https://alstonzero.github.io/2020/12/30/Kubernetes%20%E3%81%AE%E5%9F%BA%E7%A4%8E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Kubernetes の基礎 | MyNote</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MyNote</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/alstonzero" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/12/30/Kubernetes%20%E3%81%AE%E5%9F%BA%E7%A4%8E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kubernetes の基礎
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-12-30 22:27:29" itemprop="dateCreated datePublished" datetime="2020-12-30T22:27:29+09:00">2020-12-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-31 11:54:27" itemprop="dateModified" datetime="2020-12-31T11:54:27+09:00">2020-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/k8s%E3%82%AC%E3%82%A4%E3%83%89%E3%83%96%E3%83%83%E3%82%AF/" itemprop="url" rel="index"><span itemprop="name">k8sガイドブック</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Kubernetes-の基礎"><a href="#Kubernetes-の基礎" class="headerlink" title="Kubernetes の基礎"></a>Kubernetes の基礎</h2><p>Kubernetes は、Kubernetes Master と Kubernetes Node の 2 種類のノードから成り立っています。</p>
+<p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1609320771787.png" alt="1609320771787"></p>
+<p>CLI ツールのkubectl はマニフェストファイル（<code>.yaml</code>,<code>.yml</code>,<code>.json</code>）の情報を元にKubernetes Master が持つ API にリクエストを送ることで Kubernetes を操作します。</p>
+<p>また、Kubernetes　Master の API は、一般的な RESTful API として実装されているので、各種プログラム言語の RESTful API ライブラリや<code> curl</code> などのコマンドラインツールを利用して、直接 API を呼び出して Kubernetes を操作することも可能です。</p>
+<h3 id="Kubernetes-とリソース"><a href="#Kubernetes-とリソース" class="headerlink" title="Kubernetes とリソース"></a>Kubernetes とリソース</h3><p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1609321734245.png" alt="1609321734245"></p>
+<h4 id="Workloads-APIs-リソースがあります"><a href="#Workloads-APIs-リソースがあります" class="headerlink" title="Workloads APIs リソースがあります"></a>Workloads APIs リソースがあります</h4><p>● Pod<br>● ReplicationController<br>● ReplicaSet<br>● Deployment<br>● DaemonSet<br>● StatefulSet<br>● Job<br>● CronJob</p>
+<h4 id="Service-APIs-カテゴリ"><a href="#Service-APIs-カテゴリ" class="headerlink" title="Service APIs カテゴリ"></a>Service APIs カテゴリ</h4><p>Service APIs カテゴリは、コンテナのサービスディスカバリや、クラスタの外部からもア<br>クセス可能なエンドポイントなどを提供するリソースです。</p>
+<p>● Service<br>・ ClusterIP<br>・ ExternalIP（ClusterIP の一種）<br>・ NodePort<br>・ LoadBalancer<br>・ Headless（None）<br>・ ExternalName<br>・ None-Selector<br>● Ingres</p>
+<h4 id="Config-＆-Storage-APIs-カテゴリ"><a href="#Config-＆-Storage-APIs-カテゴリ" class="headerlink" title="Config ＆ Storage APIs カテゴリ"></a>Config ＆ Storage APIs カテゴリ</h4><p>Config ＆ Storage APIs カテゴリは、設定や機密データをコンテナに埋め込んだり、永続ボリュームを提供するリソースです。</p>
+<p>● Secret<br>● ConfigMap<br>● PersistentVolumeClaim</p>
+<h4 id="Cluster-APIs-カテゴリ"><a href="#Cluster-APIs-カテゴリ" class="headerlink" title="Cluster APIs カテゴリ"></a>Cluster APIs カテゴリ</h4><p>クラスタ自体の振る舞いを定義するリソースです。セキュリティ周りの設定やポリシー、クラスタの管理性を高める機能のためのリソースなど、様々なリソースがあります。</p>
+<p>● Node<br>● Namespace<br>● PersistentVolume<br>● ResourceQuota<br>● ServiceAccount<br>● Role<br>● ClusterRole<br>● RoleBinding<br>● ClusterRoleBinding<br>● NetworkPolicy</p>
+<h4 id="Metadata-APIs-カテゴリ"><a href="#Metadata-APIs-カテゴリ" class="headerlink" title="Metadata APIs カテゴリ"></a>Metadata APIs カテゴリ</h4><p>クラスタ内の他のリソースの動作を制御するためのリソースです。</p>
+<p>例えば、Pod をオートスケーリングさせるために利用される HorizontalPodAutoscaler は、Deployment リソースを操作してレプリカ数を変更することでオートスケーリングを実現しています。</p>
+<p>● LimitRange<br>● HorizontalPodAutoscaler<br>● PodDisruptionBudget<br>● CustomResourceDefinition</p>
+<h3 id="初期状態のNamespace"><a href="#初期状態のNamespace" class="headerlink" title="初期状態のNamespace"></a>初期状態のNamespace</h3><p>● kube-system<br>・ Kubernetes クラスタのコンポーネントやアドオンがデプロイされる Namespace<br>● kube-public<br>・ 全ユーザが利用できる ConfigMap などを配置する Namespace<br>● kube-node-lease<br>・ Kubernetes Node のハートビート情報を保存するための Lease リソースが保存されている専用の Namespace です。<br>● default<br>・ デフォルトの Namespace、ユーザが任意のリソースを登録するのに使用できます</p>
+<h3 id="RBAC（Role-Based-Access-Control）"><a href="#RBAC（Role-Based-Access-Control）" class="headerlink" title="RBAC（Role-Based Access Control）"></a>RBAC（Role-Based Access Control）</h3><p>RBAC は、図 4.2 のようにクラスタ操作に関する権限を Namespace ごとに分けることができるほか、Network Policy と組み合わせることで Namespace 間の通信の制御を行える仕組みです</p>
+<p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1609324087858.png" alt="1609324087858"></p>
+<h3 id="CLI-ツール-kubectl"><a href="#CLI-ツール-kubectl" class="headerlink" title="CLI ツール kubectl"></a>CLI ツール kubectl</h3><p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1609324451333.png" alt="1609324451333"></p>
+<p>手動：kubectl </p>
+<p>プログラム：クライアントライブラリ</p>
+<h4 id="認証情報と-Context（config）"><a href="#認証情報と-Context（config）" class="headerlink" title="認証情報と Context（config）"></a>認証情報と Context（config）</h4><p>kubectl が Kubernetes Master と通信する際には、接続先サーバの情報や認証情報などが必要となります。</p>
+<p>kubectl は kubeconfig（デフォルトでは<code>~/.kube/config</code>）に書かれている情報を使用して<br>接続を行います。</p>
+<p>kubeconfig で具体的に設定を行う部分は、<code>clusters</code> ／ <code>users</code> ／ <code>contexts</code> の 3 種類の配列型です。複数の対象を登録することができます。</p>
+<h4 id="kubeconfigのsample"><a href="#kubeconfigのsample" class="headerlink" title="kubeconfigのsample"></a>kubeconfigのsample</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Config</span></span><br><span class="line"><span class="attr">preferences:</span> &#123;&#125;</span><br><span class="line"><span class="attr">clusters:</span> <span class="comment"># 接続先クラスタ</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">sample-cluster</span></span><br><span class="line">  <span class="attr">cluster:</span></span><br><span class="line">    <span class="attr">server:</span> <span class="string">https://localhost:6443</span></span><br><span class="line"><span class="attr">users:</span> <span class="comment"># 認証情報</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">sample-user</span></span><br><span class="line">  <span class="attr">user:</span></span><br><span class="line">    <span class="attr">client-certificate-data:</span> <span class="string">LS0tLS1CRUdJTi...</span></span><br><span class="line">    <span class="attr">client-key-data:</span> <span class="string">LS0tLS1CRUdJTi...</span></span><br><span class="line"><span class="attr">contexts:</span> <span class="comment"># 接続先と認証情報の組み合わせ</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">sample-context</span></span><br><span class="line">  <span class="attr">context:</span></span><br><span class="line">    <span class="attr">cluster:</span> <span class="string">sample-cluster</span></span><br><span class="line">    <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">    <span class="attr">user:</span> <span class="string">sample-user</span></span><br><span class="line"><span class="attr">current-context:</span> <span class="string">sample-context</span></span><br></pre></td></tr></table></figure>
+
+<p>contexts には、<code>cluster</code> と <code>user</code> のペアと <code>namespace</code> を指定したものを定義します。</p>
+<p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1609334844802.png" alt="1609334844802"></p>
+<h4 id="kubeconfigの設定変更"><a href="#kubeconfigの設定変更" class="headerlink" title="kubeconfigの設定変更"></a>kubeconfigの設定変更</h4><ul>
+<li><p>クラスタ（prd-cluster）の定義を追加・変更</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config set-cluster prd-cluster --server&#x3D;https:&#x2F;&#x2F;localhost:6443</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>認証情報の定義を追加・変更</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl config set-credentials admin-user \</span><br><span class="line">   --client-certificate=./sample.crt\</span><br><span class="line">   --client-key=./sample.key \</span><br><span class="line">   --embed-certs=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Contextの定義（クラスタcluster／認証情報user／Namespaceを定義）を追加・変更</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl config set-context prd-admin \</span><br><span class="line">  --cluster=prd-cluster \</span><br><span class="line">  --user=admin-user \</span><br><span class="line">  --namespace=default</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<p>kubectl は Context（current-context）を切り替えることにより、複数の環境を複数の権限で操作できる。</p>
+<ul>
+<li><p>Contextの一覧を表示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config get-contexts</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Contextの切り替え <code>use-context</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config use-context prd-admin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>現在のContextを表示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config current-context</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>コマンドの実行ごとにContextを指定することも可能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl --context prd-admin get pod</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/k8s/" rel="tag"># k8s</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/12/29/kind%EF%BC%88Kubernetes%20in%20Docker%EF%BC%89/" rel="prev" title="kind（Kubernetes in Docker）">
+      <i class="fa fa-chevron-left"></i> kind（Kubernetes in Docker）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes-%E3%81%AE%E5%9F%BA%E7%A4%8E"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes の基礎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kubernetes-%E3%81%A8%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9"><span class="nav-number">1.1.</span> <span class="nav-text">Kubernetes とリソース</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Workloads-APIs-%E3%83%AA%E3%82%BD%E3%83%BC%E3%82%B9%E3%81%8C%E3%81%82%E3%82%8A%E3%81%BE%E3%81%99"><span class="nav-number">1.1.1.</span> <span class="nav-text">Workloads APIs リソースがあります</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Service-APIs-%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA"><span class="nav-number">1.1.2.</span> <span class="nav-text">Service APIs カテゴリ</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Config-%EF%BC%86-Storage-APIs-%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA"><span class="nav-number">1.1.3.</span> <span class="nav-text">Config ＆ Storage APIs カテゴリ</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cluster-APIs-%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA"><span class="nav-number">1.1.4.</span> <span class="nav-text">Cluster APIs カテゴリ</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Metadata-APIs-%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA"><span class="nav-number">1.1.5.</span> <span class="nav-text">Metadata APIs カテゴリ</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E6%9C%9F%E7%8A%B6%E6%85%8B%E3%81%AENamespace"><span class="nav-number">1.2.</span> <span class="nav-text">初期状態のNamespace</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RBAC%EF%BC%88Role-Based-Access-Control%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">RBAC（Role-Based Access Control）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CLI-%E3%83%84%E3%83%BC%E3%83%AB-kubectl"><span class="nav-number">1.4.</span> <span class="nav-text">CLI ツール kubectl</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AA%8D%E8%A8%BC%E6%83%85%E5%A0%B1%E3%81%A8-Context%EF%BC%88config%EF%BC%89"><span class="nav-number">1.4.1.</span> <span class="nav-text">認証情報と Context（config）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kubeconfig%E3%81%AEsample"><span class="nav-number">1.4.2.</span> <span class="nav-text">kubeconfigのsample</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kubeconfig%E3%81%AE%E8%A8%AD%E5%AE%9A%E5%A4%89%E6%9B%B4"><span class="nav-number">1.4.3.</span> <span class="nav-text">kubeconfigの設定変更</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HOU YINGQIAO</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alstonzero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alstonzero" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://qiita.com/alstonzero" title="Qiita → https:&#x2F;&#x2F;qiita.com&#x2F;alstonzero" rel="noopener" target="_blank"><i class="qiita fa-fw"></i>Qiita</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://linux.51yip.com/" title="http:&#x2F;&#x2F;linux.51yip.com&#x2F;" rel="noopener" target="_blank">Linux命令手册</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HOU YINGQIAO</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

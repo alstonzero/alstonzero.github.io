@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en,default">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alstonzero.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Chp4链表 LinkedList一、基本概念链表：最简单的动态数据结构 重要性：更深入的理解引用和递归，辅助组成其他数据结构 优点：真正的动态，不需要处理固定的容量 缺点：丧失了随机访问的能力 与数组对比：数组最好用于索引有语义的情况(例 score[2])，其最大的有点是支持快速查询；  特点：图解：数据存储在 “节点”（Node）中，实际存储在 e 中，数据与数据之间的链接(对下一个链表的引">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chp4 Array">
+<meta property="og:url" content="https://alstonzero.github.io/2019/05/07/Chp4%20Array/index.html">
+<meta property="og:site_name" content="MyNote">
+<meta property="og:description" content="Chp4链表 LinkedList一、基本概念链表：最简单的动态数据结构 重要性：更深入的理解引用和递归，辅助组成其他数据结构 优点：真正的动态，不需要处理固定的容量 缺点：丧失了随机访问的能力 与数组对比：数组最好用于索引有语义的情况(例 score[2])，其最大的有点是支持快速查询；  特点：图解：数据存储在 “节点”（Node）中，实际存储在 e 中，数据与数据之间的链接(对下一个链表的引">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://camo.githubusercontent.com/f7440610005424fa1c7b8e4fd0a6a1d1fac2e76e660a4f439ebd445862b3586e/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323231303533343135353f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730">
+<meta property="og:image" content="https://camo.githubusercontent.com/f71222f78d9f09c3a892bb71304043e06e9ee4b49d0d5d44918d567811aaf0ca/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323231313533303237343f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730">
+<meta property="og:image" content="https://camo.githubusercontent.com/7039fe5f2a06568967fa31d8e509dbb4853cdbb059adcdacd91e93de6d489483/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232303633353232323f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730">
+<meta property="og:image" content="https://camo.githubusercontent.com/82db55786f73f58e80747e26f5b78f7d0e265be5cb81cdb8489a1f8765fb9a57/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232313133393238343f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730">
+<meta property="og:image" content="https://camo.githubusercontent.com/f069f7e46886e127f4b9730d4c44fc9247fa89164387c3dd561a1fe0c1a9f631/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232313534323936313f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730">
+<meta property="og:image" content="https://camo.githubusercontent.com/7bd429729dea8bb58493815b21039a479a001bd7981795efc843d219beb581f8/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232313734343738333f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730">
+<meta property="og:image" content="https://camo.githubusercontent.com/eee2c5d109a049fe0be03ba7884027f6949c0fe00abc544ea51558911c9b7128/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232333232353330353f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730">
+<meta property="og:image" content="https://camo.githubusercontent.com/0caadbe353fe48355e85751af9e33e1781500f4bf8e231bd16a4b38b8e4ec209/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232333730383237353f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730">
+<meta property="og:image" content="https://camo.githubusercontent.com/6a90b489c24fd1828cd09709c87bff05d2e11491d0ad1c83cb1d890c0f5985c8/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232343435363135353f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730">
+<meta property="og:image" content="https://camo.githubusercontent.com/20655c07a4d74079d179cb10de3e0040414cf42ce061f9fccd6af4989ec0e406/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f323031383039313232323437343633313f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730">
+<meta property="og:image" content="https://camo.githubusercontent.com/96aa08ec78699c98e84b23967ae3c33152d8d224c9423e4a3766e66d9e699cf3/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232353035303837343f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730">
+<meta property="og:image" content="https://camo.githubusercontent.com/0aa1fc36436f93c175296d1f98d8a54d3cc414667b890c0cbf98b3ed1afc2fd2/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323233313130343330383f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730">
+<meta property="og:image" content="https://camo.githubusercontent.com/d79bf9c8b187628201d1c8bd592f1f67bfd18817a1a37ea06d071950d004eb32/68747470733a2f2f696d672e6d756b6577616e672e636f6d2f3562346138393262303030313763626631333036303539352e706e67">
+<meta property="og:image" content="https://camo.githubusercontent.com/d6192802c7886990b795d91ab78096f0eaea0938d242a691750defc895dffb12/68747470733a2f2f696d672e6d756b6577616e672e636f6d2f3562346138653762303030316266396531333536313334392e706e67">
+<meta property="article:published_time" content="2019-05-07T13:27:29.000Z">
+<meta property="article:modified_time" content="2020-12-31T13:28:17.501Z">
+<meta property="article:author" content="HOU YINGQIAO">
+<meta property="article:tag" content="data structures and algorithms">
+<meta property="article:tag" content="imooc">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://camo.githubusercontent.com/f7440610005424fa1c7b8e4fd0a6a1d1fac2e76e660a4f439ebd445862b3586e/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323231303533343135353f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730">
+
+<link rel="canonical" href="https://alstonzero.github.io/2019/05/07/Chp4%20Array/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Chp4 Array | MyNote</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MyNote</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/alstonzero" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2019/05/07/Chp4%20Array/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Chp4 Array
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-07 22:27:29" itemprop="dateCreated datePublished" datetime="2019-05-07T22:27:29+09:00">2019-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-31 22:28:17" itemprop="dateModified" datetime="2020-12-31T22:28:17+09:00">2020-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/data-structures-and-algorithms/" itemprop="url" rel="index"><span itemprop="name">data structures and algorithms</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Chp4链表-LinkedList"><a href="#Chp4链表-LinkedList" class="headerlink" title="Chp4链表 LinkedList"></a>Chp4链表 LinkedList</h1><h3 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h3><p>链表：最简单的动态数据结构</p>
+<p>重要性：更深入的理解引用和递归，辅助组成其他数据结构</p>
+<p>优点：真正的动态，不需要处理固定的容量</p>
+<p>缺点：丧失了随机访问的能力</p>
+<p>与数组对比：数组最好用于索引有语义的情况(例 score[2])，其最大的有点是支持快速查询；</p>
+<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/f7440610005424fa1c7b8e4fd0a6a1d1fac2e76e660a4f439ebd445862b3586e/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323231303533343135353f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730"><img src="https://camo.githubusercontent.com/f7440610005424fa1c7b8e4fd0a6a1d1fac2e76e660a4f439ebd445862b3586e/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323231303533343135353f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730" alt="img"></a></p>
+<h3 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h3><p>图解：数据存储在 “节点”（Node）中，实际存储在 e 中，数据与数据之间的链接(对下一个链表的引用)由 next 完成；最后一个节点 next 存储的为 Null；如果为Null则证明是最后一个节点。</p>
+<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/f71222f78d9f09c3a892bb71304043e06e9ee4b49d0d5d44918d567811aaf0ca/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323231313533303237343f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730"><img src="https://camo.githubusercontent.com/f71222f78d9f09c3a892bb71304043e06e9ee4b49d0d5d44918d567811aaf0ca/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323231313533303237343f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730" alt="img"></a></p>
+<h3 id="首先在链表类中定义私有内部类Node"><a href="#首先在链表类中定义私有内部类Node" class="headerlink" title="首先在链表类中定义私有内部类Node"></a>首先在链表类中定义私有内部类Node</h3><p>而Node中next的定义类型也称作“自引用”式，因为Node中包含了一个和自己类型相同的字段（本例中为next）。类型Node的next字段仅仅是对另外的一个Node对象的“引用”，而不是一个对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span></span>&#123;         <span class="comment">//用户不需要知道底层是如何实现的，因此设置为私有类。</span></span><br><span class="line">    <span class="keyword">public</span> E e;             <span class="comment">//data</span></span><br><span class="line">    <span class="keyword">public</span> Node next;       <span class="comment">//指向下一个Node的引用。自引用。</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(E e,Node next)</span></span>&#123; <span class="comment">//声明构造函数，用户也同时传来 e 和 next</span></span><br><span class="line">        <span class="keyword">this</span>.e = e;             <span class="comment">//声明构造函数，用户也同时传来 e 和 next</span></span><br><span class="line">        <span class="keyword">this</span>.next = next;       <span class="comment">//将当前节点的next赋值成用户传来的next</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(E e)</span></span>&#123;           <span class="comment">//用户只传来e</span></span><br><span class="line">        <span class="keyword">this</span>(e,<span class="keyword">null</span>);           <span class="comment">//将当前节点的e赋值成用户传来的e，next设为null</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">()</span></span>&#123;              <span class="comment">//用户什么都不传</span></span><br><span class="line">        <span class="keyword">this</span>(<span class="keyword">null</span>,<span class="keyword">null</span>);        <span class="comment">//将e和next都设为null</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span>&#123; <span class="comment">//重写toString方法</span></span><br><span class="line">        e.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="二、-在链表中添加元素"><a href="#二、-在链表中添加元素" class="headerlink" title="二、 在链表中添加元素"></a>二、 在链表中添加元素</h3><p>对于一个链表来说，想要访问存储在其中的所有节点，我们必须把链表的头 head 存储起来，</p>
+<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/7039fe5f2a06568967fa31d8e509dbb4853cdbb059adcdacd91e93de6d489483/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232303633353232323f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730"><img src="https://camo.githubusercontent.com/7039fe5f2a06568967fa31d8e509dbb4853cdbb059adcdacd91e93de6d489483/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232303633353232323f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730" alt="img"></a></p>
+<h4 id="在链表头添加元素"><a href="#在链表头添加元素" class="headerlink" title="在链表头添加元素:"></a>在链表头添加元素:</h4><p>图解（要将 666【叫做node】 加入链表中而不破坏现有的链表结构）</p>
+<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/82db55786f73f58e80747e26f5b78f7d0e265be5cb81cdb8489a1f8765fb9a57/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232313133393238343f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730"><img src="https://camo.githubusercontent.com/82db55786f73f58e80747e26f5b78f7d0e265be5cb81cdb8489a1f8765fb9a57/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232313133393238343f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730" alt="img"></a></p>
+<p>步骤：1.让 node 的 next 指向现在链表的头，即<strong>执行 node.next = head</strong></p>
+<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/f069f7e46886e127f4b9730d4c44fc9247fa89164387c3dd561a1fe0c1a9f631/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232313534323936313f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730"><img src="https://camo.githubusercontent.com/f069f7e46886e127f4b9730d4c44fc9247fa89164387c3dd561a1fe0c1a9f631/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232313534323936313f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730" alt="img"></a></p>
+<ol>
+<li><p>此时，666 成为新的链表头，让 head 指向新的 666 节点，即执行 head = node</p>
+<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/7bd429729dea8bb58493815b21039a479a001bd7981795efc843d219beb581f8/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232313734343738333f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730"><img src="https://camo.githubusercontent.com/7bd429729dea8bb58493815b21039a479a001bd7981795efc843d219beb581f8/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232313734343738333f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730" alt="img"></a></p>
+</li>
+</ol>
+<h4 id="在链表中间添加元素"><a href="#在链表中间添加元素" class="headerlink" title="在链表中间添加元素:"></a>在链表中间添加元素:</h4><p>图解：将 666 插入到链表中 1 的位置</p>
+<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/eee2c5d109a049fe0be03ba7884027f6949c0fe00abc544ea51558911c9b7128/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232333232353330353f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730"><img src="https://camo.githubusercontent.com/eee2c5d109a049fe0be03ba7884027f6949c0fe00abc544ea51558911c9b7128/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232333232353330353f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730" alt="img"></a></p>
+<p>步骤：1.要插入节点 666 ，必须要找到插入666之后，这个节点之前的节点是谁，将其叫做 prev，其初始化和 head 在同一个地方,执行 Node prev = head;</p>
+<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/0caadbe353fe48355e85751af9e33e1781500f4bf8e231bd16a4b38b8e4ec209/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232333730383237353f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730"><img src="https://camo.githubusercontent.com/0caadbe353fe48355e85751af9e33e1781500f4bf8e231bd16a4b38b8e4ec209/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232333730383237353f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730" alt="img"></a></p>
+<p>步骤2：要找到 666 之前节点 ，因为插入 666 的索引为2【链表中并没有索引这个概念】故之前节点的索引为 1 ，从0开始遍历，遍历到索引为1的位置即可；</p>
+<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/6a90b489c24fd1828cd09709c87bff05d2e11491d0ad1c83cb1d890c0f5985c8/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232343435363135353f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730"><img src="https://camo.githubusercontent.com/6a90b489c24fd1828cd09709c87bff05d2e11491d0ad1c83cb1d890c0f5985c8/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232343435363135353f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730" alt="img"></a></p>
+<p>步骤3：将 node 的 next 指向 prev 的下一个元素，即执行 <strong>node.next = prev.next</strong></p>
+<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/20655c07a4d74079d179cb10de3e0040414cf42ce061f9fccd6af4989ec0e406/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f323031383039313232323437343633313f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730"><img src="https://camo.githubusercontent.com/20655c07a4d74079d179cb10de3e0040414cf42ce061f9fccd6af4989ec0e406/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f323031383039313232323437343633313f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730" alt="img"></a></p>
+<p>步骤4：prev 的 next 指向 node, <strong>即执行 node.next = prev.next,成功将 666 插入到链表中</strong></p>
+<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/96aa08ec78699c98e84b23967ae3c33152d8d224c9423e4a3766e66d9e699cf3/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232353035303837343f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730"><img src="https://camo.githubusercontent.com/96aa08ec78699c98e84b23967ae3c33152d8d224c9423e4a3766e66d9e699cf3/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323232353035303837343f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730" alt="img"></a></p>
+<p><strong>关键：找到要添加的节点的前一个节点（prev）</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span></span>&#123;</span><br><span class="line">        <span class="keyword">public</span> E e;</span><br><span class="line">        <span class="keyword">public</span> Node next;</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(E e, Node next)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.e = e;</span><br><span class="line">            <span class="keyword">this</span>.next = next;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(E e)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>(e, <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>(<span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">return</span> e.toString();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">//（新增代码）</span></span><br><span class="line">    <span class="keyword">private</span> Node head;	<span class="comment">//声明Node型变量head</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;	<span class="comment">//size记录链表中有多少个元素</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LinkedList</span><span class="params">()</span></span>&#123;	<span class="comment">//构造函数，链表初始化时的head与size</span></span><br><span class="line">        head = <span class="keyword">null</span>;</span><br><span class="line">        size = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 获取链表中的元素个数（新增代码）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> size;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 返回链表是否为空（新增代码）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> size == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 在链表头添加新的元素e（新增代码） </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addFirst</span><span class="params">(E e)</span></span>&#123;</span><br><span class="line"><span class="comment">//        Node node = new Node(e); //创建新的节点 e</span></span><br><span class="line"><span class="comment">//        node.next = head;		//让 node 的 next 指向现在链表的头</span></span><br><span class="line"><span class="comment">//        head = node;			//让 head  指向新的节点</span></span><br><span class="line"> </span><br><span class="line">        head = <span class="keyword">new</span> Node(e, head);	<span class="comment">//上面三行代码的优雅写法</span></span><br><span class="line">        size ++;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 在链表的index(0-based)位置添加新的元素e（新增代码）</span></span><br><span class="line">    <span class="comment">// 在链表中不是一个常用的操作，练习用：）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E e)</span></span>&#123;		</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">if</span>(index &lt; <span class="number">0</span> || index &gt; size)	<span class="comment">//判断 index 的合法性</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Add failed. Illegal index.&quot;</span>);</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">if</span>(index == <span class="number">0</span>)</span><br><span class="line">            addFirst(e);</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            Node prev = head;	</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; index - <span class="number">1</span> ; i ++)</span><br><span class="line">                prev = prev.next;		</span><br><span class="line">			<span class="comment">//把当前 prev 存的下一个节点放到 prev 变量中，prev会在链表中一直移动，直到 index - 1 这个位置</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">//            Node node = new Node(e);		//创建node,元素为 e</span></span><br><span class="line"><span class="comment">//            node.next = prev.next;		//将 node 的 next 指向 prev 的下一个元素</span></span><br><span class="line"><span class="comment">//            prev.next = node;				//prev 的 next 指向 node</span></span><br><span class="line"> </span><br><span class="line">            prev.next = <span class="keyword">new</span> Node(e, prev.next);		<span class="comment">//上面三行的优雅写法</span></span><br><span class="line">            size ++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 在链表末尾添加新的元素e（新增代码）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addLast</span><span class="params">(E e)</span></span>&#123;</span><br><span class="line">        add(size, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="三、使用链表的虚拟头结点"><a href="#三、使用链表的虚拟头结点" class="headerlink" title="三、使用链表的虚拟头结点"></a>三、使用链表的虚拟头结点</h3><p>上面所述的方法中在链表头添加元素时存在特殊：为链表添加元素的过程要找到待添加位之前的节点，<strong>但对于链表头来说并没有之前的节点，所以在逻辑上特殊。通过使用链表的虚拟头节点即可将链表头添加元素与其他位置添加元素统一起来。</strong></p>
+<p>图解：创建个虚拟节点即可解决链表头添加元素时的问题，对链表来说，第一个元素是 dummyHead 的 next 对应的节点的元素，而不是 dummyHead 对应的节点的元素，<strong>dummyHead 这个位置的元素是根本不存在的，对用户来说也没有意义，只是为了逻辑编写方便设置的虚拟头结点。</strong>这样所有的元素都有前一个位置的节点，并且初始的时候 dummyHead 指向的就是 0 这个元素的前一个节点。</p>
+<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/0aa1fc36436f93c175296d1f98d8a54d3cc414667b890c0cbf98b3ed1afc2fd2/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323233313130343330383f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730"><img src="https://camo.githubusercontent.com/0aa1fc36436f93c175296d1f98d8a54d3cc414667b890c0cbf98b3ed1afc2fd2/68747470733a2f2f696d672d626c6f672e6373646e2e6e65742f32303138303931323233313130343330383f77617465726d61726b2f322f746578742f6148523063484d364c7939696247396e4c6d4e7a5a473475626d56304c3270705957356e614746764d6a4d7a2f666f6e742f3561364c354c32542f666f6e7473697a652f3430302f66696c6c2f49304a42516b46434d413d3d2f646973736f6c76652f3730" alt="img"></a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt; </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span></span>&#123;</span><br><span class="line">        <span class="keyword">public</span> E e;</span><br><span class="line">        <span class="keyword">public</span> Node next;</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(E e, Node next)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.e = e;</span><br><span class="line">            <span class="keyword">this</span>.next = next;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(E e)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>(e, <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>(<span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">return</span> e.toString();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> Node dummyHead;		<span class="comment">//引入虚拟头结点（修改代码）</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LinkedList</span><span class="params">()</span></span>&#123;</span><br><span class="line">        dummyHead = <span class="keyword">new</span> Node();<span class="comment">//（修改代码）</span></span><br><span class="line">        size = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 获取链表中的元素个数</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> size;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 返回链表是否为空</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> size == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 在链表的index(0-based)位置添加新的元素e</span></span><br><span class="line">    <span class="comment">// 在链表中不是一个常用的操作，练习用：）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E e)</span></span>&#123;</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">if</span>(index &lt; <span class="number">0</span> || index &gt; size)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Add failed. Illegal index.&quot;</span>);</span><br><span class="line"> </span><br><span class="line">        Node prev = dummyHead;	<span class="comment">//</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; index ; i ++)		<span class="comment">//找到 index 位置的前一个节点</span></span><br><span class="line">            prev = prev.next;	<span class="comment">//prev 初始时是从 dummyHead 开始的（修改代码）</span></span><br><span class="line"> </span><br><span class="line">        prev.next = <span class="keyword">new</span> Node(e, prev.next);</span><br><span class="line">        size ++;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 在链表头添加新的元素e</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addFirst</span><span class="params">(E e)</span></span>&#123;</span><br><span class="line">        add(<span class="number">0</span>, e);		<span class="comment">//（修改代码）直接复用 add 即可</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 在链表末尾添加新的元素e</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addLast</span><span class="params">(E e)</span></span>&#123;</span><br><span class="line">        add(size, e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="四、链表遍历，查询和修改"><a href="#四、链表遍历，查询和修改" class="headerlink" title="四、链表遍历，查询和修改"></a>四、链表遍历，查询和修改</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 获得链表的第index(0-based)个位置的元素</span></span><br><span class="line">    <span class="comment">// 在链表中不是一个常用的操作，练习用：）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(index &lt; <span class="number">0</span> || index &gt;= size)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Get failed. Illegal index.&quot;</span>);</span><br><span class="line"></span><br><span class="line">        Node cur = dummyHead.next;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; index ; i ++)</span><br><span class="line">            cur = cur.next;</span><br><span class="line">        <span class="keyword">return</span> cur.e;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获得链表的第一个元素</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">getFirst</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> get(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获得链表的最后一个元素</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">getLast</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> get(size - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 修改链表的第index(0-based)个位置的元素为e</span></span><br><span class="line">    <span class="comment">// 在链表中不是一个常用的操作，练习用：）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span> index, E e)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index &lt; <span class="number">0</span> || index &gt;= size)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Set failed. Illegal index.&quot;</span>);</span><br><span class="line"></span><br><span class="line">        Node cur = dummyHead.next;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; index ; i ++)</span><br><span class="line">            cur = cur.next;</span><br><span class="line">        cur.e = e;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查找链表中是否有元素e</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(E e)</span></span>&#123;</span><br><span class="line">        Node cur = dummyHead.next;</span><br><span class="line">        <span class="keyword">while</span>(cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(cur.e.equals(e))</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            cur = cur.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span>&#123;</span><br><span class="line">        StringBuilder res = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line"><span class="comment">//        Node cur = dummyHead.next;</span></span><br><span class="line"><span class="comment">//        while(cur != null)&#123;</span></span><br><span class="line"><span class="comment">//            res.append(cur + &quot;-&gt;&quot;);</span></span><br><span class="line"><span class="comment">//            cur = cur.next;</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line">        <span class="keyword">for</span>(Node cur = dummyHead.next ; cur != <span class="keyword">null</span> ; cur = cur.next)</span><br><span class="line">            res.append(cur + <span class="string">&quot;-&gt;&quot;</span>);</span><br><span class="line">        res.append(<span class="string">&quot;NULL&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> res.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        LinkedList&lt;Integer&gt; linkedList = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; <span class="number">5</span> ; i ++)&#123;</span><br><span class="line">            linkedList.addFirst(i);</span><br><span class="line">            System.out.println(linkedList);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        linkedList.add(<span class="number">2</span>, <span class="number">666</span>);</span><br><span class="line">        System.out.println(linkedList);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="五、删除元素"><a href="#五、删除元素" class="headerlink" title="五、删除元素"></a>五、删除元素</h3><p>删除元素和添加元素基本类似，都是定位之前一个删除元素之前的元素 <strong>修改元素指向才是改变链表的本质（修改元素并不能改变链表）</strong></p>
+<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/d79bf9c8b187628201d1c8bd592f1f67bfd18817a1a37ea06d071950d004eb32/68747470733a2f2f696d672e6d756b6577616e672e636f6d2f3562346138393262303030313763626631333036303539352e706e67"><img src="https://camo.githubusercontent.com/d79bf9c8b187628201d1c8bd592f1f67bfd18817a1a37ea06d071950d004eb32/68747470733a2f2f696d672e6d756b6577616e672e636f6d2f3562346138393262303030313763626631333036303539352e706e67" alt="img"></a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(index &lt; <span class="number">0</span> || index &gt;= size)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Remove failed. Index is illegal.&quot;</span>);</span><br><span class="line"></span><br><span class="line">        Node prev = dummyHead;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; index ; i ++)</span><br><span class="line">            prev = prev.next;</span><br><span class="line"></span><br><span class="line">        Node retNode = prev.next;</span><br><span class="line">        prev.next = retNode.next;</span><br><span class="line">        retNode.next = <span class="keyword">null</span>;</span><br><span class="line">        size --;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> retNode.e;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从链表中删除第一个元素, 返回删除的元素</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">removeFirst</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> remove(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从链表中删除最后一个元素, 返回删除的元素</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">removeLast</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> remove(size - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从链表中删除元素e</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeElement</span><span class="params">(E e)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        Node prev = dummyHead;</span><br><span class="line">        <span class="keyword">while</span>(prev.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(prev.next.e.equals(e))</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            prev = prev.next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(prev.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">            Node delNode = prev.next;</span><br><span class="line">            prev.next = delNode.next;</span><br><span class="line">            delNode.next = <span class="keyword">null</span>;</span><br><span class="line">            size --;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="六、链表中的方法和对应的时间复杂度"><a href="#六、链表中的方法和对应的时间复杂度" class="headerlink" title="六、链表中的方法和对应的时间复杂度"></a>六、链表中的方法和对应的时间复杂度</h3><p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/d6192802c7886990b795d91ab78096f0eaea0938d242a691750defc895dffb12/68747470733a2f2f696d672e6d756b6577616e672e636f6d2f3562346138653762303030316266396531333536313334392e706e67"><img src="https://camo.githubusercontent.com/d6192802c7886990b795d91ab78096f0eaea0938d242a691750defc895dffb12/68747470733a2f2f696d672e6d756b6577616e672e636f6d2f3562346138653762303030316266396531333536313334392e706e67" alt="img"></a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/data-structures-and-algorithms/" rel="tag"># data structures and algorithms</a>
+              <a href="/tags/imooc/" rel="tag"># imooc</a>
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/05/06/Chp3%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" rel="prev" title="Chp3栈和队列">
+      <i class="fa fa-chevron-left"></i> Chp3栈和队列
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/05/30/Chp5%E9%93%BE%E8%A1%A8%E5%92%8C%E9%80%92%E5%BD%92/" rel="next" title="Chp5链表和递归">
+      Chp5链表和递归 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Chp4%E9%93%BE%E8%A1%A8-LinkedList"><span class="nav-number">1.</span> <span class="nav-text">Chp4链表 LinkedList</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E7%82%B9%EF%BC%9A"><span class="nav-number">1.0.2.</span> <span class="nav-text">特点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%96%E5%85%88%E5%9C%A8%E9%93%BE%E8%A1%A8%E7%B1%BB%E4%B8%AD%E5%AE%9A%E4%B9%89%E7%A7%81%E6%9C%89%E5%86%85%E9%83%A8%E7%B1%BBNode"><span class="nav-number">1.0.3.</span> <span class="nav-text">首先在链表类中定义私有内部类Node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81-%E5%9C%A8%E9%93%BE%E8%A1%A8%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0"><span class="nav-number">1.0.4.</span> <span class="nav-text">二、 在链表中添加元素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E9%93%BE%E8%A1%A8%E5%A4%B4%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">在链表头添加元素:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E9%93%BE%E8%A1%A8%E4%B8%AD%E9%97%B4%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">在链表中间添加元素:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%BD%BF%E7%94%A8%E9%93%BE%E8%A1%A8%E7%9A%84%E8%99%9A%E6%8B%9F%E5%A4%B4%E7%BB%93%E7%82%B9"><span class="nav-number">1.0.5.</span> <span class="nav-text">三、使用链表的虚拟头结点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E9%93%BE%E8%A1%A8%E9%81%8D%E5%8E%86%EF%BC%8C%E6%9F%A5%E8%AF%A2%E5%92%8C%E4%BF%AE%E6%94%B9"><span class="nav-number">1.0.6.</span> <span class="nav-text">四、链表遍历，查询和修改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%88%A0%E9%99%A4%E5%85%83%E7%B4%A0"><span class="nav-number">1.0.7.</span> <span class="nav-text">五、删除元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95%E5%92%8C%E5%AF%B9%E5%BA%94%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">1.0.8.</span> <span class="nav-text">六、链表中的方法和对应的时间复杂度</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HOU YINGQIAO</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alstonzero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alstonzero" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://qiita.com/alstonzero" title="Qiita → https:&#x2F;&#x2F;qiita.com&#x2F;alstonzero" rel="noopener" target="_blank"><i class="qiita fa-fw"></i>Qiita</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://linux.51yip.com/" title="http:&#x2F;&#x2F;linux.51yip.com&#x2F;" rel="noopener" target="_blank">Linux命令手册</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HOU YINGQIAO</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
