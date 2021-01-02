@@ -147,6 +147,295 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2021/01/02/k8s-Cluster%20Maintenance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/02/k8s-Cluster%20Maintenance/" class="post-title-link" itemprop="url">k8s-Cluster Maintenance</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-02 22:27:29 / Modified: 22:28:05" itemprop="dateCreated datePublished" datetime="2021-01-02T22:27:29+10:00">2021-01-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="k8s-Cluster-Maintenance"><a href="#k8s-Cluster-Maintenance" class="headerlink" title="k8s-Cluster Maintenance"></a>k8s-Cluster Maintenance</h1><h2 id="OS-Upgrades"><a href="#OS-Upgrades" class="headerlink" title="OS Upgrades"></a>OS Upgrades</h2><p>For example,you have a cluster with a few nodes and pods serving applications.If one of these nodes go down,the pods on that node are not accessible.</p>
+<p>If the node came back online immediately,then the <code>kubectl</code> process starts and the pods come back.However,if the node was down for more than 5 mins,then the pods are terminated from that node.</p>
+<h3 id="pod-eviction"><a href="#pod-eviction" class="headerlink" title="pod eviction:"></a>pod eviction:</h3><p>The time wait for a pod to come back.</p>
+<p>Pod eviction is set on the controller manager</p>
+<p><code>kube-controller-manager --pod-eviction-timeout=5m0s</code></p>
+<p>When the node comes back online after the <strong>pod eviction</strong> timeout it comes up blank without any pods scheduled on it.</p>
+<h3 id="Maintenance-a-node"><a href="#Maintenance-a-node" class="headerlink" title="Maintenance a node"></a>Maintenance a node</h3><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-os%20upgrade01.png"></p>
+<ul>
+<li><p><code>kubectl drain node-1</code>:</p>
+<p>When you <strong>drain</strong>(放空，放干) the node the pods are <strong>gracefully terminated</strong> from the node that they’re on and <strong>recreated on another</strong>.</p>
+<p>The node is also cordoned or marked as <strong>unschedulable</strong>. Meaning no pods can be scheduled on this node until you specifically remove the restriction.</p>
+</li>
+<li><p><code>kubectl uncordon node-1</code>:</p>
+<p><strong>Uncordon</strong> the node,so that pods can be scheduled on it again.</p>
+</li>
+<li><p><code>kubectl cordon node-2</code>:</p>
+<p><strong>cordon</strong> simply marks a node <strong>unschedulable</strong>. Unlike drain it does <strong>not terminate or move</strong> the pods on an existing node.It simply make sure than new pods are not scheduled on that node.</p>
+</li>
+</ul>
+<h3 id="Practice"><a href="#Practice" class="headerlink" title="Practice"></a>Practice</h3><ul>
+<li><p>On which nodes are the applications hosted on?</p>
+<p>Run the command <code>kubectl get pods -o wide</code> and get the list of nodes the pods are placed on</p>
+</li>
+<li><p>We need to take <code>node01</code> out for maintenance. Empty the node of all applications and mark it unschedulable.</p>
+<p><code>kubectl drain node01 --ignore-daemonsets</code></p>
+</li>
+<li><p>The maintenance tasks have been completed. Configure the node to be schedulable again.</p>
+<p><code>kubectl uncordon node01</code></p>
+</li>
+<li><p>Why are there no pods placed on the <code>master</code> node?</p>
+<p>Use the command <code>kubectl describe node master/controlplane</code></p>
+</li>
+<li><p>Node03 has our critical applications. We do not want to schedule any more apps on node03. Mark <code>node03</code> as <code>unschedulable</code> but do not remove any apps currently running on it .</p>
+<p><code>kubectl cordon node03</code></p>
+</li>
+</ul>
+<h3 id="kubernetes-Release"><a href="#kubernetes-Release" class="headerlink" title="kubernetes Release"></a>kubernetes Release</h3><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade02.png"></p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade03.png"></p>
+<ul>
+<li><p>alpha release: The features are disabled by default and maybe buggy.</p>
+</li>
+<li><p>beta release: The code is well tested.</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade04.png"></p>
+<p>The <strong>ETCD</strong> and <strong>CoreDNS</strong> servers have their own versions as they are separate projects.</p>
+<h3 id="Cluster-Upgrade-Process"><a href="#Cluster-Upgrade-Process" class="headerlink" title="Cluster Upgrade Process"></a>Cluster Upgrade Process</h3><h4 id="Component-Version"><a href="#Component-Version" class="headerlink" title="Component Version"></a>Component Version</h4><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade05.png"></p>
+<p>The kube-apiserver is the primary component.</p>
+<p><strong>None of the other components</strong> should ever be at a version <strong>higher than</strong> the kube-apiserver the controller.</p>
+<p>So if kube-apiserver was at <code>X</code> ,Controller-manager and kube-scheduler can be at <code>X-1</code> and the kubelet and kube-proxy components can be at <code>X-2</code>.</p>
+<h4 id="Upgrade-Step"><a href="#Upgrade-Step" class="headerlink" title="Upgrade Step"></a>Upgrade Step</h4><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade06.png"></p>
+<p>We cannot upgrade directly from 1.10 to 1.13. We should upgrade one minor version at a time.(v1.10 to 1.11 to 1.12 to 1.13.)</p>
+<h4 id="kubeadm-upgrade"><a href="#kubeadm-upgrade" class="headerlink" title="kubeadm upgrade"></a>kubeadm upgrade</h4><h4 id="upgrade-master-node"><a href="#upgrade-master-node" class="headerlink" title="upgrade master node"></a>upgrade master node</h4><p><code>kubeadm upgrade plan</code>:Check the latest stable version available for upgrade</p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade07.png"></p>
+<p>The master node version is still v1.11.3.</p>
+<p>This is because in the output of this command it is showing the <strong>versions of <code>kubelet</code>**on each of these nodes registered with the API server and **not the version of the kube-apiserver</strong> itself.</p>
+<ul>
+<li>Then upgrade <code>kubelet</code></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade08.png"></p>
+<h4 id="upgrade-worker-node"><a href="#upgrade-worker-node" class="headerlink" title="upgrade worker node"></a>upgrade worker node</h4><ul>
+<li><p>upgrade node01</p>
+<p><code>kubectl drain node01</code></p>
+<p><code>ssh node01</code></p>
+<p><code>apt-get upgrade -y kubeadm=1.12.0-00</code></p>
+<p><code>apt-get upgrade -y kubelet=1.12.0-00</code></p>
+<p><code>kubeadm upgrade node </code></p>
+<p><code>systemctl restart kubelet</code></p>
+<p><code>kubectl uncordon node-1</code></p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade09.png"></p>
+<ul>
+<li>node02 : same as the upgarde of node01</li>
+<li>node03</li>
+</ul>
+<h3 id="Practice-1"><a href="#Practice-1" class="headerlink" title="Practice"></a>Practice</h3><ul>
+<li><p>What is the latest stable version available for upgrade?Use <code>kubeadm</code> tool</p>
+<p><code>kubeadm upgrade plan</code></p>
+</li>
+<li><p>We will be upgrading the master node first. Drain the master node of workloads and mark it <code>UnSchedulable</code></p>
+<p><code>kubectl drain master/controlplane --ignore-daemonsets</code>  </p>
+</li>
+<li><p>Upgrade the master/controlplane components to exact version <code>v1.19.0</code></p>
+<p>Upgrade kubeadm tool (if not already), then the master components, and finally the kubelet. Practice referring to the kubernetes documentation page. Note: While upgrading kubelet, if you hit dependency issue while running the <code>apt-get upgrade kubelet</code> command, use the <code>apt install kubelet=1.19.0-00</code> command instead</p>
+<p><code>apt update</code></p>
+<p><code>apt install -y kubeadm=1.19.0-00</code></p>
+<p><code>kubeadm upgrade apply v1.19.0</code></p>
+<p><code>apt install -y kubelet=1.19.0-00</code></p>
+<p><code>systemctl restart kubelet</code></p>
+</li>
+</ul>
+<h3 id="Backup-and-Restore-Methods"><a href="#Backup-and-Restore-Methods" class="headerlink" title="Backup and Restore Methods"></a>Backup and Restore Methods</h3><h4 id="Query-kube-apiserver"><a href="#Query-kube-apiserver" class="headerlink" title="Query kube-apiserver"></a>Query kube-apiserver</h4><p>A better approach to backing up resource configuration is to use query the kube-apiserver</p>
+<ul>
+<li><p>use <code>kubectl</code> to backup resources</p>
+<p><code>kubectl get all --all-namespaces -o yaml &gt; all-deploy-services.yaml</code></p>
+</li>
+</ul>
+<h4 id="Backup-ETCD"><a href="#Backup-ETCD" class="headerlink" title="Backup - ETCD"></a>Backup - ETCD</h4><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade10.png"></p>
+<ul>
+<li><p>Take snapshot of etcd database (named snapshot.db)</p>
+<p><code>ETCDCTL_API=3 etcdctl snapshot save snapshot.db</code></p>
+</li>
+<li><p>View the status of the backup</p>
+<p><code>ETCDCTL_API=3 etcdctl snapshot status snapshot.db</code></p>
+</li>
+</ul>
+<h4 id="Restore-ETCD"><a href="#Restore-ETCD" class="headerlink" title="Restore-ETCD"></a>Restore-ETCD</h4><p>When ETCD restores from a backup, it initializes a new cluster configuration and configures the members of ETCD as new members to a new cluster.</p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade11.png"></p>
+<ul>
+<li><p>Use <code>etcdctl restore</code> command</p>
+</li>
+<li><p>Set <code>--data-dir</code></p>
+</li>
+<li><p><code>--initial-cluster-token</code>:This is to prevent a new member from accidentally joining an existing cluster.</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2021/01/02/k8s-etcdctl/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/02/k8s-etcdctl/" class="post-title-link" itemprop="url">k8s-Working with ETCDCTL</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-02 22:27:29 / Modified: 22:23:01" itemprop="dateCreated datePublished" datetime="2021-01-02T22:27:29+10:00">2021-01-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Working-with-ETCDCTL"><a href="#Working-with-ETCDCTL" class="headerlink" title="Working with ETCDCTL"></a>Working with ETCDCTL</h1><p><code>etcdctl</code> is a command line client for <a target="_blank" rel="noopener" href="https://github.com/coreos/etcd"><strong>etcd</strong></a>.</p>
+<p>In all our Kubernetes Hands-on labs, the ETCD key-value database is deployed as a static pod on the master. The version used is v3.</p>
+<p>To make use of <code>etcdctl</code> for tasks such as back up and restore, make sure that you set the <code>ETCDCTL_API</code> to 3.</p>
+<p>You can do this by exporting the variable ETCDCTL_API prior to using the etcdctl client. This can be done as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export ETCDCTL_API&#x3D;3</span><br></pre></td></tr></table></figure>
+
+<p>On the <strong>Master Node</strong>:</p>
+<p><img src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:1000/https://www.filepicker.io/api/file/T7Y4a6aUTyOy9W2ZpfeV" alt="img"></p>
+<p>To see all the options for a specific sub-command, make use of the <strong><code>-h</code> or <code>--help</code></strong> flag.</p>
+<p>For example, if you want to take a snapshot of etcd, use:</p>
+<p><code>etcdctl snapshot save -h</code> and keep a note of the mandatory global options.</p>
+<p>Since our ETCD database is TLS-Enabled, the following options are mandatory:</p>
+<ul>
+<li><p><code>--cacert</code>                                                </p>
+<p>verify certificates of TLS-enabled secure servers using this CA bundle</p>
+</li>
+<li><p><code>--cert</code>                                                    </p>
+<p>identify secure client using this TLS certificate file</p>
+</li>
+<li><p><code>--endpoints=[127.0.0.1:2379]</code>          </p>
+<p>This is the default as ETCD is running on master node and exposed on localhost 2379.</p>
+</li>
+<li><p><code>--key</code>                                                      </p>
+<p>identify secure client using this TLS key file</p>
+</li>
+</ul>
+<p>Similarly use the help option for <strong>snapshot restore</strong> to see all available options for restoring the backup.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etcdctl snapshot restore -h</span><br></pre></td></tr></table></figure>
+
+<p>For a detailed explanation on how to make use of the etcdctl command line tool and work with the -h flags, check out the solution video for the Backup and Restore Lab.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
     <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/12/30/Kubernetes%20%E3%81%AE%E5%9F%BA%E7%A4%8E/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -171,14 +460,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-12-30 22:27:29" itemprop="dateCreated datePublished" datetime="2020-12-30T22:27:29+09:00">2020-12-30</time>
+              <time title="Created: 2020-12-30 23:27:29" itemprop="dateCreated datePublished" datetime="2020-12-30T23:27:29+10:00">2020-12-30</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 11:54:27" itemprop="dateModified" datetime="2020-12-31T11:54:27+09:00">2020-12-31</time>
+                <time title="Modified: 2020-12-31 12:54:27" itemprop="dateModified" datetime="2020-12-31T12:54:27+10:00">2020-12-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -308,14 +597,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-12-29 22:27:29" itemprop="dateCreated datePublished" datetime="2020-12-29T22:27:29+09:00">2020-12-29</time>
+              <time title="Created: 2020-12-29 23:27:29" itemprop="dateCreated datePublished" datetime="2020-12-29T23:27:29+10:00">2020-12-29</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 21:07:19" itemprop="dateModified" datetime="2020-12-31T21:07:19+09:00">2020-12-31</time>
+                <time title="Modified: 2020-12-31 22:07:19" itemprop="dateModified" datetime="2020-12-31T22:07:19+10:00">2020-12-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -429,14 +718,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-12-16 22:27:29" itemprop="dateCreated datePublished" datetime="2020-12-16T22:27:29+09:00">2020-12-16</time>
+              <time title="Created: 2020-12-16 23:27:29" itemprop="dateCreated datePublished" datetime="2020-12-16T23:27:29+10:00">2020-12-16</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-30 23:10:13" itemprop="dateModified" datetime="2020-12-30T23:10:13+09:00">2020-12-30</time>
+                <time title="Modified: 2020-12-31 00:10:13" itemprop="dateModified" datetime="2020-12-31T00:10:13+10:00">2020-12-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -549,7 +838,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-11-28 22:27:29 / Modified: 11:55:35" itemprop="dateCreated datePublished" datetime="2020-11-28T22:27:29+09:00">2020-11-28</time>
+              <time title="Created: 2020-11-28 23:27:29 / Modified: 12:55:35" itemprop="dateCreated datePublished" datetime="2020-11-28T23:27:29+10:00">2020-11-28</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -704,14 +993,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-25 22:27:29" itemprop="dateCreated datePublished" datetime="2020-11-25T22:27:29+09:00">2020-11-25</time>
+              <time title="Created: 2020-11-25 23:27:29" itemprop="dateCreated datePublished" datetime="2020-11-25T23:27:29+10:00">2020-11-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 19:37:15" itemprop="dateModified" datetime="2020-12-31T19:37:15+09:00">2020-12-31</time>
+                <time title="Modified: 2020-12-31 20:37:15" itemprop="dateModified" datetime="2020-12-31T20:37:15+10:00">2020-12-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -815,14 +1104,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-25 22:27:29" itemprop="dateCreated datePublished" datetime="2020-11-25T22:27:29+09:00">2020-11-25</time>
+              <time title="Created: 2020-11-25 23:27:29" itemprop="dateCreated datePublished" datetime="2020-11-25T23:27:29+10:00">2020-11-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 19:36:30" itemprop="dateModified" datetime="2020-12-31T19:36:30+09:00">2020-12-31</time>
+                <time title="Modified: 2020-12-31 20:36:30" itemprop="dateModified" datetime="2020-12-31T20:36:30+10:00">2020-12-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -967,14 +1256,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-24 22:29:15" itemprop="dateCreated datePublished" datetime="2020-11-24T22:29:15+09:00">2020-11-24</time>
+              <time title="Created: 2020-11-24 23:29:15" itemprop="dateCreated datePublished" datetime="2020-11-24T23:29:15+10:00">2020-11-24</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-30 23:09:49" itemprop="dateModified" datetime="2020-12-30T23:09:49+09:00">2020-12-30</time>
+                <time title="Modified: 2020-12-31 00:09:49" itemprop="dateModified" datetime="2020-12-31T00:09:49+10:00">2020-12-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1148,7 +1437,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-24 21:38:36" itemprop="dateCreated datePublished" datetime="2020-11-24T21:38:36+09:00">2020-11-24</time>
+              <time title="Created: 2020-11-24 22:38:36" itemprop="dateCreated datePublished" datetime="2020-11-24T22:38:36+10:00">2020-11-24</time>
             </span>
 
           
@@ -1175,352 +1464,6 @@
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
-    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/11/18/k8s-Service/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="HOU YINGQIAO">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="MyNote">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/18/k8s-Service/" class="post-title-link" itemprop="url">k8s_Service</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-11-18 22:27:29" itemprop="dateCreated datePublished" datetime="2020-11-18T22:27:29+09:00">2020-11-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-30 23:08:51" itemprop="dateModified" datetime="2020-12-30T23:08:51+09:00">2020-12-30</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h1><h2 id="Services-Types"><a href="#Services-Types" class="headerlink" title="Services Types"></a>Services Types</h2><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/service.png"></p>
-<ul>
-<li>NodePort</li>
-<li>ClusterIP: the service create a virtual IP inside the cluster enable communication between different services such as a set of frontend services and a set of backend services.</li>
-<li>LoadBalancer</li>
-</ul>
-<h2 id="NodePort"><a href="#NodePort" class="headerlink" title="NodePort"></a>NodePort</h2><p>A service can help us by <strong>mapping</strong> a port on the node to a port on the pod.</p>
-<p>port的类型</p>
-<ul>
-<li>tatgetPort：在pod上的web server运行在80端口（pod的port）</li>
-<li>port：service自身的port （service有自己的ip地址，也称做clusterIP of the service）</li>
-<li>NodePort：在node上的port，用户实际连接的port（有效范围：30000-32767）</li>
-</ul>
-<p>模板</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">nodePort:</span> <span class="number">30008</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">labels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line">      <span class="attr">type:</span> <span class="string">front-end</span></span><br></pre></td></tr></table></figure>
-
-<p>selector:目的是把service和特定的pod联系到一起。（由于targetPort相同的pod也许会很多，因此使用pod的labels进行选择）</p>
-<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><ul>
-<li><p>首先创建deployment.yaml</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-deployment</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">tier:</span> <span class="string">frontend</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span> <span class="string">nginx-2</span></span><br><span class="line">    <span class="attr">labels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">nignx</span></span><br></pre></td></tr></table></figure>
-
-<p><code>kubectl create -f deployment.yaml</code></p>
-</li>
-<li><p>创建service</p>
-<p><code>service-definition.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">nodePort:</span> <span class="number">30004</span></span><br><span class="line">  <span class="attr">selector:</span> <span class="comment">#关键：靠selector来把service和特定pod关联起来 </span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">myapp</span> <span class="comment">#要关联的pod的metadata.labels的内容</span></span><br><span class="line">  </span><br></pre></td></tr></table></figure>
-
-<p>selector作用: link the Service to the PODs created by the deployment.</p>
-</li>
-<li><p>创建service</p>
-<p><code>kubectl create -f service-definition.yaml</code></p>
-</li>
-<li><p>查看当前service</p>
-<p><code>kubectl get svc</code></p>
-</li>
-<li><p>使用minikube的情况下，查看 nodeIP:port 的值 能访问到当前的pod中的服务</p>
-<p><code>minikube service myapp-service --url</code></p>
-</li>
-</ul>
-<h2 id="ClusterIP"><a href="#ClusterIP" class="headerlink" title="ClusterIP"></a>ClusterIP</h2><ul>
-<li>service的默认选项</li>
-<li>为node中运行的一组相同的pod提供统一的interface和ip地址</li>
-</ul>
-<p>frontend server  前端需要和后端通信</p>
-<p>backend server 后端需要和redis通信</p>
-<p>redis(k-v store)</p>
-<p>由于一组相同pod（比如前端），它们的ip address是动态的（pod会挂，会重建），kubernetes service 为这一组pod提供了一个单独的interface去让其他pod能连接这个组里面的pod。</p>
-<p>比如，为backend的pods创建一个service，这个serivce会把所有的bakend pods 组成一组并为其他的pod（front end）提供一个单独的interface去连接该backend的service。</p>
-<h4 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h4><p><code>service-definition.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">back-end</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">      </span><br><span class="line">  <span class="attr">selector:</span> <span class="comment">#通过selector来找到要为哪些pod去创建clusterIP</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">myapp</span> <span class="comment">#这里同样是pod的labels的内容</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">back-end</span></span><br></pre></td></tr></table></figure>
-
-<p><code>pod-definition.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span> </span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-pod</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">back-end</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx-container</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nginx</span></span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
-    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/11/15/k8s-ReplicaSet-Deployment/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="HOU YINGQIAO">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="MyNote">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/15/k8s-ReplicaSet-Deployment/" class="post-title-link" itemprop="url">k8s_ReplicaSet&Deployment</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-11-15 22:22:48" itemprop="dateCreated datePublished" datetime="2020-11-15T22:22:48+09:00">2020-11-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-30 23:10:00" itemprop="dateModified" datetime="2020-12-30T23:10:00+09:00">2020-12-30</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="ReplicaSet-amp-Deployment"><a href="#ReplicaSet-amp-Deployment" class="headerlink" title="ReplicaSet&amp;Deployment"></a>ReplicaSet&amp;Deployment</h1><h2 id="replica"><a href="#replica" class="headerlink" title="replica"></a>replica</h2><p>创建pod的副本</p>
-<p>不会以<code>kubectl delete pod podName</code>的方式而被删除。必须通过replicaset相关命令进行操作。</p>
-<h3 id="创建replicaset模板文件"><a href="#创建replicaset模板文件" class="headerlink" title="创建replicaset模板文件"></a>创建replicaset模板文件</h3><ul>
-<li>apiVersion: apps/v1</li>
-<li>kind: ReplicaSet</li>
-<li>metadata: </li>
-<li>spec:<ul>
-<li>selector<ul>
-<li>matchLables: :wq必须和template中metadata里面的label一样</li>
-</ul>
-</li>
-<li>replicas:确定replica的个数。（删除pod后自动添加新的pod。当pod数为replicas指定个数时，不能创建新pod）</li>
-<li>template：里面是pod的定义(metadata和spec的部分)</li>
-</ul>
-</li>
-</ul>
-<h3 id="example"><a href="#example" class="headerlink" title="example"></a>example</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ReplicaSet</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-replicaset</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">env:</span> <span class="string">production</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">nginx-2</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">env:</span> <span class="string">production</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">nginx</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>replicaset的selector的matchLabels必须和template的labels下面的内容一致。和replicaset自身labels无关。</p>
-<h3 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h3><ul>
-<li><p>创建replicaset</p>
-<p><code>kubectl create -f replicaset  definition.yaml</code> </p>
-</li>
-<li><p>查看当前replicaset的个数（注意不是pod的个数）</p>
-<p><code>kubectl get replicaset</code></p>
-</li>
-<li><p>查看当前replicaset的详细信息(replicaSetName指的是具体的replicaset的名字，可通过<code>kubectl get replicaset</code>获得)</p>
-<p><code>kubectl describe replicaset replicaSetName</code></p>
-</li>
-<li><p>get pods 查看具体pod信息</p>
-</li>
-<li><p>查看创建replicaset所需要的属性信息(replicaSetName指的是具体的replicaset的名字)</p>
-<p><code>kubectl explain replicaset replicaSetName</code></p>
-</li>
-<li><p>删除replicaset </p>
-<p><code>kubectl delete replicaset replicasetName</code></p>
-<ul>
-<li><p><code>--all</code>：删除所有的replicaset</p>
-<p><code>kubectl delete replicaset --all</code></p>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>编辑指定的replicaset：默认以vim打开并修改replicaset的配置 </p>
-<p><code>kubectl edit replicaset replicasetName</code></p>
-<p>然后删除原有的旧pods <code>kubectl delete pods --all</code>，replicaset会自动创建新pods</p>
-</li>
-<li><p><code>scaled</code>命令修改当前replicaset的replica的个数</p>
-<p><code>kubectl scale replicaset replicaSetName --replicas=2</code></p>
-</li>
-</ul>
-<h2 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h2><p>目的：为Pods和ReplicaSet提供声明式的更新</p>
-<h3 id="创建deployment模板"><a href="#创建deployment模板" class="headerlink" title="创建deployment模板"></a>创建deployment模板</h3><p>和replicaset模板很像，区别是kind为Deployment</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-deployment</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">tier:</span> <span class="string">frontend</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span> <span class="comment">#必须和template.metadata.lables一致</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">myapp</span> </span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">nginx-2</span> <span class="comment">#the name of pod</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span> <span class="comment">#以list形式来定义pod里面的container</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span> <span class="comment">#the name of container in the pod</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">nginx</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="command"><a href="#command" class="headerlink" title="command"></a>command</h3><ul>
-<li><p>create deployment</p>
-<p><code>kubectl create -f deployment.yaml</code></p>
-</li>
-<li><p>查看当前deployment</p>
-<p><code>kubectl get deployment</code></p>
-</li>
-<li><p>查看某一个deployment的具体信息</p>
-<p><code>kubectl describe deployment deploymentName</code></p>
-</li>
-</ul>
-<h3 id="Update-amp-Rollout"><a href="#Update-amp-Rollout" class="headerlink" title="Update&amp;Rollout"></a>Update&amp;Rollout</h3><h4 id="Rollout"><a href="#Rollout" class="headerlink" title="Rollout"></a>Rollout</h4><p>追踪deployment的变化并能是我们能够回归到前一个版本</p>
-<ul>
-<li><p>查看rollout的状态</p>
-<p><code>kubectl rollout status deployment/myapp-deployment</code> (myapp-deployment是deployment的name)</p>
-</li>
-<li><p>show reversion and history of our deployment</p>
-<p><code>kubectl rollout history deployment/myapp-deployment</code></p>
-</li>
-</ul>
-<h4 id="Deployment策略："><a href="#Deployment策略：" class="headerlink" title="Deployment策略："></a>Deployment策略：</h4><h4 id="Recreate-和-RollingUpdate-StrategyType-的区别"><a href="#Recreate-和-RollingUpdate-StrategyType-的区别" class="headerlink" title="Recreate 和 RollingUpdate (StrategyType)的区别"></a>Recreate 和 RollingUpdate (StrategyType)的区别</h4><ul>
-<li>Recreate策略：先scale down replicaset到0，然后再重新scale up replicaset到预定个数(not default)</li>
-<li>RollingUpdate(滚动更新)策略： 每次同时地scale up replicaset 和scale down replicaset(defalult)</li>
-</ul>
-<h4 id="Rollback-回退"><a href="#Rollback-回退" class="headerlink" title="Rollback (回退)"></a>Rollback (回退)</h4><p>在新版本的pod里发现了问题，要返回到上一个版本</p>
-<p>Run the <code>kubectl rollout undo </code>command followed by <code>the name of the deployment</code></p>
-<p><code>kubectl rollout undo deployment/myapp-deployment</code></p>
-<h3 id="Summarize-Commands"><a href="#Summarize-Commands" class="headerlink" title="Summarize Commands"></a>Summarize Commands</h3><ul>
-<li><p>Create deployment</p>
-<p><code>kubectl create -f deployment-definition.yml</code></p>
-</li>
-<li><p>Get 获取所有deployment的信息</p>
-<p><code>kubectl get deployments</code></p>
-</li>
-<li><p>Update 单独升级image（会导致deployment的定义文件中有不同的image配置）(推荐kubectl edit deployment myapp-deployment)</p>
-<p><code>kubectl set image deployment/myapp-deployment nginx=nginx:1.9.1</code></p>
-</li>
-<li><p>回滚的状态 <code>rollout status</code></p>
-<p><code>kubectl rollout status deployment/myapp-deployment</code></p>
-</li>
-<li><p>回滚的history</p>
-<p><code>kubectl rollout history deployment/myapp-deployment</code></p>
-</li>
-<li><p>Rollback</p>
-<p><code>kubectl rollout undo deployment/myapp-deployment</code></p>
-</li>
-</ul>
-<h4 id="example-1"><a href="#example-1" class="headerlink" title="example"></a>example</h4><p>1,先create deployment （<code>--record</code>：的意义是记录操作的历史记录）</p>
-<p><code>kubectl create -f deployment-defination.yaml --record</code> </p>
-<p>2,获取deployment的名字</p>
-<p><code>kubectl get deployment</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@master01 work]# kubectl get deployment</span><br><span class="line">NAME               READY   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">myapp-deployment   3/3     3            3           12s</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3,使用 <code>kubectl edit deployment myapp-deployment</code>修改image版本为 <code>nginx:1.18</code></p>
-<p><code>kubectl edit deployment  myapp-deployment --record</code></p>
-<p>4,使用<code>kubectl rollout status deployment myapp-deployment</code>查看rollout状态</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 work]# kubectl rollout status deployment myapp-deployment</span><br><span class="line">Waiting for deployment &quot;myapp-deployment&quot; rollout to finish: 2 out of 3 new replicas have been updated...</span><br><span class="line">Waiting for deployment &quot;myapp-deployment&quot; rollout to finish: 2 out of 3 new replicas have been updated...</span><br><span class="line">Waiting for deployment &quot;myapp-deployment&quot; rollout to finish: 2 out of 3 new replicas have been updated...</span><br><span class="line">Waiting for deployment &quot;myapp-deployment&quot; rollout to finish: 1 old replicas are pending termination...</span><br><span class="line">Waiting for deployment &quot;myapp-deployment&quot; rollout to finish: 1 old replicas are pending termination...</span><br><span class="line">deployment &quot;myapp-deployment&quot; successfully rolled out</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>5,使用<code>kubectl rollout history deployment myapp-deployment</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 work]# kubectl rollout history deployment myapp-deployment</span><br><span class="line">deployment.apps/myapp-deployment </span><br><span class="line">REVISION  CHANGE-CAUSE</span><br><span class="line">1         kubectl create --filename=deployment-defination.yaml --record=true</span><br><span class="line">2         kubectl edit deployment/myapp-deployment --record=true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>6,使用<code>kubectl set image deployment &lt;your_deployment_name&gt; containerName=&lt;image_name&gt;</code>直接设置镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 work]# kubectl set image deployment myapp-deployment nginx=nginx:1.18-perl --record</span><br><span class="line">deployment.apps/myapp-deployment image updated</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看rollout history</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 work]# kubectl rollout history deployment myapp-deployment</span><br><span class="line">deployment.apps&#x2F;myapp-deployment </span><br><span class="line">REVISION  CHANGE-CAUSE</span><br><span class="line">1         kubectl create --filename&#x3D;deployment-defination.yaml --record&#x3D;true</span><br><span class="line">2         kubectl edit deployment&#x2F;myapp-deployment --record&#x3D;true</span><br><span class="line">3         kubectl set image deployment myapp-deployment nginx&#x3D;nginx:1.18-perl --record&#x3D;true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>当前在REVERSION3的位置</p>
-<p>7，使用<code>kubectl rollout undo deployment myapp-deployment</code>  进行回退到上个版本,并查看history</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 work]# kubectl rollout undo deployment myapp-deployment </span><br><span class="line">deployment.apps/myapp-deployment rolled back</span><br><span class="line">[root@master01 work]# kubectl rollout history deployment myapp-deployment</span><br><span class="line">deployment.apps/myapp-deployment </span><br><span class="line">REVISION  CHANGE-CAUSE</span><br><span class="line">1         kubectl create --filename=deployment-defination.yaml --record=true</span><br><span class="line">3         kubectl set image deployment myapp-deployment nginx=nginx:1.18-perl --record=true</span><br><span class="line">4         kubectl edit deployment/myapp-deployment --record=true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>结果表明：<code>rollout undo</code>（是把当前REVERSION3要回滚到的上一个位置）REVERSION2变成了最新的REVERSION4。换句话说，不是从3到2，而是2变成了4。</p>
-<p>8,修改image为一个不存在的version</p>
-<p>使用<code>kubectl rollout status deployment myapp-deployment</code>查看：rollout卡住了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@master01 work]# kubectl rollout status deployment myapp-deployment</span><br><span class="line">Waiting for deployment &quot;myapp-deployment&quot; rollout to finish: 1 out of 3 new replicas have been updated...</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 work]# kubectl get pods</span><br><span class="line">NAME                                READY   STATUS             RESTARTS   AGE</span><br><span class="line">myapp-deployment-7c8cf9794b-f5qn7   0&#x2F;1     ImagePullBackOff   0          80s</span><br><span class="line">myapp-deployment-ddbb47dd8-68l2m    1&#x2F;1     Running            0          8m13s</span><br><span class="line">myapp-deployment-ddbb47dd8-gv4k9    1&#x2F;1     Running            0          8m22s</span><br><span class="line">myapp-deployment-ddbb47dd8-rg98d    1&#x2F;1     Running            0          8m17s</span><br></pre></td></tr></table></figure>
-
-<p>旧pod还在Running并没有被删除，因此application并没有被影响。</p>
-<p><strong>rollout update是安全的</strong>,rollout必须在新pod充分成功创建后，才会删除旧pod</p>
 
       
     </div>
@@ -1605,7 +1548,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1661,7 +1604,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
