@@ -467,7 +467,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 12:54:27" itemprop="dateModified" datetime="2020-12-31T12:54:27+10:00">2020-12-31</time>
+                <time title="Modified: 2021-01-03 22:04:21" itemprop="dateModified" datetime="2021-01-03T22:04:21+10:00">2021-01-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -495,10 +495,10 @@
 
       
           <h2 id="Kubernetes-の基礎"><a href="#Kubernetes-の基礎" class="headerlink" title="Kubernetes の基礎"></a>Kubernetes の基礎</h2><p>Kubernetes は、Kubernetes Master と Kubernetes Node の 2 種類のノードから成り立っています。</p>
-<p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1609320771787.png" alt="1609320771787"></p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-1.png"></p>
 <p>CLI ツールのkubectl はマニフェストファイル（<code>.yaml</code>,<code>.yml</code>,<code>.json</code>）の情報を元にKubernetes Master が持つ API にリクエストを送ることで Kubernetes を操作します。</p>
 <p>また、Kubernetes　Master の API は、一般的な RESTful API として実装されているので、各種プログラム言語の RESTful API ライブラリや<code> curl</code> などのコマンドラインツールを利用して、直接 API を呼び出して Kubernetes を操作することも可能です。</p>
-<h3 id="Kubernetes-とリソース"><a href="#Kubernetes-とリソース" class="headerlink" title="Kubernetes とリソース"></a>Kubernetes とリソース</h3><p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1609321734245.png" alt="1609321734245"></p>
+<h3 id="Kubernetes-とリソース"><a href="#Kubernetes-とリソース" class="headerlink" title="Kubernetes とリソース"></a>Kubernetes とリソース</h3><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-2t.png"></p>
 <h4 id="Workloads-APIs-リソースがあります"><a href="#Workloads-APIs-リソースがあります" class="headerlink" title="Workloads APIs リソースがあります"></a>Workloads APIs リソースがあります</h4><p>● Pod<br>● ReplicationController<br>● ReplicaSet<br>● Deployment<br>● DaemonSet<br>● StatefulSet<br>● Job<br>● CronJob</p>
 <h4 id="Service-APIs-カテゴリ"><a href="#Service-APIs-カテゴリ" class="headerlink" title="Service APIs カテゴリ"></a>Service APIs カテゴリ</h4><p>Service APIs カテゴリは、コンテナのサービスディスカバリや、クラスタの外部からもア<br>クセス可能なエンドポイントなどを提供するリソースです。</p>
 <p>● Service<br>・ ClusterIP<br>・ ExternalIP（ClusterIP の一種）<br>・ NodePort<br>・ LoadBalancer<br>・ Headless（None）<br>・ ExternalName<br>・ None-Selector<br>● Ingres</p>
@@ -511,8 +511,8 @@
 <p>● LimitRange<br>● HorizontalPodAutoscaler<br>● PodDisruptionBudget<br>● CustomResourceDefinition</p>
 <h3 id="初期状態のNamespace"><a href="#初期状態のNamespace" class="headerlink" title="初期状態のNamespace"></a>初期状態のNamespace</h3><p>● kube-system<br>・ Kubernetes クラスタのコンポーネントやアドオンがデプロイされる Namespace<br>● kube-public<br>・ 全ユーザが利用できる ConfigMap などを配置する Namespace<br>● kube-node-lease<br>・ Kubernetes Node のハートビート情報を保存するための Lease リソースが保存されている専用の Namespace です。<br>● default<br>・ デフォルトの Namespace、ユーザが任意のリソースを登録するのに使用できます</p>
 <h3 id="RBAC（Role-Based-Access-Control）"><a href="#RBAC（Role-Based-Access-Control）" class="headerlink" title="RBAC（Role-Based Access Control）"></a>RBAC（Role-Based Access Control）</h3><p>RBAC は、図 4.2 のようにクラスタ操作に関する権限を Namespace ごとに分けることができるほか、Network Policy と組み合わせることで Namespace 間の通信の制御を行える仕組みです</p>
-<p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1609324087858.png" alt="1609324087858"></p>
-<h3 id="CLI-ツール-kubectl"><a href="#CLI-ツール-kubectl" class="headerlink" title="CLI ツール kubectl"></a>CLI ツール kubectl</h3><p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1609324451333.png" alt="1609324451333"></p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-2.png"></p>
+<h3 id="CLI-ツール-kubectl"><a href="#CLI-ツール-kubectl" class="headerlink" title="CLI ツール kubectl"></a>CLI ツール kubectl</h3><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-3.png" alt="1609324451333"></p>
 <p>手動：kubectl </p>
 <p>プログラム：クライアントライブラリ</p>
 <h4 id="認証情報と-Context（config）"><a href="#認証情報と-Context（config）" class="headerlink" title="認証情報と Context（config）"></a>認証情報と Context（config）</h4><p>kubectl が Kubernetes Master と通信する際には、接続先サーバの情報や認証情報などが必要となります。</p>
@@ -521,7 +521,7 @@
 <h4 id="kubeconfigのsample"><a href="#kubeconfigのsample" class="headerlink" title="kubeconfigのsample"></a>kubeconfigのsample</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Config</span></span><br><span class="line"><span class="attr">preferences:</span> &#123;&#125;</span><br><span class="line"><span class="attr">clusters:</span> <span class="comment"># 接続先クラスタ</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">sample-cluster</span></span><br><span class="line">  <span class="attr">cluster:</span></span><br><span class="line">    <span class="attr">server:</span> <span class="string">https://localhost:6443</span></span><br><span class="line"><span class="attr">users:</span> <span class="comment"># 認証情報</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">sample-user</span></span><br><span class="line">  <span class="attr">user:</span></span><br><span class="line">    <span class="attr">client-certificate-data:</span> <span class="string">LS0tLS1CRUdJTi...</span></span><br><span class="line">    <span class="attr">client-key-data:</span> <span class="string">LS0tLS1CRUdJTi...</span></span><br><span class="line"><span class="attr">contexts:</span> <span class="comment"># 接続先と認証情報の組み合わせ</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">sample-context</span></span><br><span class="line">  <span class="attr">context:</span></span><br><span class="line">    <span class="attr">cluster:</span> <span class="string">sample-cluster</span></span><br><span class="line">    <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">    <span class="attr">user:</span> <span class="string">sample-user</span></span><br><span class="line"><span class="attr">current-context:</span> <span class="string">sample-context</span></span><br></pre></td></tr></table></figure>
 
 <p>contexts には、<code>cluster</code> と <code>user</code> のペアと <code>namespace</code> を指定したものを定義します。</p>
-<p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1609334844802.png" alt="1609334844802"></p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-4.png"></p>
 <h4 id="kubeconfigの設定変更"><a href="#kubeconfigの設定変更" class="headerlink" title="kubeconfigの設定変更"></a>kubeconfigの設定変更</h4><ul>
 <li><p>クラスタ（prd-cluster）の定義を追加・変更</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config set-cluster prd-cluster --server&#x3D;https:&#x2F;&#x2F;localhost:6443</span><br></pre></td></tr></table></figure>
