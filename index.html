@@ -467,7 +467,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-03 22:04:21" itemprop="dateModified" datetime="2021-01-03T22:04:21+10:00">2021-01-03</time>
+                <time title="Modified: 2021-01-03 22:07:58" itemprop="dateModified" datetime="2021-01-03T22:07:58+10:00">2021-01-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -512,7 +512,7 @@
 <h3 id="初期状態のNamespace"><a href="#初期状態のNamespace" class="headerlink" title="初期状態のNamespace"></a>初期状態のNamespace</h3><p>● kube-system<br>・ Kubernetes クラスタのコンポーネントやアドオンがデプロイされる Namespace<br>● kube-public<br>・ 全ユーザが利用できる ConfigMap などを配置する Namespace<br>● kube-node-lease<br>・ Kubernetes Node のハートビート情報を保存するための Lease リソースが保存されている専用の Namespace です。<br>● default<br>・ デフォルトの Namespace、ユーザが任意のリソースを登録するのに使用できます</p>
 <h3 id="RBAC（Role-Based-Access-Control）"><a href="#RBAC（Role-Based-Access-Control）" class="headerlink" title="RBAC（Role-Based Access Control）"></a>RBAC（Role-Based Access Control）</h3><p>RBAC は、図 4.2 のようにクラスタ操作に関する権限を Namespace ごとに分けることができるほか、Network Policy と組み合わせることで Namespace 間の通信の制御を行える仕組みです</p>
 <p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-2.png"></p>
-<h3 id="CLI-ツール-kubectl"><a href="#CLI-ツール-kubectl" class="headerlink" title="CLI ツール kubectl"></a>CLI ツール kubectl</h3><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-3.png" alt="1609324451333"></p>
+<h3 id="CLI-ツール-kubectl"><a href="#CLI-ツール-kubectl" class="headerlink" title="CLI ツール kubectl"></a>CLI ツール kubectl</h3><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-3.png"></p>
 <p>手動：kubectl </p>
 <p>プログラム：クライアントライブラリ</p>
 <h4 id="認証情報と-Context（config）"><a href="#認証情報と-Context（config）" class="headerlink" title="認証情報と Context（config）"></a>認証情報と Context（config）</h4><p>kubectl が Kubernetes Master と通信する際には、接続先サーバの情報や認証情報などが必要となります。</p>
@@ -604,7 +604,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 22:07:19" itemprop="dateModified" datetime="2020-12-31T22:07:19+10:00">2020-12-31</time>
+                <time title="Modified: 2021-01-03 22:09:27" itemprop="dateModified" datetime="2021-01-03T22:09:27+10:00">2021-01-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -632,7 +632,7 @@
 
       
           <h2 id="kind（Kubernetes-in-Docker）"><a href="#kind（Kubernetes-in-Docker）" class="headerlink" title="kind（Kubernetes in Docker）"></a>kind（Kubernetes in Docker）</h2><h3 id="kindの仕組み："><a href="#kindの仕組み：" class="headerlink" title="kindの仕組み："></a>kindの仕組み：</h3><p>Docker コンテナを複数個起動し、そのコンテナを Kubernetes Node として利用することで、複数台構成の Kubernetes クラスタを構築します。</p>
-<p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1609237896022.png" alt="1609237896022"></p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/3-5.png"></p>
 <p><a target="_blank" rel="noopener" href="https://kind.sigs.k8s.io/docs/user/quick-start/#installation">kindのインストール</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.9.0/kind-linux-amd64</span><br><span class="line">chmod +x ./kind</span><br><span class="line">mv ./kind /usr/<span class="built_in">local</span>/bin/kind</span><br></pre></td></tr></table></figure>
 
@@ -969,117 +969,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
-    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/11/25/k8s-ETCD%20-%20Commands%20(Optional)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="HOU YINGQIAO">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="MyNote">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/25/k8s-ETCD%20-%20Commands%20(Optional)/" class="post-title-link" itemprop="url">k8s-ETCD - Commands</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-11-25 22:27:29" itemprop="dateCreated datePublished" datetime="2020-11-25T22:27:29+10:00">2020-11-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 20:37:15" itemprop="dateModified" datetime="2020-12-31T20:37:15+10:00">2020-12-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="ETCD-Commands-Optional"><a href="#ETCD-Commands-Optional" class="headerlink" title="ETCD - Commands (Optional)"></a>ETCD - Commands (Optional)</h2><p>(Optional) Additional information about ETCDCTL Utility</p>
-<p>ETCDCTL is the CLI tool used to interact with（与…相互作用） ETCD.</p>
-<p>ETCDCTL can interact with ETCD Server using 2 API versions - Version 2 and Version 3.  By default its set to use Version 2. Each version has different sets of commands.</p>
-<ul>
-<li><p>For example ETCDCTL version 2 supports the following commands:(ETCDCTL 版本2支持一下的命令)</p>
-<p><code>etcdctl backup</code></p>
-<p><code>etcdctl cluster-health</code></p>
-<p><code>etcdctl mk</code></p>
-<p><code>etcdctl mkdir</code></p>
-<p>``etcdctl set`</p>
-</li>
-</ul>
-<ul>
-<li><p>Whereas（尽管） the commands are different in version 3（版本3中的命令有所不同）</p>
-<p><code>etcdctl snapshot save</code></p>
-<p><code>etcdctl endpoint health</code></p>
-<p><code>etcdctl get</code></p>
-<p><code>etcdctl put</code></p>
-</li>
-</ul>
-<ul>
-<li>To set the right version of API set the environment variable ETCDCTL_API command（要设置正确的APIversion，请设置环境变量ETCDCTL_API）<code>export ETCDCTL_API=3</code></li>
-</ul>
-<ul>
-<li><p>When API version is not set, it is assumed to be set to version 2. And version 3 commands listed above don’t work. When API version is set to version 3, version 2 commands listed above don’t work.（如果未设置API版本，则假定它设置为版本2。上面列出的版本3命令不起作用。当API版本设置为版本3时，上面列出的版本2命令不起作用。）</p>
-</li>
-<li><p>Apart from that, you must also specify path to certificate files so that ETCDCTL can authenticate to the ETCD API Server. The certificate files are available in the etcd-master at the following path. We discuss more about certificates in the security section of this course. So don’t worry if this looks complex:（除此之外，还必须指定证书文件的路径，以便ETCDCTL可以向ETCD API服务器进行身份验证。证书文件位于etcd-master中的以下路径中。我们将在本课程的安全性部分讨论有关证书的更多信息。因此，不要担心这看起来是否复杂：）</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--cacert &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;ca.crt     </span><br><span class="line">--cert &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;server.crt     </span><br><span class="line">--key &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;server.key</span><br></pre></td></tr></table></figure>
-
-
-
-<p>So for the commands I showed in the previous video to work you must specify the ETCDCTL API version and path to certificate files. Below is the final form:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl exec etcd-master -n kube-system -- sh -c &quot;ETCDCTL_API&#x3D;3 etcdctl get &#x2F; --prefix --keys-only --limit&#x3D;10 --cacert &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;ca.crt --cert &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;server.crt  --key &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;server.key&quot; </span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
     <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/11/25/k8s-Imperative%20vs%20Declarative/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1214,6 +1103,117 @@
 </li>
 </ul>
 
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/11/25/k8s-ETCD%20-%20Commands%20(Optional)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/25/k8s-ETCD%20-%20Commands%20(Optional)/" class="post-title-link" itemprop="url">k8s-ETCD - Commands</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-25 22:27:29" itemprop="dateCreated datePublished" datetime="2020-11-25T22:27:29+10:00">2020-11-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-31 20:37:15" itemprop="dateModified" datetime="2020-12-31T20:37:15+10:00">2020-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="ETCD-Commands-Optional"><a href="#ETCD-Commands-Optional" class="headerlink" title="ETCD - Commands (Optional)"></a>ETCD - Commands (Optional)</h2><p>(Optional) Additional information about ETCDCTL Utility</p>
+<p>ETCDCTL is the CLI tool used to interact with（与…相互作用） ETCD.</p>
+<p>ETCDCTL can interact with ETCD Server using 2 API versions - Version 2 and Version 3.  By default its set to use Version 2. Each version has different sets of commands.</p>
+<ul>
+<li><p>For example ETCDCTL version 2 supports the following commands:(ETCDCTL 版本2支持一下的命令)</p>
+<p><code>etcdctl backup</code></p>
+<p><code>etcdctl cluster-health</code></p>
+<p><code>etcdctl mk</code></p>
+<p><code>etcdctl mkdir</code></p>
+<p>``etcdctl set`</p>
+</li>
+</ul>
+<ul>
+<li><p>Whereas（尽管） the commands are different in version 3（版本3中的命令有所不同）</p>
+<p><code>etcdctl snapshot save</code></p>
+<p><code>etcdctl endpoint health</code></p>
+<p><code>etcdctl get</code></p>
+<p><code>etcdctl put</code></p>
+</li>
+</ul>
+<ul>
+<li>To set the right version of API set the environment variable ETCDCTL_API command（要设置正确的APIversion，请设置环境变量ETCDCTL_API）<code>export ETCDCTL_API=3</code></li>
+</ul>
+<ul>
+<li><p>When API version is not set, it is assumed to be set to version 2. And version 3 commands listed above don’t work. When API version is set to version 3, version 2 commands listed above don’t work.（如果未设置API版本，则假定它设置为版本2。上面列出的版本3命令不起作用。当API版本设置为版本3时，上面列出的版本2命令不起作用。）</p>
+</li>
+<li><p>Apart from that, you must also specify path to certificate files so that ETCDCTL can authenticate to the ETCD API Server. The certificate files are available in the etcd-master at the following path. We discuss more about certificates in the security section of this course. So don’t worry if this looks complex:（除此之外，还必须指定证书文件的路径，以便ETCDCTL可以向ETCD API服务器进行身份验证。证书文件位于etcd-master中的以下路径中。我们将在本课程的安全性部分讨论有关证书的更多信息。因此，不要担心这看起来是否复杂：）</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--cacert &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;ca.crt     </span><br><span class="line">--cert &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;server.crt     </span><br><span class="line">--key &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;server.key</span><br></pre></td></tr></table></figure>
+
+
+
+<p>So for the commands I showed in the previous video to work you must specify the ETCDCTL API version and path to certificate files. Below is the final form:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl exec etcd-master -n kube-system -- sh -c &quot;ETCDCTL_API&#x3D;3 etcdctl get &#x2F; --prefix --keys-only --limit&#x3D;10 --cacert &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;ca.crt --cert &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;server.crt  --key &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;server.key&quot; </span><br></pre></td></tr></table></figure>
       
     </div>
 
