@@ -178,7 +178,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 00:08:51" itemprop="dateModified" datetime="2020-12-31T00:08:51+10:00">2020-12-31</time>
+                <time title="Modified: 2021-01-05 19:06:45" itemprop="dateModified" datetime="2021-01-05T19:06:45+10:00">2021-01-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -211,55 +211,14 @@
 <li>ClusterIP: the service create a virtual IP inside the cluster enable communication between different services such as a set of frontend services and a set of backend services.</li>
 <li>LoadBalancer</li>
 </ul>
-<h2 id="NodePort"><a href="#NodePort" class="headerlink" title="NodePort"></a>NodePort</h2><p>A service can help us by <strong>mapping</strong> a port on the node to a port on the pod.</p>
-<p>port的类型</p>
-<ul>
-<li>tatgetPort：在pod上的web server运行在80端口（pod的port）</li>
-<li>port：service自身的port （service有自己的ip地址，也称做clusterIP of the service）</li>
-<li>NodePort：在node上的port，用户实际连接的port（有效范围：30000-32767）</li>
-</ul>
-<p>模板</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">nodePort:</span> <span class="number">30008</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">labels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line">      <span class="attr">type:</span> <span class="string">front-end</span></span><br></pre></td></tr></table></figure>
-
-<p>selector:目的是把service和特定的pod联系到一起。（由于targetPort相同的pod也许会很多，因此使用pod的labels进行选择）</p>
-<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><ul>
-<li><p>首先创建deployment.yaml</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-deployment</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">tier:</span> <span class="string">frontend</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span> <span class="string">nginx-2</span></span><br><span class="line">    <span class="attr">labels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">nignx</span></span><br></pre></td></tr></table></figure>
-
-<p><code>kubectl create -f deployment.yaml</code></p>
-</li>
-<li><p>创建service</p>
-<p><code>service-definition.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">nodePort:</span> <span class="number">30004</span></span><br><span class="line">  <span class="attr">selector:</span> <span class="comment">#关键：靠selector来把service和特定pod关联起来 </span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">myapp</span> <span class="comment">#要关联的pod的metadata.labels的内容</span></span><br><span class="line">  </span><br></pre></td></tr></table></figure>
-
-<p>selector作用: link the Service to the PODs created by the deployment.</p>
-</li>
-<li><p>创建service</p>
-<p><code>kubectl create -f service-definition.yaml</code></p>
-</li>
-<li><p>查看当前service</p>
-<p><code>kubectl get svc</code></p>
-</li>
-<li><p>使用minikube的情况下，查看 nodeIP:port 的值 能访问到当前的pod中的服务</p>
-<p><code>minikube service myapp-service --url</code></p>
-</li>
-</ul>
-<h2 id="ClusterIP"><a href="#ClusterIP" class="headerlink" title="ClusterIP"></a>ClusterIP</h2><ul>
-<li>service的默认选项</li>
-<li>为node中运行的一组相同的pod提供统一的interface和ip地址</li>
-</ul>
-<p>frontend server  前端需要和后端通信</p>
-<p>backend server 后端需要和redis通信</p>
-<p>redis(k-v store)</p>
-<p>由于一组相同pod（比如前端），它们的ip address是动态的（pod会挂，会重建），kubernetes service 为这一组pod提供了一个单独的interface去让其他pod能连接这个组里面的pod。</p>
-<p>比如，为backend的pods创建一个service，这个serivce会把所有的bakend pods 组成一组并为其他的pod（front end）提供一个单独的interface去连接该backend的service。</p>
-<h4 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h4><p><code>service-definition.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">back-end</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">      </span><br><span class="line">  <span class="attr">selector:</span> <span class="comment">#通过selector来找到要为哪些pod去创建clusterIP</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">myapp</span> <span class="comment">#这里同样是pod的labels的内容</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">back-end</span></span><br></pre></td></tr></table></figure>
-
-<p><code>pod-definition.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span> </span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-pod</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">back-end</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx-container</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nginx</span></span><br></pre></td></tr></table></figure>
-
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/18/k8s-Service/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -309,7 +268,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 00:10:00" itemprop="dateModified" datetime="2020-12-31T00:10:00+10:00">2020-12-31</time>
+                <time title="Modified: 2021-01-05 19:06:13" itemprop="dateModified" datetime="2021-01-05T19:06:13+10:00">2021-01-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -352,129 +311,14 @@
 </ul>
 </li>
 </ul>
-<h3 id="example"><a href="#example" class="headerlink" title="example"></a>example</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ReplicaSet</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-replicaset</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">env:</span> <span class="string">production</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">nginx-2</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">env:</span> <span class="string">production</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">nginx</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>replicaset的selector的matchLabels必须和template的labels下面的内容一致。和replicaset自身labels无关。</p>
-<h3 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h3><ul>
-<li><p>创建replicaset</p>
-<p><code>kubectl create -f replicaset  definition.yaml</code> </p>
-</li>
-<li><p>查看当前replicaset的个数（注意不是pod的个数）</p>
-<p><code>kubectl get replicaset</code></p>
-</li>
-<li><p>查看当前replicaset的详细信息(replicaSetName指的是具体的replicaset的名字，可通过<code>kubectl get replicaset</code>获得)</p>
-<p><code>kubectl describe replicaset replicaSetName</code></p>
-</li>
-<li><p>get pods 查看具体pod信息</p>
-</li>
-<li><p>查看创建replicaset所需要的属性信息(replicaSetName指的是具体的replicaset的名字)</p>
-<p><code>kubectl explain replicaset replicaSetName</code></p>
-</li>
-<li><p>删除replicaset </p>
-<p><code>kubectl delete replicaset replicasetName</code></p>
-<ul>
-<li><p><code>--all</code>：删除所有的replicaset</p>
-<p><code>kubectl delete replicaset --all</code></p>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>编辑指定的replicaset：默认以vim打开并修改replicaset的配置 </p>
-<p><code>kubectl edit replicaset replicasetName</code></p>
-<p>然后删除原有的旧pods <code>kubectl delete pods --all</code>，replicaset会自动创建新pods</p>
-</li>
-<li><p><code>scaled</code>命令修改当前replicaset的replica的个数</p>
-<p><code>kubectl scale replicaset replicaSetName --replicas=2</code></p>
-</li>
-</ul>
-<h2 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h2><p>目的：为Pods和ReplicaSet提供声明式的更新</p>
-<h3 id="创建deployment模板"><a href="#创建deployment模板" class="headerlink" title="创建deployment模板"></a>创建deployment模板</h3><p>和replicaset模板很像，区别是kind为Deployment</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-deployment</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">tier:</span> <span class="string">frontend</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span> <span class="comment">#必须和template.metadata.lables一致</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">myapp</span> </span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">nginx-2</span> <span class="comment">#the name of pod</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span> <span class="comment">#以list形式来定义pod里面的container</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span> <span class="comment">#the name of container in the pod</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">nginx</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="command"><a href="#command" class="headerlink" title="command"></a>command</h3><ul>
-<li><p>create deployment</p>
-<p><code>kubectl create -f deployment.yaml</code></p>
-</li>
-<li><p>查看当前deployment</p>
-<p><code>kubectl get deployment</code></p>
-</li>
-<li><p>查看某一个deployment的具体信息</p>
-<p><code>kubectl describe deployment deploymentName</code></p>
-</li>
-</ul>
-<h3 id="Update-amp-Rollout"><a href="#Update-amp-Rollout" class="headerlink" title="Update&amp;Rollout"></a>Update&amp;Rollout</h3><h4 id="Rollout"><a href="#Rollout" class="headerlink" title="Rollout"></a>Rollout</h4><p>追踪deployment的变化并能是我们能够回归到前一个版本</p>
-<ul>
-<li><p>查看rollout的状态</p>
-<p><code>kubectl rollout status deployment/myapp-deployment</code> (myapp-deployment是deployment的name)</p>
-</li>
-<li><p>show reversion and history of our deployment</p>
-<p><code>kubectl rollout history deployment/myapp-deployment</code></p>
-</li>
-</ul>
-<h4 id="Deployment策略："><a href="#Deployment策略：" class="headerlink" title="Deployment策略："></a>Deployment策略：</h4><h4 id="Recreate-和-RollingUpdate-StrategyType-的区别"><a href="#Recreate-和-RollingUpdate-StrategyType-的区别" class="headerlink" title="Recreate 和 RollingUpdate (StrategyType)的区别"></a>Recreate 和 RollingUpdate (StrategyType)的区别</h4><ul>
-<li>Recreate策略：先scale down replicaset到0，然后再重新scale up replicaset到预定个数(not default)</li>
-<li>RollingUpdate(滚动更新)策略： 每次同时地scale up replicaset 和scale down replicaset(defalult)</li>
-</ul>
-<h4 id="Rollback-回退"><a href="#Rollback-回退" class="headerlink" title="Rollback (回退)"></a>Rollback (回退)</h4><p>在新版本的pod里发现了问题，要返回到上一个版本</p>
-<p>Run the <code>kubectl rollout undo </code>command followed by <code>the name of the deployment</code></p>
-<p><code>kubectl rollout undo deployment/myapp-deployment</code></p>
-<h3 id="Summarize-Commands"><a href="#Summarize-Commands" class="headerlink" title="Summarize Commands"></a>Summarize Commands</h3><ul>
-<li><p>Create deployment</p>
-<p><code>kubectl create -f deployment-definition.yml</code></p>
-</li>
-<li><p>Get 获取所有deployment的信息</p>
-<p><code>kubectl get deployments</code></p>
-</li>
-<li><p>Update 单独升级image（会导致deployment的定义文件中有不同的image配置）(推荐kubectl edit deployment myapp-deployment)</p>
-<p><code>kubectl set image deployment/myapp-deployment nginx=nginx:1.9.1</code></p>
-</li>
-<li><p>回滚的状态 <code>rollout status</code></p>
-<p><code>kubectl rollout status deployment/myapp-deployment</code></p>
-</li>
-<li><p>回滚的history</p>
-<p><code>kubectl rollout history deployment/myapp-deployment</code></p>
-</li>
-<li><p>Rollback</p>
-<p><code>kubectl rollout undo deployment/myapp-deployment</code></p>
-</li>
-</ul>
-<h4 id="example-1"><a href="#example-1" class="headerlink" title="example"></a>example</h4><p>1,先create deployment （<code>--record</code>：的意义是记录操作的历史记录）</p>
-<p><code>kubectl create -f deployment-defination.yaml --record</code> </p>
-<p>2,获取deployment的名字</p>
-<p><code>kubectl get deployment</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@master01 work]# kubectl get deployment</span><br><span class="line">NAME               READY   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">myapp-deployment   3/3     3            3           12s</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3,使用 <code>kubectl edit deployment myapp-deployment</code>修改image版本为 <code>nginx:1.18</code></p>
-<p><code>kubectl edit deployment  myapp-deployment --record</code></p>
-<p>4,使用<code>kubectl rollout status deployment myapp-deployment</code>查看rollout状态</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 work]# kubectl rollout status deployment myapp-deployment</span><br><span class="line">Waiting for deployment &quot;myapp-deployment&quot; rollout to finish: 2 out of 3 new replicas have been updated...</span><br><span class="line">Waiting for deployment &quot;myapp-deployment&quot; rollout to finish: 2 out of 3 new replicas have been updated...</span><br><span class="line">Waiting for deployment &quot;myapp-deployment&quot; rollout to finish: 2 out of 3 new replicas have been updated...</span><br><span class="line">Waiting for deployment &quot;myapp-deployment&quot; rollout to finish: 1 old replicas are pending termination...</span><br><span class="line">Waiting for deployment &quot;myapp-deployment&quot; rollout to finish: 1 old replicas are pending termination...</span><br><span class="line">deployment &quot;myapp-deployment&quot; successfully rolled out</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>5,使用<code>kubectl rollout history deployment myapp-deployment</code></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 work]# kubectl rollout history deployment myapp-deployment</span><br><span class="line">deployment.apps/myapp-deployment </span><br><span class="line">REVISION  CHANGE-CAUSE</span><br><span class="line">1         kubectl create --filename=deployment-defination.yaml --record=true</span><br><span class="line">2         kubectl edit deployment/myapp-deployment --record=true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>6,使用<code>kubectl set image deployment &lt;your_deployment_name&gt; containerName=&lt;image_name&gt;</code>直接设置镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 work]# kubectl set image deployment myapp-deployment nginx=nginx:1.18-perl --record</span><br><span class="line">deployment.apps/myapp-deployment image updated</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>查看rollout history</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 work]# kubectl rollout history deployment myapp-deployment</span><br><span class="line">deployment.apps&#x2F;myapp-deployment </span><br><span class="line">REVISION  CHANGE-CAUSE</span><br><span class="line">1         kubectl create --filename&#x3D;deployment-defination.yaml --record&#x3D;true</span><br><span class="line">2         kubectl edit deployment&#x2F;myapp-deployment --record&#x3D;true</span><br><span class="line">3         kubectl set image deployment myapp-deployment nginx&#x3D;nginx:1.18-perl --record&#x3D;true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>当前在REVERSION3的位置</p>
-<p>7，使用<code>kubectl rollout undo deployment myapp-deployment</code>  进行回退到上个版本,并查看history</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 work]# kubectl rollout undo deployment myapp-deployment </span><br><span class="line">deployment.apps/myapp-deployment rolled back</span><br><span class="line">[root@master01 work]# kubectl rollout history deployment myapp-deployment</span><br><span class="line">deployment.apps/myapp-deployment </span><br><span class="line">REVISION  CHANGE-CAUSE</span><br><span class="line">1         kubectl create --filename=deployment-defination.yaml --record=true</span><br><span class="line">3         kubectl set image deployment myapp-deployment nginx=nginx:1.18-perl --record=true</span><br><span class="line">4         kubectl edit deployment/myapp-deployment --record=true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>结果表明：<code>rollout undo</code>（是把当前REVERSION3要回滚到的上一个位置）REVERSION2变成了最新的REVERSION4。换句话说，不是从3到2，而是2变成了4。</p>
-<p>8,修改image为一个不存在的version</p>
-<p>使用<code>kubectl rollout status deployment myapp-deployment</code>查看：rollout卡住了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@master01 work]# kubectl rollout status deployment myapp-deployment</span><br><span class="line">Waiting for deployment &quot;myapp-deployment&quot; rollout to finish: 1 out of 3 new replicas have been updated...</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 work]# kubectl get pods</span><br><span class="line">NAME                                READY   STATUS             RESTARTS   AGE</span><br><span class="line">myapp-deployment-7c8cf9794b-f5qn7   0&#x2F;1     ImagePullBackOff   0          80s</span><br><span class="line">myapp-deployment-ddbb47dd8-68l2m    1&#x2F;1     Running            0          8m13s</span><br><span class="line">myapp-deployment-ddbb47dd8-gv4k9    1&#x2F;1     Running            0          8m22s</span><br><span class="line">myapp-deployment-ddbb47dd8-rg98d    1&#x2F;1     Running            0          8m17s</span><br></pre></td></tr></table></figure>
-
-<p>旧pod还在Running并没有被删除，因此application并没有被影响。</p>
-<p><strong>rollout update是安全的</strong>,rollout必须在新pod充分成功创建后，才会删除旧pod</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/15/k8s-ReplicaSet-Deployment/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -524,7 +368,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 20:36:40" itemprop="dateModified" datetime="2020-12-31T20:36:40+10:00">2020-12-31</time>
+                <time title="Modified: 2021-01-05 19:05:39" itemprop="dateModified" datetime="2021-01-05T19:05:39+10:00">2021-01-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -556,85 +400,14 @@
 </ul>
 <p><code>pod-definition.yml</code></p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span></span><br><span class="line"><span class="attr">kind:</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spec:</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>apiVersion:</p>
-<table>
-<thead>
-<tr>
-<th>Kind</th>
-<th>Version</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>POD</td>
-<td>v1</td>
-</tr>
-<tr>
-<td>Service</td>
-<td>v1</td>
-</tr>
-<tr>
-<td>ReplicaSet</td>
-<td>apps/v1</td>
-</tr>
-<tr>
-<td>Deployment</td>
-<td>apps/v1</td>
-</tr>
-</tbody></table>
-<p>deploy POD时使用v1</p>
-</li>
-<li><p>kind：</p>
-<ul>
-<li>类型：Pod，Service，ReplicaSet，Deployment</li>
-</ul>
-</li>
-<li><p>metadata：</p>
-<p>The metadata is data about the object like its <strong>name，labels</strong> etc.</p>
-<p><code>name</code>: 用来指定pod的名字</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-pod</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">front-end</span></span><br></pre></td></tr></table></figure>
-
-<p>metadata里面是字典类型。</p>
-</li>
-<li><p>spec:</p>
-<p>spec里面contianers下面是一个list,list里面有不同字段（是字典）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">    - name: nginx-container</span><br><span class="line">      image: nginx</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="启动pods"><a href="#启动pods" class="headerlink" title="启动pods"></a>启动pods</h3><ul>
-<li><p><code>kubectl apply -f pod-definition.yml</code></p>
-</li>
-<li><p><code>kubectl get pods</code></p>
-</li>
-<li><p><code>kubectl describe pod myapp-pod</code></p>
-</li>
-</ul>
-<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><ul>
-<li><p><code>pod.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-pod</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="comment"># tier:层</span></span><br><span class="line">    <span class="attr">tier:</span> <span class="string">frontend</span> </span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">busybox</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">busybox</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3><ul>
-<li><p><code>pod-definition.yml</code> </p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">postgres</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">tier:</span> <span class="string">db-tier</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">postgres</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">postgres</span></span><br><span class="line">      <span class="attr">env:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">POSTGRES_PASSWORD</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">mysecretpassword</span>  </span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="启动pod"><a href="#启动pod" class="headerlink" title="启动pod"></a>启动pod</h3><p><code>kubectl apply -f pod.yaml</code></p>
-<h3 id="使用vscode编辑yaml"><a href="#使用vscode编辑yaml" class="headerlink" title="使用vscode编辑yaml"></a>使用vscode编辑yaml</h3><ul>
-<li><p>在settting.json中加入</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">&quot;yaml.schemas&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;kubernetes&quot;</span>: <span class="string">&quot;*.yaml&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h3 id="删除pod"><a href="#删除pod" class="headerlink" title="删除pod"></a>删除pod</h3><p><code>kubectl delete pod myapp-pod</code></p>
-<h3 id="编辑pod"><a href="#编辑pod" class="headerlink" title="编辑pod"></a>编辑pod</h3><p><code>kubectl edit pod myapp-pod</code></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/12/k8s-PODs%20with%20YAML/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

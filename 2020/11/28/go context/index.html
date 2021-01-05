@@ -28,7 +28,7 @@
 <meta property="og:description" content="Go Context 《Go语言实战》读书笔记，未完待续，欢迎扫码关注公众号flysnow_org或者网站http:&#x2F;&#x2F;www.flysnow.org&#x2F;，第一时间看后续笔记。觉得有帮助的话，顺手分享到朋友圈吧，感谢支持。  控制并发有两种经典的方式，一种是WaitGroup，另外一种就是Context，今天我就谈谈Context。 什么是WaitGroupWaitGroup以前我们在并发的时候介绍">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-11-28T12:27:29.000Z">
-<meta property="article:modified_time" content="2020-11-28T02:55:35.261Z">
+<meta property="article:modified_time" content="2021-01-05T05:29:08.930Z">
 <meta property="article:author" content="HOU YINGQIAO">
 <meta property="article:tag" content="go">
 <meta property="article:tag" content="转载">
@@ -176,10 +176,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-11-28 22:27:29 / Modified: 12:55:35" itemprop="dateCreated datePublished" datetime="2020-11-28T22:27:29+10:00">2020-11-28</time>
+              <time title="Created: 2020-11-28 22:27:29" itemprop="dateCreated datePublished" datetime="2020-11-28T22:27:29+10:00">2020-11-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-05 15:29:08" itemprop="dateModified" datetime="2021-01-05T15:29:08+10:00">2021-01-05</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -206,6 +212,8 @@
 </blockquote>
 <p>控制并发有两种经典的方式，一种是WaitGroup，另外一种就是Context，今天我就谈谈Context。</p>
 <h2 id="什么是WaitGroup"><a href="#什么是WaitGroup" class="headerlink" title="什么是WaitGroup"></a>什么是WaitGroup</h2><p>WaitGroup以前我们在并发的时候介绍过，它是一种控制并发的方式，它的这种方式是控制多个goroutine同时完成。</p>
+<a id="more"></a>
+
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line"></span><br><span class="line">	wg.Add(<span class="number">2</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		time.Sleep(<span class="number">2</span>*time.Second)</span><br><span class="line">		fmt.Println(<span class="string">&quot;1号完成&quot;</span>)</span><br><span class="line">		wg.Done()</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		time.Sleep(<span class="number">2</span>*time.Second)</span><br><span class="line">		fmt.Println(<span class="string">&quot;2号完成&quot;</span>)</span><br><span class="line">		wg.Done()</span><br><span class="line">	&#125;()</span><br><span class="line">	wg.Wait()</span><br><span class="line">	fmt.Println(<span class="string">&quot;好了，大家都干完了，放工&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -309,8 +317,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/11/25/k8s-Imperative%20vs%20Declarative/" rel="prev" title="k8s-Imperative vs Declarative">
-      <i class="fa fa-chevron-left"></i> k8s-Imperative vs Declarative
+    <a href="/2020/11/25/k8s-ETCD%20-%20Commands%20(Optional)/" rel="prev" title="k8s-ETCD - Commands">
+      <i class="fa fa-chevron-left"></i> k8s-ETCD - Commands
     </a></div>
       <div class="post-nav-item">
     <a href="/2020/12/16/k8s-A%20quick%20note%20on%20editing%20PODs%20and%20Deployments/" rel="next" title="k8s-A quick note on editing PODs and Deployments">

@@ -147,6 +147,88 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2021/01/05/k8s-Security/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/05/k8s-Security/" class="post-title-link" itemprop="url">k8s-Security</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-05 22:27:29 / Modified: 19:05:06" itemprop="dateCreated datePublished" datetime="2021-01-05T22:27:29+10:00">2021-01-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="k8s-Security"><a href="#k8s-Security" class="headerlink" title="k8s-Security"></a>k8s-Security</h1><h2 id="Kubernetes-Security-Primitives"><a href="#Kubernetes-Security-Primitives" class="headerlink" title="Kubernetes Security Primitives"></a>Kubernetes Security Primitives</h2><h3 id="Secure-Hosts"><a href="#Secure-Hosts" class="headerlink" title="Secure Hosts"></a>Secure Hosts</h3><ul>
+<li>Password based authentication disabled</li>
+<li>SSH Key based authentication</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/05/k8s-Security/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
     <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2021/01/02/k8s-Cluster%20Maintenance/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -170,10 +252,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-01-02 22:27:29 / Modified: 22:31:32" itemprop="dateCreated datePublished" datetime="2021-01-02T22:27:29+10:00">2021-01-02</time>
+              <time title="Created: 2021-01-02 22:27:29" itemprop="dateCreated datePublished" datetime="2021-01-02T22:27:29+10:00">2021-01-02</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-05 15:22:46" itemprop="dateModified" datetime="2021-01-05T15:22:46+10:00">2021-01-05</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -201,122 +289,14 @@
       
           <h1 id="k8s-Cluster-Maintenance"><a href="#k8s-Cluster-Maintenance" class="headerlink" title="k8s-Cluster Maintenance"></a>k8s-Cluster Maintenance</h1><h2 id="OS-Upgrades"><a href="#OS-Upgrades" class="headerlink" title="OS Upgrades"></a>OS Upgrades</h2><p>For example,you have a cluster with a few nodes and pods serving applications.If one of these nodes go down,the pods on that node are not accessible.</p>
 <p>If the node came back online immediately,then the <code>kubectl</code> process starts and the pods come back.However,if the node was down for more than 5 mins,then the pods are terminated from that node.</p>
-<h3 id="pod-eviction"><a href="#pod-eviction" class="headerlink" title="pod eviction:"></a>pod eviction:</h3><p>The time wait for a pod to come back.</p>
-<p>Pod eviction is set on the controller manager</p>
-<p><code>kube-controller-manager --pod-eviction-timeout=5m0s</code></p>
-<p>When the node comes back online after the <strong>pod eviction</strong> timeout it comes up blank without any pods scheduled on it.</p>
-<h3 id="Maintenance-a-node"><a href="#Maintenance-a-node" class="headerlink" title="Maintenance a node"></a>Maintenance a node</h3><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-os%20upgrade01.png"></p>
-<ul>
-<li><p><code>kubectl drain node-1</code>:</p>
-<p>When you <strong>drain</strong>(放空，放干) the node the pods are <strong>gracefully terminated</strong> from the node that they’re on and <strong>recreated on another</strong>.</p>
-<p>The node is also cordoned or marked as <strong>unschedulable</strong>. Meaning no pods can be scheduled on this node until you specifically remove the restriction.</p>
-</li>
-<li><p><code>kubectl uncordon node-1</code>:</p>
-<p><strong>Uncordon</strong> the node,so that pods can be scheduled on it again.</p>
-</li>
-<li><p><code>kubectl cordon node-2</code>:</p>
-<p><strong>cordon</strong> simply marks a node <strong>unschedulable</strong>. Unlike drain it does <strong>not terminate or move</strong> the pods on an existing node.It simply make sure than new pods are not scheduled on that node.</p>
-</li>
-</ul>
-<h3 id="Practice"><a href="#Practice" class="headerlink" title="Practice"></a>Practice</h3><ul>
-<li><p>On which nodes are the applications hosted on?</p>
-<p>Run the command <code>kubectl get pods -o wide</code> and get the list of nodes the pods are placed on</p>
-</li>
-<li><p>We need to take <code>node01</code> out for maintenance. Empty the node of all applications and mark it unschedulable.</p>
-<p><code>kubectl drain node01 --ignore-daemonsets</code></p>
-</li>
-<li><p>The maintenance tasks have been completed. Configure the node to be schedulable again.</p>
-<p><code>kubectl uncordon node01</code></p>
-</li>
-<li><p>Why are there no pods placed on the <code>master</code> node?</p>
-<p>Use the command <code>kubectl describe node master/controlplane</code></p>
-</li>
-<li><p>Node03 has our critical applications. We do not want to schedule any more apps on node03. Mark <code>node03</code> as <code>unschedulable</code> but do not remove any apps currently running on it .</p>
-<p><code>kubectl cordon node03</code></p>
-</li>
-</ul>
-<h3 id="kubernetes-Release"><a href="#kubernetes-Release" class="headerlink" title="kubernetes Release"></a>kubernetes Release</h3><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade02.png"></p>
-<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade03.png"></p>
-<ul>
-<li><p>alpha release: The features are disabled by default and maybe buggy.</p>
-</li>
-<li><p>beta release: The code is well tested.</p>
-</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade04.png"></p>
-<p>The <strong>ETCD</strong> and <strong>CoreDNS</strong> servers have their own versions as they are separate projects.</p>
-<h3 id="Cluster-Upgrade-Process"><a href="#Cluster-Upgrade-Process" class="headerlink" title="Cluster Upgrade Process"></a>Cluster Upgrade Process</h3><h4 id="Component-Version"><a href="#Component-Version" class="headerlink" title="Component Version"></a>Component Version</h4><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade05.png"></p>
-<p>The kube-apiserver is the primary component.</p>
-<p><strong>None of the other components</strong> should ever be at a version <strong>higher than</strong> the kube-apiserver the controller.</p>
-<p>So if kube-apiserver was at <code>X</code> ,Controller-manager and kube-scheduler can be at <code>X-1</code> and the kubelet and kube-proxy components can be at <code>X-2</code>.</p>
-<h4 id="Upgrade-Step"><a href="#Upgrade-Step" class="headerlink" title="Upgrade Step"></a>Upgrade Step</h4><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade06.png"></p>
-<p>We cannot upgrade directly from 1.10 to 1.13. We should upgrade one minor version at a time.(v1.10 to 1.11 to 1.12 to 1.13.)</p>
-<h4 id="kubeadm-upgrade"><a href="#kubeadm-upgrade" class="headerlink" title="kubeadm upgrade"></a>kubeadm upgrade</h4><h4 id="upgrade-master-node"><a href="#upgrade-master-node" class="headerlink" title="upgrade master node"></a>upgrade master node</h4><p><code>kubeadm upgrade plan</code>:Check the latest stable version available for upgrade</p>
-<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade07.png"></p>
-<p>The master node version is still v1.11.3.</p>
-<p>This is because in the output of this command it is showing the <strong>versions of <code>kubelet</code></strong> on each of these nodes registered with the API server and <strong>not the version of the kube-apiserver</strong> itself.</p>
-<ul>
-<li>Then upgrade <code>kubelet</code></li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade08.png"></p>
-<h4 id="upgrade-worker-node"><a href="#upgrade-worker-node" class="headerlink" title="upgrade worker node"></a>upgrade worker node</h4><ul>
-<li><p>upgrade node01</p>
-<p><code>kubectl drain node01</code></p>
-<p><code>ssh node01</code></p>
-<p><code>apt-get upgrade -y kubeadm=1.12.0-00</code></p>
-<p><code>apt-get upgrade -y kubelet=1.12.0-00</code></p>
-<p><code>kubeadm upgrade node </code></p>
-<p><code>systemctl restart kubelet</code></p>
-<p><code>kubectl uncordon node-1</code></p>
-</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade09.png"></p>
-<ul>
-<li>node02 : same as the upgarde of node01</li>
-<li>node03</li>
-</ul>
-<h3 id="Practice-1"><a href="#Practice-1" class="headerlink" title="Practice"></a>Practice</h3><ul>
-<li><p>What is the latest stable version available for upgrade?Use <code>kubeadm</code> tool</p>
-<p><code>kubeadm upgrade plan</code></p>
-</li>
-<li><p>We will be upgrading the master node first. Drain the master node of workloads and mark it <code>UnSchedulable</code></p>
-<p><code>kubectl drain master/controlplane --ignore-daemonsets</code>  </p>
-</li>
-<li><p>Upgrade the master/controlplane components to exact version <code>v1.19.0</code></p>
-<p>Upgrade kubeadm tool (if not already), then the master components, and finally the kubelet. Practice referring to the kubernetes documentation page. Note: While upgrading kubelet, if you hit dependency issue while running the <code>apt-get upgrade kubelet</code> command, use the <code>apt install kubelet=1.19.0-00</code> command instead</p>
-<p><code>apt update</code></p>
-<p><code>apt install -y kubeadm=1.19.0-00</code></p>
-<p><code>kubeadm upgrade apply v1.19.0</code></p>
-<p><code>apt install -y kubelet=1.19.0-00</code></p>
-<p><code>systemctl restart kubelet</code></p>
-</li>
-</ul>
-<h3 id="Backup-and-Restore-Methods"><a href="#Backup-and-Restore-Methods" class="headerlink" title="Backup and Restore Methods"></a>Backup and Restore Methods</h3><h4 id="Query-kube-apiserver"><a href="#Query-kube-apiserver" class="headerlink" title="Query kube-apiserver"></a>Query kube-apiserver</h4><p>A better approach to backing up resource configuration is to use query the kube-apiserver</p>
-<ul>
-<li><p>use <code>kubectl</code> to backup resources</p>
-<p><code>kubectl get all --all-namespaces -o yaml &gt; all-deploy-services.yaml</code></p>
-</li>
-</ul>
-<h4 id="Backup-ETCD"><a href="#Backup-ETCD" class="headerlink" title="Backup - ETCD"></a>Backup - ETCD</h4><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade10.png"></p>
-<ul>
-<li><p>Take snapshot of etcd database (named snapshot.db)</p>
-<p><code>ETCDCTL_API=3 etcdctl snapshot save snapshot.db</code></p>
-</li>
-<li><p>View the status of the backup</p>
-<p><code>ETCDCTL_API=3 etcdctl snapshot status snapshot.db</code></p>
-</li>
-</ul>
-<h4 id="Restore-ETCD"><a href="#Restore-ETCD" class="headerlink" title="Restore-ETCD"></a>Restore-ETCD</h4><p>When ETCD restores from a backup, it initializes a new cluster configuration and configures the members of ETCD as new members to a new cluster.</p>
-<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/maint-osupgrade11.png"></p>
-<ul>
-<li><p>Use <code>etcdctl restore</code> command</p>
-</li>
-<li><p>Set <code>--data-dir</code></p>
-</li>
-<li><p><code>--initial-cluster-token</code>:This is to prevent a new member from accidentally joining an existing cluster.</p>
-</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/02/k8s-Cluster%20Maintenance/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -358,10 +338,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2021-01-02 22:27:29 / Modified: 22:23:01" itemprop="dateCreated datePublished" datetime="2021-01-02T22:27:29+10:00">2021-01-02</time>
+              <time title="Created: 2021-01-02 22:27:29" itemprop="dateCreated datePublished" datetime="2021-01-02T22:27:29+10:00">2021-01-02</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-05 15:26:02" itemprop="dateModified" datetime="2021-01-05T15:26:02+10:00">2021-01-05</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -392,32 +378,14 @@
 <p>To make use of <code>etcdctl</code> for tasks such as back up and restore, make sure that you set the <code>ETCDCTL_API</code> to 3.</p>
 <p>You can do this by exporting the variable ETCDCTL_API prior to using the etcdctl client. This can be done as follows:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export ETCDCTL_API&#x3D;3</span><br></pre></td></tr></table></figure>
-
-<p>On the <strong>Master Node</strong>:</p>
-<p><img src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:1000/https://www.filepicker.io/api/file/T7Y4a6aUTyOy9W2ZpfeV" alt="img"></p>
-<p>To see all the options for a specific sub-command, make use of the <strong><code>-h</code> or <code>--help</code></strong> flag.</p>
-<p>For example, if you want to take a snapshot of etcd, use:</p>
-<p><code>etcdctl snapshot save -h</code> and keep a note of the mandatory global options.</p>
-<p>Since our ETCD database is TLS-Enabled, the following options are mandatory:</p>
-<ul>
-<li><p><code>--cacert</code>                                                </p>
-<p>verify certificates of TLS-enabled secure servers using this CA bundle</p>
-</li>
-<li><p><code>--cert</code>                                                    </p>
-<p>identify secure client using this TLS certificate file</p>
-</li>
-<li><p><code>--endpoints=[127.0.0.1:2379]</code>          </p>
-<p>This is the default as ETCD is running on master node and exposed on localhost 2379.</p>
-</li>
-<li><p><code>--key</code>                                                      </p>
-<p>identify secure client using this TLS key file</p>
-</li>
-</ul>
-<p>Similarly use the help option for <strong>snapshot restore</strong> to see all available options for restoring the backup.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etcdctl snapshot restore -h</span><br></pre></td></tr></table></figure>
-
-<p>For a detailed explanation on how to make use of the etcdctl command line tool and work with the -h flags, check out the solution video for the Backup and Restore Lab.</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/02/k8s-etcdctl/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -467,7 +435,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-03 22:07:58" itemprop="dateModified" datetime="2021-01-03T22:07:58+10:00">2021-01-03</time>
+                <time title="Modified: 2021-01-05 15:26:46" itemprop="dateModified" datetime="2021-01-05T15:26:46+10:00">2021-01-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -498,63 +466,14 @@
 <p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-1.png"></p>
 <p>CLI ツールのkubectl はマニフェストファイル（<code>.yaml</code>,<code>.yml</code>,<code>.json</code>）の情報を元にKubernetes Master が持つ API にリクエストを送ることで Kubernetes を操作します。</p>
 <p>また、Kubernetes　Master の API は、一般的な RESTful API として実装されているので、各種プログラム言語の RESTful API ライブラリや<code> curl</code> などのコマンドラインツールを利用して、直接 API を呼び出して Kubernetes を操作することも可能です。</p>
-<h3 id="Kubernetes-とリソース"><a href="#Kubernetes-とリソース" class="headerlink" title="Kubernetes とリソース"></a>Kubernetes とリソース</h3><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-2t.png"></p>
-<h4 id="Workloads-APIs-リソースがあります"><a href="#Workloads-APIs-リソースがあります" class="headerlink" title="Workloads APIs リソースがあります"></a>Workloads APIs リソースがあります</h4><p>● Pod<br>● ReplicationController<br>● ReplicaSet<br>● Deployment<br>● DaemonSet<br>● StatefulSet<br>● Job<br>● CronJob</p>
-<h4 id="Service-APIs-カテゴリ"><a href="#Service-APIs-カテゴリ" class="headerlink" title="Service APIs カテゴリ"></a>Service APIs カテゴリ</h4><p>Service APIs カテゴリは、コンテナのサービスディスカバリや、クラスタの外部からもア<br>クセス可能なエンドポイントなどを提供するリソースです。</p>
-<p>● Service<br>・ ClusterIP<br>・ ExternalIP（ClusterIP の一種）<br>・ NodePort<br>・ LoadBalancer<br>・ Headless（None）<br>・ ExternalName<br>・ None-Selector<br>● Ingres</p>
-<h4 id="Config-＆-Storage-APIs-カテゴリ"><a href="#Config-＆-Storage-APIs-カテゴリ" class="headerlink" title="Config ＆ Storage APIs カテゴリ"></a>Config ＆ Storage APIs カテゴリ</h4><p>Config ＆ Storage APIs カテゴリは、設定や機密データをコンテナに埋め込んだり、永続ボリュームを提供するリソースです。</p>
-<p>● Secret<br>● ConfigMap<br>● PersistentVolumeClaim</p>
-<h4 id="Cluster-APIs-カテゴリ"><a href="#Cluster-APIs-カテゴリ" class="headerlink" title="Cluster APIs カテゴリ"></a>Cluster APIs カテゴリ</h4><p>クラスタ自体の振る舞いを定義するリソースです。セキュリティ周りの設定やポリシー、クラスタの管理性を高める機能のためのリソースなど、様々なリソースがあります。</p>
-<p>● Node<br>● Namespace<br>● PersistentVolume<br>● ResourceQuota<br>● ServiceAccount<br>● Role<br>● ClusterRole<br>● RoleBinding<br>● ClusterRoleBinding<br>● NetworkPolicy</p>
-<h4 id="Metadata-APIs-カテゴリ"><a href="#Metadata-APIs-カテゴリ" class="headerlink" title="Metadata APIs カテゴリ"></a>Metadata APIs カテゴリ</h4><p>クラスタ内の他のリソースの動作を制御するためのリソースです。</p>
-<p>例えば、Pod をオートスケーリングさせるために利用される HorizontalPodAutoscaler は、Deployment リソースを操作してレプリカ数を変更することでオートスケーリングを実現しています。</p>
-<p>● LimitRange<br>● HorizontalPodAutoscaler<br>● PodDisruptionBudget<br>● CustomResourceDefinition</p>
-<h3 id="初期状態のNamespace"><a href="#初期状態のNamespace" class="headerlink" title="初期状態のNamespace"></a>初期状態のNamespace</h3><p>● kube-system<br>・ Kubernetes クラスタのコンポーネントやアドオンがデプロイされる Namespace<br>● kube-public<br>・ 全ユーザが利用できる ConfigMap などを配置する Namespace<br>● kube-node-lease<br>・ Kubernetes Node のハートビート情報を保存するための Lease リソースが保存されている専用の Namespace です。<br>● default<br>・ デフォルトの Namespace、ユーザが任意のリソースを登録するのに使用できます</p>
-<h3 id="RBAC（Role-Based-Access-Control）"><a href="#RBAC（Role-Based-Access-Control）" class="headerlink" title="RBAC（Role-Based Access Control）"></a>RBAC（Role-Based Access Control）</h3><p>RBAC は、図 4.2 のようにクラスタ操作に関する権限を Namespace ごとに分けることができるほか、Network Policy と組み合わせることで Namespace 間の通信の制御を行える仕組みです</p>
-<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-2.png"></p>
-<h3 id="CLI-ツール-kubectl"><a href="#CLI-ツール-kubectl" class="headerlink" title="CLI ツール kubectl"></a>CLI ツール kubectl</h3><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-3.png"></p>
-<p>手動：kubectl </p>
-<p>プログラム：クライアントライブラリ</p>
-<h4 id="認証情報と-Context（config）"><a href="#認証情報と-Context（config）" class="headerlink" title="認証情報と Context（config）"></a>認証情報と Context（config）</h4><p>kubectl が Kubernetes Master と通信する際には、接続先サーバの情報や認証情報などが必要となります。</p>
-<p>kubectl は kubeconfig（デフォルトでは<code>~/.kube/config</code>）に書かれている情報を使用して<br>接続を行います。</p>
-<p>kubeconfig で具体的に設定を行う部分は、<code>clusters</code> ／ <code>users</code> ／ <code>contexts</code> の 3 種類の配列型です。複数の対象を登録することができます。</p>
-<h4 id="kubeconfigのsample"><a href="#kubeconfigのsample" class="headerlink" title="kubeconfigのsample"></a>kubeconfigのsample</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Config</span></span><br><span class="line"><span class="attr">preferences:</span> &#123;&#125;</span><br><span class="line"><span class="attr">clusters:</span> <span class="comment"># 接続先クラスタ</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">sample-cluster</span></span><br><span class="line">  <span class="attr">cluster:</span></span><br><span class="line">    <span class="attr">server:</span> <span class="string">https://localhost:6443</span></span><br><span class="line"><span class="attr">users:</span> <span class="comment"># 認証情報</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">sample-user</span></span><br><span class="line">  <span class="attr">user:</span></span><br><span class="line">    <span class="attr">client-certificate-data:</span> <span class="string">LS0tLS1CRUdJTi...</span></span><br><span class="line">    <span class="attr">client-key-data:</span> <span class="string">LS0tLS1CRUdJTi...</span></span><br><span class="line"><span class="attr">contexts:</span> <span class="comment"># 接続先と認証情報の組み合わせ</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">sample-context</span></span><br><span class="line">  <span class="attr">context:</span></span><br><span class="line">    <span class="attr">cluster:</span> <span class="string">sample-cluster</span></span><br><span class="line">    <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">    <span class="attr">user:</span> <span class="string">sample-user</span></span><br><span class="line"><span class="attr">current-context:</span> <span class="string">sample-context</span></span><br></pre></td></tr></table></figure>
-
-<p>contexts には、<code>cluster</code> と <code>user</code> のペアと <code>namespace</code> を指定したものを定義します。</p>
-<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-4.png"></p>
-<h4 id="kubeconfigの設定変更"><a href="#kubeconfigの設定変更" class="headerlink" title="kubeconfigの設定変更"></a>kubeconfigの設定変更</h4><ul>
-<li><p>クラスタ（prd-cluster）の定義を追加・変更</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config set-cluster prd-cluster --server&#x3D;https:&#x2F;&#x2F;localhost:6443</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>認証情報の定義を追加・変更</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl config set-credentials admin-user \</span><br><span class="line">   --client-certificate=./sample.crt\</span><br><span class="line">   --client-key=./sample.key \</span><br><span class="line">   --embed-certs=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Contextの定義（クラスタcluster／認証情報user／Namespaceを定義）を追加・変更</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl config set-context prd-admin \</span><br><span class="line">  --cluster=prd-cluster \</span><br><span class="line">  --user=admin-user \</span><br><span class="line">  --namespace=default</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<p>kubectl は Context（current-context）を切り替えることにより、複数の環境を複数の権限で操作できる。</p>
-<ul>
-<li><p>Contextの一覧を表示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config get-contexts</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Contextの切り替え <code>use-context</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config use-context prd-admin</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>現在のContextを表示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl config current-context</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>コマンドの実行ごとにContextを指定することも可能</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl --context prd-admin get pod</span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/30/Kubernetes%20%E3%81%AE%E5%9F%BA%E7%A4%8E/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -604,7 +523,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-03 22:09:27" itemprop="dateModified" datetime="2021-01-03T22:09:27+10:00">2021-01-03</time>
+                <time title="Modified: 2021-01-05 15:27:01" itemprop="dateModified" datetime="2021-01-05T15:27:01+10:00">2021-01-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -635,47 +554,14 @@
 <p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/3-5.png"></p>
 <p><a target="_blank" rel="noopener" href="https://kind.sigs.k8s.io/docs/user/quick-start/#installation">kindのインストール</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.9.0/kind-linux-amd64</span><br><span class="line">chmod +x ./kind</span><br><span class="line">mv ./kind /usr/<span class="built_in">local</span>/bin/kind</span><br></pre></td></tr></table></figure>
-
-<h3 id="クラスター構築："><a href="#クラスター構築：" class="headerlink" title="クラスター構築："></a>クラスター構築：</h3><p>Master3 台・Worker3 台の構成を指定する</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">kind.x-k8s.io/v1alpha4</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Cluster</span></span><br><span class="line"><span class="attr">nodes:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">role:</span> <span class="string">control-plane</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">kindest/node:v1.18.2</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">role:</span> <span class="string">control-plane</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">kindest/node:v1.18.2</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">role:</span> <span class="string">control-plane</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">kindest/node:v1.18.2</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">role:</span> <span class="string">worker</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">kindest/node:v1.18.2</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">role:</span> <span class="string">worker</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">kindest/node:v1.18.2</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">role:</span> <span class="string">worker</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">kindest/node:v1.18.2</span></span><br></pre></td></tr></table></figure>
-
-<p>実際にクラスタを構築するには、先ほどの構成設定ファイルを指定して<code>kind create cluster</code>コマンドを実行します。<code>--config</code>は宣言ファイルの指定。 <code>--name</code>はクラスター名の指定。</p>
-<p> <a target="_blank" rel="noopener" href="https://github.com/kubernetes/kubernetes/issues/82399">名前は lower case alphanumeric charactersの必要がある</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kind create cluster --config kind.yaml --name kindcluster</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Creating cluster &quot;kindcluster&quot; ...</span><br><span class="line"> ✓ Ensuring node image (kindest&#x2F;node:v1.18.2) 🖼 </span><br><span class="line"> ✓ Preparing nodes 📦 📦 📦 📦 📦 📦  </span><br><span class="line"> ✓ Configuring the external load balancer ⚖️️️️️️️️️️️️️ </span><br><span class="line"> ✓ Writing configuration 📜 </span><br><span class="line"> ✓ Starting control-plane 🕹️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️️ </span><br><span class="line"> ✓ Installing CNI 🔌 </span><br><span class="line"> ✓ Installing StorageClass 💾 </span><br><span class="line"> ✓ Joining more control-plane nodes 🎮 </span><br><span class="line"> ✓ Joining worker nodes 🚜 </span><br><span class="line">Set kubectl context to &quot;kind-kindcluster&quot;</span><br><span class="line">You can now use your cluster with:</span><br><span class="line"></span><br><span class="line">kubectl cluster-info --context kind-kindcluster</span><br><span class="line"></span><br><span class="line">Thanks for using kind! 😊</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>複数の Kubernetes クラスタを利用している場合には、<code>kubectl</code> の Context を切り替えて利用する必要があります</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl config use-context kind-kindcluster</span><br><span class="line">Switched to context <span class="string">&quot;kind-kindcluster&quot;</span>.</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>ローカルマシンで起動している Docker コンテナが Kubernetes Node として認識されています</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get nodes</span><br><span class="line">NAME                         STATUS   ROLES    AGE     VERSION</span><br><span class="line">kindcluster-control-plane    Ready    master   3h58m   v1.18.2</span><br><span class="line">kindcluster-control-plane2   Ready    master   3h57m   v1.18.2</span><br><span class="line">kindcluster-control-plane3   Ready    master   3h57m   v1.18.2</span><br><span class="line">kindcluster-worker           Ready    &lt;none&gt;   3h56m   v1.18.2</span><br><span class="line">kindcluster-worker2          Ready    &lt;none&gt;   3h56m   v1.18.2</span><br><span class="line">kindcluster-worker3          Ready    &lt;none&gt;   3h56m   v1.18.2</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>Docker コンテナを確認してみると、ノードの台数分コンテナが確認できます。</p>
-</li>
-<li><p>Kubernetes Master の冗長構成のために使われている HAProxy も確認できます</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ docker ps</span><br><span class="line">CONTAINER ID        IMAGE                                COMMAND                  CREATED             STATUS              PORTS                       NAMES</span><br><span class="line">758a3b2dbb76        kindest&#x2F;haproxy:v20200708-548e36db   &quot;&#x2F;docker-entrypoint.…&quot;   4 hours ago         Up 4 hours          127.0.0.1:42909-&gt;6443&#x2F;tcp   kindcluster-external-load-balancer</span><br><span class="line">6e0965c46027        kindest&#x2F;node:v1.18.2                 &quot;&#x2F;usr&#x2F;local&#x2F;bin&#x2F;entr…&quot;   4 hours ago         Up 4 hours          127.0.0.1:39285-&gt;6443&#x2F;tcp   kindcluster-control-plane3</span><br><span class="line">d60c91ca4926        kindest&#x2F;node:v1.18.2                 &quot;&#x2F;usr&#x2F;local&#x2F;bin&#x2F;entr…&quot;   4 hours ago         Up 4 hours                                      kindcluster-worker2</span><br><span class="line">74df5e7b84cc        kindest&#x2F;node:v1.18.2                 &quot;&#x2F;usr&#x2F;local&#x2F;bin&#x2F;entr…&quot;   4 hours ago         Up 4 hours                                      kindcluster-worker</span><br><span class="line">3bcd661140e3        kindest&#x2F;node:v1.18.2                 &quot;&#x2F;usr&#x2F;local&#x2F;bin&#x2F;entr…&quot;   4 hours ago         Up 4 hours          127.0.0.1:46389-&gt;6443&#x2F;tcp   kindcluster-control-plane</span><br><span class="line">6396d431ea32        kindest&#x2F;node:v1.18.2                 &quot;&#x2F;usr&#x2F;local&#x2F;bin&#x2F;entr…&quot;   4 hours ago         Up 4 hours                                      kindcluster-worker3</span><br><span class="line">b32b5615b46f        kindest&#x2F;node:v1.18.2                 &quot;&#x2F;usr&#x2F;local&#x2F;bin&#x2F;entr…&quot;   4 hours ago         Up 4 hours          127.0.0.1:40325-&gt;6443&#x2F;tcp   kindcluster-control-plane2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>クラスターを取得する</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kind get clusters </span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>kindclusterを削除する</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kind delete cluster --name kindcluster</span><br></pre></td></tr></table></figure>
-
-<h3 id="kindの内部："><a href="#kindの内部：" class="headerlink" title="kindの内部："></a>kindの内部：</h3><p>kind は内部で kubeadmという構築ツールを利用しており、構築時の設定ファイルに対してパッチを当てる<code>kubeadmConfigPatches</code>と<code>kubeadmConfigPatchesJson6902</code>などを利用することで様々なクラスタが構築できます。</p>
-<p>ローカルマシンから内部のコンテナへの疎通性を確保するための<code>extraPortMapping</code>などの設定もよく利用する。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/29/kind%EF%BC%88Kubernetes%20in%20Docker%EF%BC%89/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -725,7 +611,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 00:10:13" itemprop="dateModified" datetime="2020-12-31T00:10:13+10:00">2020-12-31</time>
+                <time title="Modified: 2021-01-05 15:28:54" itemprop="dateModified" datetime="2021-01-05T15:28:54+10:00">2021-01-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -759,42 +645,14 @@
 <li>spec.activeDeadlineSeconds</li>
 <li>spec.tolerations</li>
 </ul>
-<p>For example you cannot edit the environment variables, service accounts, resource limits (all of which we will discuss later) of a running pod. But if you really want to, you have 2 options:</p>
-<ol>
-<li>Run the <code>kubectl edit pod &lt;pod name&gt;</code> command.  This will open the pod specification in an editor (vi editor). Then edit the required properties. When you try to save it, you will be denied. This is because you are attempting to edit a field on the pod that is not editable.</li>
-</ol>
-<p><img src="https://img-a.udemycdn.com/redactor/raw/2019-05-30_14-46-21-89ea56fea6b993ee0ccff1625b13341e.PNG?09BG5AazWSvcs2bxUxT4DsUT--o3zS8vnr8ykoPWZROpeXXzuTMgUrSRwGJ9p2EC8eF0CLDup4_0Mdl2xG22_Jfg1Kg0C4pm063nRD8_oM4I7F3F2T4Gs6pQplcWxcrLhfYXb0vYYNLjCmgrlH7L59aNdE-xxtkyxMLxWlbTUMGMfJge" alt="img"></p>
-<p><img src="https://img-a.udemycdn.com/redactor/raw/2019-05-30_14-47-14-07b2638d1a72cb2d5b000c00971f6436.PNG?mh54IFQgm-TfJNMQdLqFkBoZcd3ehECrCg3OnqVOPS7N-jAI2FGOWsXe8c4juYCbvazYMZINlhtvGuVnD1g3A5dmh1UXX5kRPYId-c4ltDSGE9bsRM0l8JaVyVMhB76AJZSoJrdaqnJPbVzyQEOM42NqzT5FSjSK6KjSeWkZqwspzw_f" alt="img"></p>
-<p>A copy of the file with your changes is saved in a temporary location as shown above.</p>
-<p>You can then delete the existing pod by running the command:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete pod webapp</span><br></pre></td></tr></table></figure>
-
-
-
-<p>Then create a new pod with your changes using the temporary file</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f &#x2F;tmp&#x2F;kubectl-edit-ccvrq.yaml</span><br></pre></td></tr></table></figure>
-
-
-
-<ul>
-<li>2.The second option is to extract the pod definition in YAML format to a file using the command</li>
-</ul>
-<p>使用以yaml格式提取pod的定义并保存到</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pod webapp -o yaml &gt; my-new-pod.yaml</span><br></pre></td></tr></table></figure>
-
-<p>Then make the changes to the exported file using an editor (vi editor). Save the changes</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi my-new-pod.yaml</span><br></pre></td></tr></table></figure>
-
-<p>Then delete the existing pod</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete pod webapp</span><br></pre></td></tr></table></figure>
-
-<p>Then create a new pod with the edited file</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f my-new-pod.yaml</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="Edit-Deployments"><a href="#Edit-Deployments" class="headerlink" title="Edit Deployments"></a>Edit Deployments</h4><p>With Deployments you can easily edit any field/property of the POD template. Since the pod template is a child of the deployment specification,  with every change the deployment will automatically delete and create a new pod with the new changes. So if you are asked to edit a property of a POD part of a deployment you may do that simply by running the command</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl edit deployment my-deployment</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/16/k8s-A%20quick%20note%20on%20editing%20PODs%20and%20Deployments/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -836,10 +694,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-11-28 22:27:29 / Modified: 12:55:35" itemprop="dateCreated datePublished" datetime="2020-11-28T22:27:29+10:00">2020-11-28</time>
+              <time title="Created: 2020-11-28 22:27:29" itemprop="dateCreated datePublished" datetime="2020-11-28T22:27:29+10:00">2020-11-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-05 15:29:08" itemprop="dateModified" datetime="2021-01-05T15:29:08+10:00">2021-01-05</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -866,243 +730,14 @@
 </blockquote>
 <p>控制并发有两种经典的方式，一种是WaitGroup，另外一种就是Context，今天我就谈谈Context。</p>
 <h2 id="什么是WaitGroup"><a href="#什么是WaitGroup" class="headerlink" title="什么是WaitGroup"></a>什么是WaitGroup</h2><p>WaitGroup以前我们在并发的时候介绍过，它是一种控制并发的方式，它的这种方式是控制多个goroutine同时完成。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line"></span><br><span class="line">	wg.Add(<span class="number">2</span>)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		time.Sleep(<span class="number">2</span>*time.Second)</span><br><span class="line">		fmt.Println(<span class="string">&quot;1号完成&quot;</span>)</span><br><span class="line">		wg.Done()</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		time.Sleep(<span class="number">2</span>*time.Second)</span><br><span class="line">		fmt.Println(<span class="string">&quot;2号完成&quot;</span>)</span><br><span class="line">		wg.Done()</span><br><span class="line">	&#125;()</span><br><span class="line">	wg.Wait()</span><br><span class="line">	fmt.Println(<span class="string">&quot;好了，大家都干完了，放工&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>一个很简单的例子，一定要例子中的2个goroutine同时做完，才算是完成，先做好的就要等着其他未完成的，所有的goroutine要都全部完成才可以。</p>
-<p>这是一种控制并发的方式，这种尤其适用于，好多个goroutine协同做一件事情的时候，因为每个goroutine做的都是这件事情的一部分，只有全部的goroutine都完成，这件事情才算是完成，这是等待的方式。</p>
-<p>在实际的业务种，我们可能会有这么一种场景：需要我们主动的通知某一个goroutine结束。比如我们开启一个后台goroutine一直做事情，比如监控，现在不需要了，就需要通知这个监控goroutine结束，不然它会一直跑，就泄漏了。</p>
-<h2 id="chan通知"><a href="#chan通知" class="headerlink" title="chan通知"></a>chan通知</h2><p>我们都知道一个goroutine启动后，我们是无法控制他的，大部分情况是等待它自己结束，那么如果这个goroutine是一个不会自己结束的后台goroutine呢？比如监控等，会一直运行的。</p>
-<p>这种情况化，一直傻瓜式的办法是全局变量，其他地方通过修改这个变量完成结束通知，然后后台goroutine不停的检查这个变量，如果发现被通知关闭了，就自我结束。</p>
-<p>这种方式也可以，但是首先我们要保证这个变量在多线程下的安全，基于此，有一种更好的方式：<code>chan + select </code>。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	stop := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="keyword">select</span> &#123;</span><br><span class="line">			<span class="keyword">case</span> &lt;-stop:</span><br><span class="line">				fmt.Println(<span class="string">&quot;监控退出，停止了...&quot;</span>)</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				fmt.Println(<span class="string">&quot;goroutine监控中...&quot;</span>)</span><br><span class="line">				time.Sleep(<span class="number">2</span> * time.Second)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="number">10</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="string">&quot;可以了，通知监控停止&quot;</span>)</span><br><span class="line">	stop&lt;- <span class="literal">true</span></span><br><span class="line">	<span class="comment">//为了检测监控过是否停止，如果没有监控输出，就表示停止了</span></span><br><span class="line">	time.Sleep(<span class="number">5</span> * time.Second)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>例子中我们定义一个<code>stop</code>的chan，通知他结束后台goroutine。实现也非常简单，在后台goroutine中，使用select判断<code>stop</code>是否可以接收到值，如果可以接收到，就表示可以退出停止了；如果没有接收到，就会执行<code>default</code>里的监控逻辑，继续监控，只到收到<code>stop</code>的通知。</p>
-<p>有了以上的逻辑，我们就可以在其他goroutine种，给<code>stop</code> chan发送值了，例子中是在main goroutine中发送的，控制让这个监控的goroutine结束。</p>
-<p>发送了<code>stop&lt;- true</code>结束的指令后，我这里使用<code>time.Sleep(5 * time.Second)</code>故意停顿5秒来检测我们结束监控goroutine是否成功。如果成功的话，不会再有<code>goroutine监控中...</code>的输出了；如果没有成功，监控goroutine就会继续打印<code>goroutine监控中...</code>输出。</p>
-<p>这种chan+select的方式，是比较优雅的结束一个goroutine的方式，不过这种方式也有局限性，如果有很多goroutine都需要控制结束怎么办呢？如果这些goroutine又衍生了其他更多的goroutine怎么办呢？如果一层层的无穷尽的goroutine呢？这就非常复杂了，即使我们定义很多chan也很难解决这个问题，因为goroutine的关系链就导致了这种场景非常复杂。</p>
-<h2 id="初识Context"><a href="#初识Context" class="headerlink" title="初识Context"></a>初识Context</h2><p>上面说的这种场景是存在的，比如一个网络请求Request，每个Request都需要开启一个goroutine做一些事情，这些goroutine又可能会开启其他的goroutine。所以我们需要一种可以跟踪goroutine的方案，才可以达到控制他们的目的，这就是Go语言为我们提供的Context，称之为上下文非常贴切，它就是goroutine的上下文。</p>
-<p>下面我们就使用Go Context重写上面的示例。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ctx, cancel := context.WithCancel(context.Background())</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(ctx context.Context)</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="keyword">select</span> &#123;</span><br><span class="line">			<span class="keyword">case</span> &lt;-ctx.Done():</span><br><span class="line">				fmt.Println(<span class="string">&quot;监控退出，停止了...&quot;</span>)</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				fmt.Println(<span class="string">&quot;goroutine监控中...&quot;</span>)</span><br><span class="line">				time.Sleep(<span class="number">2</span> * time.Second)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;(ctx)</span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="number">10</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="string">&quot;可以了，通知监控停止&quot;</span>)</span><br><span class="line">	cancel()</span><br><span class="line">	<span class="comment">//为了检测监控过是否停止，如果没有监控输出，就表示停止了</span></span><br><span class="line">	time.Sleep(<span class="number">5</span> * time.Second)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>重写比较简单，就是把原来的chan <code>stop</code> 换成Context，使用Context跟踪goroutine，以便进行控制，比如结束等。</p>
-<p><code>context.Background()</code> 返回一个空的Context，这个空的Context一般用于整个Context树的根节点。然后我们使用<code>context.WithCancel(parent)</code>函数，创建一个可取消的子Context，然后当作参数传给goroutine使用，这样就可以使用这个子Context跟踪这个goroutine。</p>
-<p>在goroutine中，使用select调用<code>&lt;-ctx.Done()</code>判断是否要结束，如果接受到值的话，就可以返回结束goroutine了；如果接收不到，就会继续进行监控。</p>
-<p>那么是如何发送结束指令的呢？这就是示例中的<code>cancel</code>函数啦，它是我们调用<code>context.WithCancel(parent)</code>函数生成子Context的时候返回的，第二个返回值就是这个取消函数，它是<code>CancelFunc</code>类型的。我们调用它就可以发出取消指令，然后我们的监控goroutine就会收到信号，就会返回结束。</p>
-<h2 id="Context控制多个goroutine"><a href="#Context控制多个goroutine" class="headerlink" title="Context控制多个goroutine"></a>Context控制多个goroutine</h2><p>使用Context控制一个goroutine的例子如上，非常简单，下面我们看看控制多个goroutine的例子，其实也比较简单。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ctx, cancel := context.WithCancel(context.Background())</span><br><span class="line">	<span class="keyword">go</span> watch(ctx,<span class="string">&quot;【监控1】&quot;</span>)</span><br><span class="line">	<span class="keyword">go</span> watch(ctx,<span class="string">&quot;【监控2】&quot;</span>)</span><br><span class="line">	<span class="keyword">go</span> watch(ctx,<span class="string">&quot;【监控3】&quot;</span>)</span><br><span class="line"></span><br><span class="line">	time.Sleep(<span class="number">10</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="string">&quot;可以了，通知监控停止&quot;</span>)</span><br><span class="line">	cancel()</span><br><span class="line">	<span class="comment">//为了检测监控过是否停止，如果没有监控输出，就表示停止了</span></span><br><span class="line">	time.Sleep(<span class="number">5</span> * time.Second)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">watch</span><span class="params">(ctx context.Context, name <span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> &lt;-ctx.Done():</span><br><span class="line">			fmt.Println(name,<span class="string">&quot;监控退出，停止了...&quot;</span>)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			fmt.Println(name,<span class="string">&quot;goroutine监控中...&quot;</span>)</span><br><span class="line">			time.Sleep(<span class="number">2</span> * time.Second)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>示例中启动了3个监控goroutine进行不断的监控，每一个都使用了Context进行跟踪，当我们使用<code>cancel</code>函数通知取消时，这3个goroutine都会被结束。这就是Context的控制能力，它就像一个控制器一样，按下开关后，所有基于这个Context或者衍生的子Context都会收到通知，这时就可以进行清理操作了，最终释放goroutine，这就优雅的解决了goroutine启动后不可控的问题。</p>
-<h2 id="Context接口"><a href="#Context接口" class="headerlink" title="Context接口"></a>Context接口</h2><p>Context的接口定义的比较简洁，我们看下这个接口的方法。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Context <span class="keyword">interface</span> &#123;</span><br><span class="line">	Deadline() (deadline time.Time, ok <span class="keyword">bool</span>)</span><br><span class="line"></span><br><span class="line">	Done() &lt;-<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">	Err() error</span><br><span class="line"></span><br><span class="line">	Value(key <span class="keyword">interface</span>&#123;&#125;) <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这个接口共有4个方法，了解这些方法的意思非常重要，这样我们才可以更好的使用他们。</p>
-<p><code>Deadline</code>方法是获取设置的截止时间的意思，第一个返回式是截止时间，到了这个时间点，Context会自动发起取消请求；第二个返回值ok==false时表示没有设置截止时间，如果需要取消的话，需要调用取消函数进行取消。</p>
-<p><code>Done</code>方法返回一个只读的chan，类型为<code>struct&#123;&#125;</code>，我们在goroutine中，如果该方法返回的chan可以读取，则意味着parent context已经发起了取消请求，我们通过<code>Done</code>方法收到这个信号后，就应该做清理操作，然后退出goroutine，释放资源。</p>
-<p><code>Err</code>方法返回取消的错误原因，因为什么Context被取消。</p>
-<p><code>Value</code>方法获取该Context上绑定的值，是一个键值对，所以要通过一个Key才可以获取对应的值，这个值一般是线程安全的。</p>
-<p>以上四个方法中常用的就是<code>Done</code>了，如果Context取消的时候，我们就可以得到一个关闭的chan，关闭的chan是可以读取的，所以只要可以读取的时候，就意味着收到Context取消的信号了，以下是这个方法的经典用法。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Stream</span><span class="params">(ctx context.Context, out <span class="keyword">chan</span>&lt;- Value)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		v, err := DoSomething(ctx)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> &lt;-ctx.Done():</span><br><span class="line">			<span class="keyword">return</span> ctx.Err()</span><br><span class="line">		<span class="keyword">case</span> out &lt;- v:</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Context接口并不需要我们实现，Go内置已经帮我们实现了2个，我们代码中最开始都是以这两个内置的作为最顶层的partent context，衍生出更多的子Context。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	background = <span class="built_in">new</span>(emptyCtx)</span><br><span class="line">	todo       = <span class="built_in">new</span>(emptyCtx)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Background</span><span class="params">()</span> <span class="title">Context</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> background</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TODO</span><span class="params">()</span> <span class="title">Context</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> todo</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>一个是<code>Background</code>，主要用于main函数、初始化以及测试代码中，作为Context这个树结构的最顶层的Context，也就是根Context。</p>
-<p>一个是<code>TODO</code>,它目前还不知道具体的使用场景，如果我们不知道该使用什么Context的时候，可以使用这个。</p>
-<p>他们两个本质上都是<code>emptyCtx</code>结构体类型，是一个不可取消，没有设置截止时间，没有携带任何值的Context。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> emptyCtx <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*emptyCtx)</span> <span class="title">Deadline</span><span class="params">()</span> <span class="params">(deadline time.Time, ok <span class="keyword">bool</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*emptyCtx)</span> <span class="title">Done</span><span class="params">()</span> &lt;-<span class="title">chan</span> <span class="title">struct</span></span>&#123;&#125; &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*emptyCtx)</span> <span class="title">Err</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(*emptyCtx)</span> <span class="title">Value</span><span class="params">(key <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">interface</span></span>&#123;&#125; &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<p>这就是<code>emptyCtx</code>实现Context接口的方法，可以看到，这些方法什么都没做，返回的都是nil或者零值。</p>
-<h2 id="Context的继承衍生"><a href="#Context的继承衍生" class="headerlink" title="Context的继承衍生"></a>Context的继承衍生</h2><p>有了如上的根Context，那么是如何衍生更多的子Context的呢？这就要靠context包为我们提供的<code>With</code>系列的函数了。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithCancel</span><span class="params">(parent Context)</span> <span class="params">(ctx Context, cancel CancelFunc)</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithDeadline</span><span class="params">(parent Context, deadline time.Time)</span> <span class="params">(Context, CancelFunc)</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithTimeout</span><span class="params">(parent Context, timeout time.Duration)</span> <span class="params">(Context, CancelFunc)</span></span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">WithValue</span><span class="params">(parent Context, key, val <span class="keyword">interface</span>&#123;&#125;)</span> <span class="title">Context</span></span></span><br></pre></td></tr></table></figure>
-
-<p>这四个<code>With</code>函数，接收的都有一个partent参数，就是父Context，我们要基于这个父Context创建出子Context的意思，这种方式可以理解为子Context对父Context的继承，也可以理解为基于父Context的衍生。</p>
-<p>通过这些函数，就创建了一颗Context树，树的每个节点都可以有任意多个子节点，节点层级可以有任意多个。</p>
-<p><code>WithCancel</code>函数，传递一个父Context作为参数，返回子Context，以及一个取消函数用来取消Context。 <code>WithDeadline</code>函数，和<code>WithCancel</code>差不多，它会多传递一个截止时间参数，意味着到了这个时间点，会自动取消Context，当然我们也可以不等到这个时候，可以提前通过取消函数进行取消。</p>
-<p><code>WithTimeout</code>和<code>WithDeadline</code>基本上一样，这个表示是超时自动取消，是多少时间后自动取消Context的意思。</p>
-<p><code>WithValue</code>函数和取消Context无关，它是为了生成一个绑定了一个键值对数据的Context，这个绑定的数据可以通过<code>Context.Value</code>方法访问到，后面我们会专门讲。</p>
-<p>大家可能留意到，前三个函数都返回一个取消函数<code>CancelFunc</code>，这是一个函数类型，它的定义非常简单。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> CancelFunc <span class="function"><span class="keyword">func</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>这就是取消函数的类型，该函数可以取消一个Context，以及这个节点Context下所有的所有的Context，不管有多少层级。</p>
-<h2 id="WithValue传递元数据"><a href="#WithValue传递元数据" class="headerlink" title="WithValue传递元数据"></a>WithValue传递元数据</h2><p>通过Context我们也可以传递一些必须的元数据，这些数据会附加在Context上以供使用。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> key <span class="keyword">string</span>=<span class="string">&quot;name&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ctx, cancel := context.WithCancel(context.Background())</span><br><span class="line">	<span class="comment">//附加值</span></span><br><span class="line">	valueCtx:=context.WithValue(ctx,key,<span class="string">&quot;【监控1】&quot;</span>)</span><br><span class="line">	<span class="keyword">go</span> watch(valueCtx)</span><br><span class="line">	time.Sleep(<span class="number">10</span> * time.Second)</span><br><span class="line">	fmt.Println(<span class="string">&quot;可以了，通知监控停止&quot;</span>)</span><br><span class="line">	cancel()</span><br><span class="line">	<span class="comment">//为了检测监控过是否停止，如果没有监控输出，就表示停止了</span></span><br><span class="line">	time.Sleep(<span class="number">5</span> * time.Second)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">watch</span><span class="params">(ctx context.Context)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> &lt;-ctx.Done():</span><br><span class="line">			<span class="comment">//取出值</span></span><br><span class="line">			fmt.Println(ctx.Value(key),<span class="string">&quot;监控退出，停止了...&quot;</span>)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="comment">//取出值</span></span><br><span class="line">			fmt.Println(ctx.Value(key),<span class="string">&quot;goroutine监控中...&quot;</span>)</span><br><span class="line">			time.Sleep(<span class="number">2</span> * time.Second)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>在前面的例子，我们通过传递参数的方式，把<code>name</code>的值传递给监控函数。在这个例子里，我们实现一样的效果，但是通过的是Context的Value的方式。</p>
-<p>我们可以使用<code>context.WithValue</code>方法附加一对K-V的键值对，这里Key必须是等价性的，也就是具有可比性；Value值要是线程安全的。</p>
-<p>这样我们就生成了一个新的Context，这个新的Context带有这个键值对，在使用的时候，可以通过<code>Value</code>方法读取<code>ctx.Value(key)</code>。</p>
-<p>记住，使用WithValue传值，一般是必须的值，不要什么值都传递。</p>
-<h2 id="Context-使用原则"><a href="#Context-使用原则" class="headerlink" title="Context 使用原则"></a>Context 使用原则</h2><ol>
-<li>不要把Context放在结构体中，要以参数的方式传递</li>
-<li>以Context作为参数的函数方法，应该把Context作为第一个参数，放在第一位。</li>
-<li>给一个函数方法传递Context的时候，不要传递nil，如果不知道传递什么，就使用context.TODO</li>
-<li>Context的Value相关方法应该传递必须的数据，不要什么数据都使用这个传递</li>
-<li>Context是线程安全的，可以放心的在多个goroutine中传递</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
-    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/11/25/k8s-Imperative%20vs%20Declarative/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="HOU YINGQIAO">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="MyNote">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/25/k8s-Imperative%20vs%20Declarative/" class="post-title-link" itemprop="url">k8s-Imperative vs Declarative</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-11-25 22:27:29" itemprop="dateCreated datePublished" datetime="2020-11-25T22:27:29+10:00">2020-11-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 20:36:30" itemprop="dateModified" datetime="2020-12-31T20:36:30+10:00">2020-12-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Imperative-vs-Declarative"><a href="#Imperative-vs-Declarative" class="headerlink" title="Imperative vs Declarative"></a>Imperative vs Declarative</h1><h3 id="Certification-Tips-Imperative-Commands-with-Kubectl"><a href="#Certification-Tips-Imperative-Commands-with-Kubectl" class="headerlink" title="Certification Tips - Imperative Commands with Kubectl"></a>Certification Tips - Imperative Commands with Kubectl</h3><p>While you would be working mostly the declarative（声明式） way - using definition files, imperative（命令式） commands can help in getting one time tasks done quickly, as well as generate a definition template easily. This would help save a considerable amount of time during your exams.</p>
-<p>Before we begin, familiarize with the two options that can come in handy while working with the below commands:</p>
-<p><code>--dry-run</code>: By default as soon as the command is run, the resource will be created. If you simply want to test your command, use the <code>--dry-run=client</code> option. This will not create the resource, instead, tell you whether the resource can be created and if your command is right.(<code>--dry-run</code>:默认情况下，命令运行后将立即创建资源。如果只想测试命令，请使用该<code>--dry-run=client</code>选项，该选项不会创建资源，而是告诉您是否可以创建资源以及您的命令是否正确。)</p>
-<p><code>-o yaml</code>: This will output the resource definition in YAML format on the screen.</p>
-<p>(在屏幕上以YAML格式输出资源定义)</p>
-<p>Use the above two in combination to generate a resource definition file quickly, that you can then modify and create resources as required, instead of creating the files from scratch.(结合使用以上两种方法可以快速生成资源定义文件，然后可以根据需要修改和创建资源，而不必从头开始创建文件。)</p>
-<h4 id="POD"><a href="#POD" class="headerlink" title="POD"></a>POD</h4><p><strong>Create an NGINX Pod</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl run nginx --image&#x3D;nginx</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>Generate POD Manifest YAML file (-o yaml). Don’t create it(–dry-run)</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl run nginx --image&#x3D;nginx  --dry-run&#x3D;client -o yaml</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h4 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h4><p><strong>Create a deployment</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create deployment --image&#x3D;nginx nginx</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>Generate Deployment YAML file (-o yaml). Don’t create it(–dry-run)</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create deployment --image&#x3D;nginx nginx --dry-run -o yaml</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>Generate Deployment with 4 Replicas</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create deployment nginx --image&#x3D;nginx --replicas&#x3D;4</span><br></pre></td></tr></table></figure>
-
-
-
-<p>You can also scale(扩展) a deployment using the <code>kubectl scale</code> command.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl scale deployment nginx --replicas&#x3D;4</span><br></pre></td></tr></table></figure>
-
-
-
-<p><strong>Another way to do this is to save the YAML definition to a file.</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create deployment nginx --image&#x3D;nginx--dry-run&#x3D;client -o yaml &gt; nginx-deployment.yaml</span><br></pre></td></tr></table></figure>
-
-<p>You can then update the YAML file with the replicas or any other field before creating the deployment.</p>
-<h4 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h4><p><strong>Create a Service named redis-service of type ClusterIP to expose pod redis on port 6379</strong>（<strong>创建一个名为redis-service的服务，其类型为ClusterIP，在端口6379上公开pod redis</strong>）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl expose pod redis --port&#x3D;6379 --name redis-service --dry-run&#x3D;client -o yaml</span><br></pre></td></tr></table></figure>
-
-<p>(This will automatically use the pod’s labels as selectors)会自动把pod的label作为selectors</p>
-<p>Or</p>
-<p><code>kubectl create service clusterip redis --tcp=6379:6379 --dry-run=client -o yaml</code>  (This will not use the pods labels as selectors, instead it will assume selectors as <strong>app=redis.</strong> <a target="_blank" rel="noopener" href="https://github.com/kubernetes/kubernetes/issues/46191">You cannot pass in selectors as an option.</a> So it does not work very well if your pod has a different label set. So generate the file and modify the selectors before creating the service)</p>
-<p><strong>Create a Service named nginx of type NodePort to expose pod nginx’s port 80 on port 30080 on the nodes:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl expose pod nginx --port&#x3D;80 --name nginx-service --type&#x3D;NodePort --dry-run&#x3D;client -o yaml</span><br></pre></td></tr></table></figure>
-
-<p>(This will automatically use the pod’s labels as selectors, but you cannot specify the node port. You have to generate a definition file and then add the node port in manually before creating the service with the pod.)</p>
-<p>Or</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create service nodeport nginx --tcp&#x3D;80:80 --node-port&#x3D;30080 --dry-run&#x3D;client -o yaml</span><br></pre></td></tr></table></figure>
-
-<p>(This will not use the pods labels as selectors)</p>
-<p>Both the above commands have their own challenges. While one of it cannot accept a selector the other cannot accept a node port. I would recommend going with the <code>kubectl expose</code> command. If you need to specify a node port, generate a definition file using the same command and manually input the nodeport before creating the service.</p>
-<h3 id="Practise"><a href="#Practise" class="headerlink" title="Practise"></a>Practise</h3><ul>
-<li><p>Create a new pod called <code>custom-nginx</code> using the <code>nginx</code> image and expose it on <code>container port</code> <code>8080</code></p>
-<p><code>kubectl run custom-nginx --image=nginx --port=8080</code></p>
-</li>
-<li><p>Create a new deployment called <code>redis-deploy</code> in the <code>dev-ns</code> namespace with the <code>redis</code> image. It should have <code>2</code> replicas.</p>
-<p><code>kubectl create deployment redis-deploy --image=redis --replicas=2 --namespace=dev-ns</code></p>
-<p>或者：</p>
-<p>Step 1: Create the deployment YAML file<br><code>kubectl create deployment redis-deploy --image redis --namespace=dev-ns --dry-run=client -o yaml &gt; deploy.yaml</code><br>Step 2: Edit the YAML file and add update the replicas to <code>2</code><br>Step 3: Run <code>kubectl apply -f deploy.yaml</code> to create the deployment in the <code>dev-ns</code> namespace.<br>You can also use <code>kubectl scale deployment or kubectl edit deployment</code> to change the number of replicas once the object has been created.</p>
-</li>
-<li><p>Create a pod called <code>httpd</code> using the image <code>httpd:alpine</code> in the default namespace. Next, create a service of type <code>ClusterIP</code> by the same name <code>(httpd)</code>. The target port for the service should be <code>80</code>.</p>
-<p><code>kubectl run httpd --image=httpd:alpine </code></p>
-<p><code>kubectl expose pod httpd --port=80 --name httpd --type=ClusterIP --dry-run=client -o yaml &gt; httpd-service.yaml</code></p>
-<p><code>kubectl create -f httpd-service.yaml</code></p>
-<p>或者：</p>
-<p><code>kubectl run httpd --image=httpd:alpine --port 80 --expose</code></p>
-<p>自动创建service和pod</p>
-</li>
-</ul>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/28/go%20context/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1152,7 +787,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 20:37:15" itemprop="dateModified" datetime="2020-12-31T20:37:15+10:00">2020-12-31</time>
+                <time title="Modified: 2021-01-05 15:29:41" itemprop="dateModified" datetime="2021-01-05T15:29:41+10:00">2021-01-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1182,38 +817,14 @@
           <h2 id="ETCD-Commands-Optional"><a href="#ETCD-Commands-Optional" class="headerlink" title="ETCD - Commands (Optional)"></a>ETCD - Commands (Optional)</h2><p>(Optional) Additional information about ETCDCTL Utility</p>
 <p>ETCDCTL is the CLI tool used to interact with（与…相互作用） ETCD.</p>
 <p>ETCDCTL can interact with ETCD Server using 2 API versions - Version 2 and Version 3.  By default its set to use Version 2. Each version has different sets of commands.</p>
-<ul>
-<li><p>For example ETCDCTL version 2 supports the following commands:(ETCDCTL 版本2支持一下的命令)</p>
-<p><code>etcdctl backup</code></p>
-<p><code>etcdctl cluster-health</code></p>
-<p><code>etcdctl mk</code></p>
-<p><code>etcdctl mkdir</code></p>
-<p>``etcdctl set`</p>
-</li>
-</ul>
-<ul>
-<li><p>Whereas（尽管） the commands are different in version 3（版本3中的命令有所不同）</p>
-<p><code>etcdctl snapshot save</code></p>
-<p><code>etcdctl endpoint health</code></p>
-<p><code>etcdctl get</code></p>
-<p><code>etcdctl put</code></p>
-</li>
-</ul>
-<ul>
-<li>To set the right version of API set the environment variable ETCDCTL_API command（要设置正确的APIversion，请设置环境变量ETCDCTL_API）<code>export ETCDCTL_API=3</code></li>
-</ul>
-<ul>
-<li><p>When API version is not set, it is assumed to be set to version 2. And version 3 commands listed above don’t work. When API version is set to version 3, version 2 commands listed above don’t work.（如果未设置API版本，则假定它设置为版本2。上面列出的版本3命令不起作用。当API版本设置为版本3时，上面列出的版本2命令不起作用。）</p>
-</li>
-<li><p>Apart from that, you must also specify path to certificate files so that ETCDCTL can authenticate to the ETCD API Server. The certificate files are available in the etcd-master at the following path. We discuss more about certificates in the security section of this course. So don’t worry if this looks complex:（除此之外，还必须指定证书文件的路径，以便ETCDCTL可以向ETCD API服务器进行身份验证。证书文件位于etcd-master中的以下路径中。我们将在本课程的安全性部分讨论有关证书的更多信息。因此，不要担心这看起来是否复杂：）</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--cacert &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;ca.crt     </span><br><span class="line">--cert &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;server.crt     </span><br><span class="line">--key &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;server.key</span><br></pre></td></tr></table></figure>
-
-
-
-<p>So for the commands I showed in the previous video to work you must specify the ETCDCTL API version and path to certificate files. Below is the final form:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl exec etcd-master -n kube-system -- sh -c &quot;ETCDCTL_API&#x3D;3 etcdctl get &#x2F; --prefix --keys-only --limit&#x3D;10 --cacert &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;ca.crt --cert &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;server.crt  --key &#x2F;etc&#x2F;kubernetes&#x2F;pki&#x2F;etcd&#x2F;server.key&quot; </span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/25/k8s-ETCD%20-%20Commands%20(Optional)/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1232,7 +843,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
-    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/11/24/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/11/25/k8s-Imperative%20vs%20Declarative/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -1246,7 +857,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/24/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+            <a href="/2020/11/25/k8s-Imperative%20vs%20Declarative/" class="post-title-link" itemprop="url">k8s-Imperative vs Declarative</a>
         </h2>
 
         <div class="post-meta">
@@ -1256,7 +867,27 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-11-24 22:38:36" itemprop="dateCreated datePublished" datetime="2020-11-24T22:38:36+10:00">2020-11-24</time>
+              <time title="Created: 2020-11-25 22:27:29" itemprop="dateCreated datePublished" datetime="2020-11-25T22:27:29+10:00">2020-11-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-05 19:06:02" itemprop="dateModified" datetime="2021-01-05T19:06:02+10:00">2021-01-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
+                </span>
             </span>
 
           
@@ -1270,20 +901,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
+          <h1 id="Imperative-vs-Declarative"><a href="#Imperative-vs-Declarative" class="headerlink" title="Imperative vs Declarative"></a>Imperative vs Declarative</h1><h3 id="Certification-Tips-Imperative-Commands-with-Kubectl"><a href="#Certification-Tips-Imperative-Commands-with-Kubectl" class="headerlink" title="Certification Tips - Imperative Commands with Kubectl"></a>Certification Tips - Imperative Commands with Kubectl</h3><p>While you would be working mostly the declarative（声明式） way - using definition files, imperative（命令式） commands can help in getting one time tasks done quickly, as well as generate a definition template easily. This would help save a considerable amount of time during your exams.</p>
+<p>Before we begin, familiarize with the two options that can come in handy while working with the below commands:</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/25/k8s-Imperative%20vs%20Declarative/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1333,7 +960,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 00:09:49" itemprop="dateModified" datetime="2020-12-31T00:09:49+10:00">2020-12-31</time>
+                <time title="Modified: 2021-01-05 19:06:38" itemprop="dateModified" datetime="2021-01-05T19:06:38+10:00">2021-01-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1366,105 +993,14 @@
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">voting-app-pod</span>  <span class="comment">#pod name</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">voting-app-pod</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">voting-app</span> <span class="comment">#container name</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">kodekloud/examplevotingapp_vote:v1</span> </span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span> <span class="comment">#the port on which the application listens for this voting app</span></span><br><span class="line">          </span><br></pre></td></tr></table></figure>
 
 <p>我们需要用containerPort属性为voting application明确指定port</p>
-</li>
-<li><p>result app的Pod</p>
-<p><code>result-app-pod.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">result-app-pod</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">result-app-pod</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">result-app</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">kodekloud/examplevotingapp_result:v1</span></span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>redis的Pod</p>
-<p><code>redis-pod.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span> </span><br><span class="line">  <span class="attr">name:</span> <span class="string">redis-pod</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">redis-pod</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">redis</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">6379</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>postgres的Pod</p>
-<p><code>postgres-pod.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span> </span><br><span class="line">  <span class="attr">name:</span> <span class="string">postgres-pod</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">postgres-pod</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">contianers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">postgres</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">postgres</span></span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">5432</span></span><br><span class="line">      <span class="attr">env:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">POSTGRES_USER</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;postgres&quot;</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">POSTGRES_PASSWORD</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">&quot;postgres&quot;</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>worker的Pod</p>
-<p><code>worker-app-pod.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">worker-app-pod</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">worker-app-pod</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">worker-app</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">kodekloud/examplevotingapp_worker:v1</span></span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<h4 id="创建service"><a href="#创建service" class="headerlink" title="创建service"></a>创建service</h4><ul>
-<li><p>redis的service (voting-app的Pod连接该service)</p>
-<p><code>redis-service.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">redis</span> <span class="comment">#voting-app源码里面要连接的数据库为redis，因此这里命名为redis</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">redis-service</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">6379</span> <span class="comment">#service暴露给其他连接的port</span></span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">6379</span> <span class="comment">#service要连接的redis的Pod的port</span></span><br><span class="line">  <span class="attr">selector:</span> <span class="comment">#link the service to the Pod</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">redis-pod</span> <span class="comment">#redis Pod的label</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>postgres的service （result-app的Pod连接该service）</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">db</span> <span class="comment">#result-app源码里面连接的数据库名称叫db，因此service要命名为db</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">postgre-service</span> <span class="comment">#随意定义</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">5432</span> </span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">5432</span> </span><br><span class="line">  <span class="attr">selector:</span> <span class="comment">#link the service to the Pod</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">postgres-pod</span> <span class="comment">#要连接的postgre Pod的labels</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>voting-app的service （用户从外面连接该service）</p>
-<p><code>voting-app-service.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">result-service</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">voting-service</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span> <span class="comment">#这里选择NodePort，因为要暴露给外面用户使用</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">nodePort:</span> <span class="number">30004</span></span><br><span class="line">  <span class="attr">selector:</span> <span class="comment">#voting-app的Pod的labels</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">voting-app-pod</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>result-app的service</p>
-<p><code>result-app-service.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">result-service</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">result-service</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">      <span class="attr">nodePort:</span> <span class="number">30005</span></span><br><span class="line">  <span class="attr">selector:</span> <span class="comment">#result-app的Pod的labels</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">result-app-pod</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<h4 id="启动Pod和Service"><a href="#启动Pod和Service" class="headerlink" title="启动Pod和Service"></a>启动Pod和Service</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods,svc</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="使用Deployment来创建k8s微服务"><a href="#使用Deployment来创建k8s微服务" class="headerlink" title="使用Deployment来创建k8s微服务"></a>使用Deployment来创建k8s微服务</h3><p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1606112620439.png" alt="1606112620439"></p>
-<p>用创建一个个Pod的方法并不能实现Pod的扩容（scale up），但选择Deployment能帮助我们实现，replicaSet，rolling update,rollback等功能</p>
-<p>将上面例子中pod的定义文件改写成Deployment的定义文件。</p>
-<ul>
-<li><p>voting-app的Deployment 文件</p>
-</li>
-<li><p><code>voting-app-deployment.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">voting-app-deploy</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">voting-app-deploy</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span> <span class="comment">#pod的labels</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">voting-app-pod</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">voting-app-pod</span>  <span class="comment">#pod name</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">voting-app-pod</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">voting-app</span> <span class="comment">#container name</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">kodekloud/examplevotingapp_vote:v1</span> </span><br><span class="line">          <span class="attr">ports:</span></span><br><span class="line">           <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span> </span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>result-app-deployment.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">result-app-deploy</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">result-app-deploy</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span> <span class="comment">#pod的labels</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">result-app-pod</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">result-app-pod</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">result-app-pod</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">result-app</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">kodekloud/examplevotingapp_result:v1</span></span><br><span class="line">          <span class="attr">ports:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span> </span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<ul>
-<li><p>redis的Deployment</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">redis-deploy</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">redis-deploy</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span> <span class="comment">#pod的labels</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">redis-pod</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">demo-voting-appp</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span> </span><br><span class="line">      <span class="attr">name:</span> <span class="string">redis-pod</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">redis-pod</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">redis</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line">          <span class="attr">ports:</span></span><br><span class="line">           <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">6379</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>postgres-deploy.yaml</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">postgres-deploy</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">postgres-deploy</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span> <span class="comment">#pod的labels</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">postgres-pod</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span> </span><br><span class="line">      <span class="attr">name:</span> <span class="string">postgres-pod</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">postgres-pod</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">postgres</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">postgres</span></span><br><span class="line">          <span class="attr">ports:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">5432</span></span><br><span class="line">          <span class="attr">env:</span></span><br><span class="line">           <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">POSTGRES_USER</span></span><br><span class="line">             <span class="attr">value:</span> <span class="string">&quot;postgres&quot;</span></span><br><span class="line">           <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">POSTGRES_PASSWORD</span></span><br><span class="line">             <span class="attr">value:</span> <span class="string">&quot;postgres&quot;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>worker-app-deploy.yaml</code></p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">worker-app-deploy</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">worker-app-deploy</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span> <span class="comment">#pod的labels</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">worker-app-pod</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">worker-app-pod</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">worker-app-pod</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">worker-app</span></span><br><span class="line">          <span class="attr">image:</span> <span class="string">kodekloud/examplevotingapp_worker:v1</span></span><br></pre></td></tr></table></figure>
-
-
-
-</li>
-</ul>
-<p>依次创建deployment和Service</p>
-<p><code>kubectl create -f  voting-app-deployment.yaml</code></p>
-<p><code>kubectl create -f voting-app-service.yaml</code></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/24/k8s-Microservices-Architecture/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

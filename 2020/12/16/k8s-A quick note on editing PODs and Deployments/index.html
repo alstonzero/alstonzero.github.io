@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://img-a.udemycdn.com/redactor/raw/2019-05-30_14-46-21-89ea56fea6b993ee0ccff1625b13341e.PNG?09BG5AazWSvcs2bxUxT4DsUT--o3zS8vnr8ykoPWZROpeXXzuTMgUrSRwGJ9p2EC8eF0CLDup4_0Mdl2xG22_Jfg1Kg0C4pm063nRD8_oM4I7F3F2T4Gs6pQplcWxcrLhfYXb0vYYNLjCmgrlH7L59aNdE-xxtkyxMLxWlbTUMGMfJge">
 <meta property="og:image" content="https://img-a.udemycdn.com/redactor/raw/2019-05-30_14-47-14-07b2638d1a72cb2d5b000c00971f6436.PNG?mh54IFQgm-TfJNMQdLqFkBoZcd3ehECrCg3OnqVOPS7N-jAI2FGOWsXe8c4juYCbvazYMZINlhtvGuVnD1g3A5dmh1UXX5kRPYId-c4ltDSGE9bsRM0l8JaVyVMhB76AJZSoJrdaqnJPbVzyQEOM42NqzT5FSjSK6KjSeWkZqwspzw_f">
 <meta property="article:published_time" content="2020-12-16T12:27:29.000Z">
-<meta property="article:modified_time" content="2020-12-30T14:10:13.986Z">
+<meta property="article:modified_time" content="2021-01-05T05:28:54.403Z">
 <meta property="article:author" content="HOU YINGQIAO">
 <meta property="article:tag" content="k8s">
 <meta name="twitter:card" content="summary">
@@ -186,7 +186,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 00:10:13" itemprop="dateModified" datetime="2020-12-31T00:10:13+10:00">2020-12-31</time>
+                <time title="Modified: 2021-01-05 15:28:54" itemprop="dateModified" datetime="2021-01-05T15:28:54+10:00">2021-01-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -220,6 +220,8 @@
 <li>spec.activeDeadlineSeconds</li>
 <li>spec.tolerations</li>
 </ul>
+<a id="more"></a>
+
 <p>For example you cannot edit the environment variables, service accounts, resource limits (all of which we will discuss later) of a running pod. But if you really want to, you have 2 options:</p>
 <ol>
 <li>Run the <code>kubectl edit pod &lt;pod name&gt;</code> command.  This will open the pod specification in an editor (vi editor). Then edit the required properties. When you try to save it, you will be denied. This is because you are attempting to edit a field on the pod that is not editable.</li>
