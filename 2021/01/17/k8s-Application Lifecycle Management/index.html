@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en,default">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alstonzero.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="k8s-Application Lifecycle ManagementRolling Updates and RollbacksRollout Command kubectl rollout status: to see the revisions and history of rollout. 1kubectl rollout status deployment&#x2F;myapp-depl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s-Application Lifecycle Management">
+<meta property="og:url" content="https://alstonzero.github.io/2021/01/17/k8s-Application%20Lifecycle%20Management/index.html">
+<meta property="og:site_name" content="MyNote">
+<meta property="og:description" content="k8s-Application Lifecycle ManagementRolling Updates and RollbacksRollout Command kubectl rollout status: to see the revisions and history of rollout. 1kubectl rollout status deployment&#x2F;myapp-depl">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange01.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange02.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange03.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange04.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange05.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange06.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange07.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange08.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange09.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange10.png">
+<meta property="og:image" content="https://img-a.udemycdn.com/redactor/raw/2019-06-07_09-07-13-d077fffd07f3232ae259a9298c0ffa66.PNG?RCPJ73zfJuSyvBDFWrzW3Vno7FKLGrH4sQq3LoxrdqUxWAiOT1YpIMFic9If7htVMKAAz8IULvsuFTzwMNhDDeAEnmB5mwi94zqHOUXr8at8wpgKFblKIDgMeJ9mLSl4FWsALwq_MaLHpSmgtFTpzBDLUp96DxycGiwD4wfqu7sOQ85F">
+<meta property="article:published_time" content="2021-01-17T12:27:29.000Z">
+<meta property="article:modified_time" content="2021-01-17T09:25:27.578Z">
+<meta property="article:author" content="HOU YINGQIAO">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange01.png">
+
+<link rel="canonical" href="https://alstonzero.github.io/2021/01/17/k8s-Application%20Lifecycle%20Management/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>k8s-Application Lifecycle Management | MyNote</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MyNote</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/alstonzero" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2021/01/17/k8s-Application%20Lifecycle%20Management/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          k8s-Application Lifecycle Management
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-01-17 22:27:29 / Modified: 19:25:27" itemprop="dateCreated datePublished" datetime="2021-01-17T22:27:29+10:00">2021-01-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="k8s-Application-Lifecycle-Management"><a href="#k8s-Application-Lifecycle-Management" class="headerlink" title="k8s-Application Lifecycle Management"></a>k8s-Application Lifecycle Management</h1><h2 id="Rolling-Updates-and-Rollbacks"><a href="#Rolling-Updates-and-Rollbacks" class="headerlink" title="Rolling Updates and Rollbacks"></a>Rolling Updates and Rollbacks</h2><h3 id="Rollout-Command"><a href="#Rollout-Command" class="headerlink" title="Rollout Command"></a>Rollout Command</h3><ul>
+<li><p><code>kubectl rollout status</code>: to see the revisions and history of rollout.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl rollout status deployment&#x2F;myapp-deployment</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>kubectl rollout history</code>:show the revisions and history of our deployment.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl rollout history deployment&#x2F;myapp-deployment</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="Default-deployment-strategy"><a href="#Default-deployment-strategy" class="headerlink" title="Default deployment strategy"></a>Default deployment strategy</h3><p><strong>rolling update</strong></p>
+<h3 id="Rollback"><a href="#Rollback" class="headerlink" title="Rollback"></a>Rollback</h3><p>If there’s something wrong with the newest version,use the <code>kubectl rollout undo </code> command to rollback your application to a previous reversion to undo a change.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl rollout undo deployment&#x2F;myapp-deployment</span><br></pre></td></tr></table></figure>
+
+<h3 id="Summary-Command"><a href="#Summary-Command" class="headerlink" title="Summary Command"></a>Summary Command</h3><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange01.png"></p>
+<h2 id="Commands"><a href="#Commands" class="headerlink" title="Commands"></a>Commands</h2><p>The Dockerfile has an Entrypoint as well as a CMD instruction specified.</p>
+<p>The entrypoint is the command that is run at startup, and the CMD is the default parameter passed to the command.</p>
+<ul>
+<li><p><code>Dockerfile</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">FROM Ubuntu</span><br><span class="line">ENTRYPOTINT [&quot;sleep&quot;]</span><br><span class="line">CMD [&quot;5&quot;]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>pod-definition.yml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: ubuntu-sleeper-pod</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">    - name: ubuntu-sleeper</span><br><span class="line">      image: ubuntu-sleeper</span><br><span class="line">      command: [&quot;sleep2.0&quot;]</span><br><span class="line">      args: [&quot;10&quot;]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>The command option in the pod definition file override ENTRYPOINT in the Dockerfile.</p>
+<p>The <strong>args</strong> option in the pod definition file <strong>override</strong> the <strong>CMD</strong> instruction in the Dockerfile.</p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange02.png"></p>
+<h2 id="Configure-Environment-Variables-in-Applications"><a href="#Configure-Environment-Variables-in-Applications" class="headerlink" title="Configure Environment Variables in Applications"></a>Configure Environment Variables in Applications</h2><p>Use the <strong>ENV</strong> property to set an environment variable</p>
+<p>ENV is an array,each item in the array has a <code>name</code> and a <code>value</code> property.</p>
+<ul>
+<li><p>set env with docker run </p>
+<p><code>docker run -e APP_COLOR=pink simple-webapp-color</code></p>
+</li>
+<li><p>ENV Variable in k8s</p>
+<p><code>pod-definition.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">simple-webapp-color</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">simple-webapp-color</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">simple-webapp-color</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">env:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">APP_COLOR</span></span><br><span class="line">        <span class="attr">value:</span> <span class="string">pink</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="ENV-Value-Types"><a href="#ENV-Value-Types" class="headerlink" title="ENV Value Types"></a>ENV Value Types</h3><p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange03.png"></p>
+<h3 id="ConfigMaps"><a href="#ConfigMaps" class="headerlink" title="ConfigMaps"></a>ConfigMaps</h3><p>ConfigMaps are used to pass configuration data in the form of key value pairs in Kubernetes</p>
+<p>There are two phases involved in configuring ConfigMaps.</p>
+<ul>
+<li><p>Two Step to use configMaps:</p>
+<p>First create the ConfigMaps and second Inject them into the POD. </p>
+</li>
+</ul>
+<h4 id="The-imperative-way"><a href="#The-imperative-way" class="headerlink" title="The imperative way"></a>The imperative way</h4><p>Use the <code>kubectl create configmap</code> command</p>
+<p><code>app_config.properties</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">APP_COLOR: blue</span><br><span class="line">APP_MODE: prod</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>--from-literal</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create configmap &lt;config-name&gt; --from-literal&#x3D;&lt;key&gt;&#x3D;&lt;value&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create configmap app-config --from-literal&#x3D;APP_COLOR&#x3D;blue --from-literal&#x3D;APP_MODE&#x3D;prod</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>--from-file</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create configmap &lt;config-name&gt; --from-file&#x3D;&lt;path-to-file&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create configmap app-config --from-file&#x3D;app_config.properties</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h4 id="Declarative-way"><a href="#Declarative-way" class="headerlink" title="Declarative way"></a>Declarative way</h4><p><code>config-map</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">APP_COLOR: blue</span><br><span class="line">APP_MODE: prod</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>config-map.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span> </span><br><span class="line">  <span class="attr">name:</span> <span class="string">app-config</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">APP_COLOR:</span> <span class="string">blue</span></span><br><span class="line">  <span class="attr">APP_MODE:</span> <span class="string">prod</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>kubectl create -f config-map.yaml</code></p>
+</li>
+</ul>
+<h4 id="View-ConfigMaps"><a href="#View-ConfigMaps" class="headerlink" title="View ConfigMaps"></a>View ConfigMaps</h4><ul>
+<li><code>kubectl get configmaps</code></li>
+<li><code>kubectl describe configmaps</code></li>
+</ul>
+<h4 id="ConfigMap-in-Pods"><a href="#ConfigMap-in-Pods" class="headerlink" title="ConfigMap in Pods"></a>ConfigMap in Pods</h4><p>Use <strong>envFrom</strong> to inject an environment variable to the container.</p>
+<p>The <code>envFrom</code> property is a <strong>list</strong>, so we can pass as many environment variables as required</p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange04.png"></p>
+<p><code>pod-definition.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">simple-webapp-color</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">simple-webapp-color</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">simple-webapp-color</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">simple-webapp-color</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">envFrom:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">configMapRef:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">app-config</span>  <span class="comment">#The configMap we created before</span></span><br></pre></td></tr></table></figure>
+
+<p>This is how we inject a specific configmap from the ones we created before.</p>
+<h4 id="Other-inject-ways"><a href="#Other-inject-ways" class="headerlink" title="Other inject ways"></a>Other inject ways</h4><ul>
+<li>SIGLE ENV: inject as single environment variables</li>
+<li>VOLUME: Inject the whole configmap files in a volume if you were to mount the configmap as a volume in the pod.</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange05.png"></p>
+<h3 id="Configure-Secrets-in-Applications"><a href="#Configure-Secrets-in-Applications" class="headerlink" title="Configure Secrets in Applications"></a>Configure Secrets in Applications</h3><p>Secrets are used to store sensitive information like passwords or keys.</p>
+<ul>
+<li><p>Two step to use secrets:</p>
+<p>First create the secret and second injected into pod.</p>
+</li>
+</ul>
+<h4 id="Imperative-way"><a href="#Imperative-way" class="headerlink" title="Imperative way"></a>Imperative way</h4><p><code>Secret</code> need to be created.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DB_HOST: mysql</span><br><span class="line">DB_USER: root</span><br><span class="line">DB_PASSWORD: paswrd</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>--from-literal</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create secret generic &lt;secret-name&gt; --from-literal&#x3D;&lt;key&gt;&#x3D;&lt;value&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubeclt create secret generic app-secret --from-literal&#x3D;DB_HOST&#x3D;mysql --from-literal&#x3D;DB_USER&#x3D;root --from-literal&#x3D;DB_PASSWORD&#x3D;paswrd</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>--from-file</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create secret generic &lt;secret-name&gt; --from-file&#x3D;&lt;path-to-file&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create secret generic app-secret --from-file&#x3D;app_secret.properties</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h4 id="Declarative-way-1"><a href="#Declarative-way-1" class="headerlink" title="Declarative way"></a>Declarative way</h4><p><code>Secret</code> need to be created.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DB_HOST: mysql</span><br><span class="line">DB_USER: root</span><br><span class="line">DB_PASSWORD: paswrd</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>secret-data.yaml</code></p>
+<p>While creating a secret with a declarative approach you must specify the secret values in a hashed</p>
+<p>format.</p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange06.png"></p>
+<p><code>secret-data.yaml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: secret</span><br><span class="line">metadata:</span><br><span class="line">  app-secret</span><br><span class="line">data:</span><br><span class="line">  DB_HOST: bXlzcWw&#x3D;</span><br><span class="line">  DB_User: cm9vdA&#x3D;&#x3D;</span><br><span class="line">  DB_PASSWORD: cGFzd3Jk</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><code>kubectl create secret -f secret-data.yaml</code></li>
+</ul>
+<h4 id="View-Secrets"><a href="#View-Secrets" class="headerlink" title="View Secrets"></a>View Secrets</h4><ul>
+<li><code>kubectl get secrets</code></li>
+<li><code>kubectl describe secrets</code>:This shows the attributes in the secret but hides the value</li>
+<li><code>kubectl get secret app-secret -o yaml</code>:see the hashed values</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange07.png"></p>
+<h4 id="Secrets-in-Pods"><a href="#Secrets-in-Pods" class="headerlink" title="Secrets in Pods"></a>Secrets in Pods</h4><p>To inject an environment variable, add a new property to the container called <strong>envFrom</strong>.(list)</p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange08.png"></p>
+<p><code>pod-definition.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span> </span><br><span class="line">  <span class="attr">name:</span> <span class="string">simple-webapp-color</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">simple-webapp-color</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">simple-webapp-color</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">simple-webapp-color</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">envFrom:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">secretRef:</span></span><br><span class="line">          <span class="attr">name:</span> <span class="string">app-secret</span></span><br></pre></td></tr></table></figure>
+
+<p><code>kubectl create -f pod-definition.yaml</code></p>
+<h4 id="Other-ways-to-inject-secrets-into-Pods"><a href="#Other-ways-to-inject-secrets-into-Pods" class="headerlink" title="Other ways to inject secrets into Pods"></a>Other ways to inject secrets into Pods</h4><ul>
+<li>SINGLE ENV:inject as single environment variables</li>
+<li>VOLUME: Inject the whole secret as files in a volume </li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange09.png"></p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/app-mange10.png"></p>
+<h2 id="Multi-Contianer-PODs"><a href="#Multi-Contianer-PODs" class="headerlink" title="Multi-Contianer PODs"></a>Multi-Contianer PODs</h2><p>If Log Agent and WEB Server in one pods that can scale up and down together </p>
+<p>Multi-container pods that share the same lifecycle which means they are created togethe and destroyed together.</p>
+<p>They share the same network space which means they can refer to each other as local host and they have access to the same storage volumes.</p>
+<ul>
+<li><p>example</p>
+<p><code>pod-definition.yaml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: simple-webapp</span><br><span class="line">  labels:</span><br><span class="line">    name: simple-webapp</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: simple-webapp</span><br><span class="line">    image: simple-webapp</span><br><span class="line">    ports:</span><br><span class="line">      - containerPort: 8080</span><br><span class="line"> - name: log-agent</span><br><span class="line">   image: log-agent  </span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h4 id="Multi-container-PODs-Design-Patterns"><a href="#Multi-container-PODs-Design-Patterns" class="headerlink" title="Multi-container PODs Design Patterns"></a>Multi-container PODs Design Patterns</h4><p>There are 3 common patterns, when it comes to designing multi-container PODs. The first and what we just saw with the logging service example is known as a <code>side car pattern</code>. The others are the <code>adapte</code>r and the <code>ambassador pattern</code>.</p>
+<p><img src="https://img-a.udemycdn.com/redactor/raw/2019-06-07_09-07-13-d077fffd07f3232ae259a9298c0ffa66.PNG?RCPJ73zfJuSyvBDFWrzW3Vno7FKLGrH4sQq3LoxrdqUxWAiOT1YpIMFic9If7htVMKAAz8IULvsuFTzwMNhDDeAEnmB5mwi94zqHOUXr8at8wpgKFblKIDgMeJ9mLSl4FWsALwq_MaLHpSmgtFTpzBDLUp96DxycGiwD4wfqu7sOQ85F" alt="img"></p>
+<h3 id="InitContainers"><a href="#InitContainers" class="headerlink" title="InitContainers"></a>InitContainers</h3><p>In a multi-container pod, each container is expected to run a process that stays alive as long as the POD’s lifecycle. For example in the multi-container pod that we talked about earlier that has a web application and logging agent, both the containers are expected to stay alive at all times. The process running in the log agent container is expected to stay alive as long as the web application is running. If any of them fails, the POD restarts.</p>
+<p>But at times you may want to run a process that runs to completion in a container. For example a process that pulls a code or binary from a repository that will be used by the main web application. That is a task that will be run <strong>only  one time</strong> when the pod is first created. Or a process that waits  for an external service or database to be up before the actual application starts. That’s where <strong>initContainers</strong> comes in.</p>
+<p>An <strong>initContainer</strong> is configured in a pod like all other containers, except that it is specified inside a <code>initContainers</code> section,  like this:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-pod</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">myapp-container</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">busybox:1.28</span></span><br><span class="line">    <span class="attr">command:</span> [<span class="string">&#x27;sh&#x27;</span>, <span class="string">&#x27;-c&#x27;</span>, <span class="string">&#x27;echo The app is running! &amp;&amp; sleep 3600&#x27;</span>]</span><br><span class="line">  <span class="attr">initContainers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">init-myservice</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">busybox</span></span><br><span class="line">    <span class="attr">command:</span> [<span class="string">&#x27;sh&#x27;</span>, <span class="string">&#x27;-c&#x27;</span>, <span class="string">&#x27;git clone &lt;some-repository-that-will-be-used-by-application&gt; ; done;&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>When a POD is first created the initContainer is run, and the process in the initContainer must run to a completion before the real container hosting the application starts. </p>
+<p>You can configure multiple such initContainers as well, like how we did for multi-pod containers. In that case each init container is run <strong>one at a time in sequential order</strong>.</p>
+<p>If any of the initContainers fail to complete, Kubernetes restarts the Pod repeatedly until the Init Container succeeds.</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">myapp-pod</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">myapp</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">myapp-container</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">busybox:1.28</span></span><br><span class="line">    <span class="attr">command:</span> [<span class="string">&#x27;sh&#x27;</span>, <span class="string">&#x27;-c&#x27;</span>, <span class="string">&#x27;echo The app is running! &amp;&amp; sleep 3600&#x27;</span>]</span><br><span class="line">  <span class="attr">initContainers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">init-myservice</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">busybox:1.28</span></span><br><span class="line">    <span class="attr">command:</span> [<span class="string">&#x27;sh&#x27;</span>, <span class="string">&#x27;-c&#x27;</span>, <span class="string">&#x27;until nslookup myservice; do echo waiting for myservice; sleep 2; done;&#x27;</span>]</span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">init-mydb</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">busybox:1.28</span></span><br><span class="line">    <span class="attr">command:</span> [<span class="string">&#x27;sh&#x27;</span>, <span class="string">&#x27;-c&#x27;</span>, <span class="string">&#x27;until nslookup mydb; do echo waiting for mydb; sleep 2; done;&#x27;</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/k8s/" rel="tag"># k8s</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/05/k8s-Security/" rel="prev" title="k8s-Security">
+      <i class="fa fa-chevron-left"></i> k8s-Security
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#k8s-Application-Lifecycle-Management"><span class="nav-number">1.</span> <span class="nav-text">k8s-Application Lifecycle Management</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Rolling-Updates-and-Rollbacks"><span class="nav-number">1.1.</span> <span class="nav-text">Rolling Updates and Rollbacks</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Rollout-Command"><span class="nav-number">1.1.1.</span> <span class="nav-text">Rollout Command</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Default-deployment-strategy"><span class="nav-number">1.1.2.</span> <span class="nav-text">Default deployment strategy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Rollback"><span class="nav-number">1.1.3.</span> <span class="nav-text">Rollback</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Summary-Command"><span class="nav-number">1.1.4.</span> <span class="nav-text">Summary Command</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Commands"><span class="nav-number">1.2.</span> <span class="nav-text">Commands</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Configure-Environment-Variables-in-Applications"><span class="nav-number">1.3.</span> <span class="nav-text">Configure Environment Variables in Applications</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ENV-Value-Types"><span class="nav-number">1.3.1.</span> <span class="nav-text">ENV Value Types</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConfigMaps"><span class="nav-number">1.3.2.</span> <span class="nav-text">ConfigMaps</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#The-imperative-way"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">The imperative way</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Declarative-way"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">Declarative way</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#View-ConfigMaps"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">View ConfigMaps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ConfigMap-in-Pods"><span class="nav-number">1.3.2.4.</span> <span class="nav-text">ConfigMap in Pods</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Other-inject-ways"><span class="nav-number">1.3.2.5.</span> <span class="nav-text">Other inject ways</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-Secrets-in-Applications"><span class="nav-number">1.3.3.</span> <span class="nav-text">Configure Secrets in Applications</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Imperative-way"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">Imperative way</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Declarative-way-1"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">Declarative way</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#View-Secrets"><span class="nav-number">1.3.3.3.</span> <span class="nav-text">View Secrets</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Secrets-in-Pods"><span class="nav-number">1.3.3.4.</span> <span class="nav-text">Secrets in Pods</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Other-ways-to-inject-secrets-into-Pods"><span class="nav-number">1.3.3.5.</span> <span class="nav-text">Other ways to inject secrets into Pods</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multi-Contianer-PODs"><span class="nav-number">1.4.</span> <span class="nav-text">Multi-Contianer PODs</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Multi-container-PODs-Design-Patterns"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">Multi-container PODs Design Patterns</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#InitContainers"><span class="nav-number">1.4.1.</span> <span class="nav-text">InitContainers</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HOU YINGQIAO</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alstonzero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alstonzero" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://qiita.com/alstonzero" title="Qiita → https:&#x2F;&#x2F;qiita.com&#x2F;alstonzero" rel="noopener" target="_blank"><i class="qiita fa-fw"></i>Qiita</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://linux.51yip.com/" title="http:&#x2F;&#x2F;linux.51yip.com&#x2F;" rel="noopener" target="_blank">Linux命令手册</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HOU YINGQIAO</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

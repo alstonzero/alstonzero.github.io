@@ -147,6 +147,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/11/24/k8s-Microservices-Architecture/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/24/k8s-Microservices-Architecture/" class="post-title-link" itemprop="url">k8s_Microservices_Architecture</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-24 22:29:15" itemprop="dateCreated datePublished" datetime="2020-11-24T22:29:15+10:00">2020-11-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-05 19:06:38" itemprop="dateModified" datetime="2021-01-05T19:06:38+10:00">2021-01-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Microservices-Architecture"><a href="#Microservices-Architecture" class="headerlink" title="Microservices Architecture"></a>Microservices Architecture</h1><h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><h4 id="首先创建Pod"><a href="#首先创建Pod" class="headerlink" title="首先创建Pod"></a>首先创建Pod</h4><ul>
+<li><p>投票app 的pod</p>
+<p><code>voting-app-pod.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">voting-app-pod</span>  <span class="comment">#pod name</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">voting-app-pod</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">demo-voting-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">voting-app</span> <span class="comment">#container name</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">kodekloud/examplevotingapp_vote:v1</span> </span><br><span class="line">      <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span> <span class="comment">#the port on which the application listens for this voting app</span></span><br><span class="line">          </span><br></pre></td></tr></table></figure>
+
+<p>我们需要用containerPort属性为voting application明确指定port</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/24/k8s-Microservices-Architecture/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
     <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/11/18/k8s-Service/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1142,178 +1232,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
-    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2019/06/10/Heap%20%E5%A0%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="HOU YINGQIAO">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="MyNote">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/06/10/Heap%20%E5%A0%86/" class="post-title-link" itemprop="url">Heap 堆</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-06-10 22:27:29" itemprop="dateCreated datePublished" datetime="2019-06-10T22:27:29+10:00">2019-06-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 23:19:35" itemprop="dateModified" datetime="2020-12-31T23:19:35+10:00">2020-12-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/data-structures-and-algorithms/" itemprop="url" rel="index"><span itemprop="name">data structures and algorithms</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h1><p>底层：数组</p>
-<h3 id="1-什么是堆？"><a href="#1-什么是堆？" class="headerlink" title="1. 什么是堆？"></a>1. 什么是堆？</h3><blockquote>
-<p>堆是一种数据结构，它是一颗完全二叉树。</p>
-</blockquote>
-<p>堆分为最大堆和最小堆：</p>
-<ol>
-<li>最大堆：任意节点的值不大于其父亲节点的值。</li>
-<li>最小堆：任意节点的值不小于其父亲节点的值。</li>
-</ol>
-<p>如下图所示，就是个最大堆：</p>
-<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/b5259c5d5b5e54ae38a4763cf0d546d522a3a290836aa564b1bb995e80653572/68747470733a2f2f696d67332e6d756b6577616e672e636f6d2f3562616134393032303030316262663531373731303734382e6a7067"><img src="https://camo.githubusercontent.com/b5259c5d5b5e54ae38a4763cf0d546d522a3a290836aa564b1bb995e80653572/68747470733a2f2f696d67332e6d756b6577616e672e636f6d2f3562616134393032303030316262663531373731303734382e6a7067" alt="img"></a></p>
-<h3 id="2-堆有什么用途？"><a href="#2-堆有什么用途？" class="headerlink" title="2. 堆有什么用途？"></a>2. 堆有什么用途？</h3><blockquote>
-<p>堆最常用于优先队列以及相关动态问题。</p>
-</blockquote>
-<p>优先队列指的是元素入队和出队的顺序与时间无关，既不是先进先出，也不是先进后出，而是根据元素的重要性来决定的。</p>
-<p>例如，操作系统的任务执行是优先队列。一些情况下，会有新的任务进入，并且之前任务的重要性也会改变或者之前的任务被完成出队。而这个出队、入队的过程利用堆结构，时间复杂度是<code>O(log2_n)</code>。</p>
-<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/f7c81bbaf73dd540a6a43ef03339efe741a571cbe86c77bd90ae71cdbd117fb2/68747470733a2f2f696d67312e6d756b6577616e672e636f6d2f3562616134393061303030313661373030353030303237352e6a7067"><img src="https://camo.githubusercontent.com/f7c81bbaf73dd540a6a43ef03339efe741a571cbe86c77bd90ae71cdbd117fb2/68747470733a2f2f696d67312e6d756b6577616e672e636f6d2f3562616134393061303030313661373030353030303237352e6a7067" alt="img"></a></p>
-<h3 id="3-实现堆结构"><a href="#3-实现堆结构" class="headerlink" title="3. 实现堆结构"></a>3. 实现堆结构</h3><h4 id="3-1-元素存储"><a href="#3-1-元素存储" class="headerlink" title="3.1 元素存储"></a>3.1 元素存储</h4><p>堆中的元素存储，一般是借用一个数组：<strong>这个数组是从 1 开始计算的</strong>。更方便子节点和父节点的表示。</p>
-<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/23b1d5d47600776e8ae18f9882f1fe9d71abcbdca9d03617e3688baded155d59/68747470733a2f2f696d67312e6d756b6577616e672e636f6d2f3562616134393135303030313930626630353030303233382e6a7067"><img src="https://camo.githubusercontent.com/23b1d5d47600776e8ae18f9882f1fe9d71abcbdca9d03617e3688baded155d59/68747470733a2f2f696d67312e6d756b6577616e672e636f6d2f3562616134393135303030313930626630353030303233382e6a7067" alt="img"></a></p>
-<h4 id="3-2-入堆"><a href="#3-2-入堆" class="headerlink" title="3.2 入堆"></a>3.2 入堆</h4><p>入堆即向堆中添加新的元素，然后将元素移动到合适的位置，以保证堆的性质。</p>
-<p>在入堆的时候，需要<code>shift_up</code>操作，如下图所示：</p>
-<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/5a96f76a289e528ecff45fe069353b2fb985c64890391e3b50c9abd477f76537/68747470733a2f2f696d67322e6d756b6577616e672e636f6d2f3562616134393164303030313438613430353030303231352e6a7067"><img src="https://camo.githubusercontent.com/5a96f76a289e528ecff45fe069353b2fb985c64890391e3b50c9abd477f76537/68747470733a2f2f696d67322e6d756b6577616e672e636f6d2f3562616134393164303030313438613430353030303231352e6a7067" alt="img"></a></p>
-<p>插入 52 元素后，不停将元素和上方父亲元素比较，如果大于，则交换元素；直到达到堆顶或者小于等于父亲元素。</p>
-<h4 id="3-3-出堆"><a href="#3-3-出堆" class="headerlink" title="3.3 出堆"></a>3.3 出堆</h4><p>出堆只能弹出堆顶元素（最大堆就是最大的元素），调整元素为止保证堆的性质。</p>
-<p>在入堆的时候，需要<code>shift_down</code>操作，如下图所示：</p>
-<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/2f84aab07e46e92fff119718744b2f6e11640b06f5d7cbb30896748fbf9b9d32/68747470733a2f2f696d672e6d756b6577616e672e636f6d2f3562616134393238303030316636333430353030303233382e6a7067"><img src="https://camo.githubusercontent.com/2f84aab07e46e92fff119718744b2f6e11640b06f5d7cbb30896748fbf9b9d32/68747470733a2f2f696d672e6d756b6577616e672e636f6d2f3562616134393238303030316636333430353030303233382e6a7067" alt="img"></a></p>
-<p>已经取出了堆顶元素，然后将位于最后一个位置的元素放入堆顶（图中是<code>16</code>被放入堆顶）。</p>
-<p>重新调整元素位置。此时元素应该和子节点比较，如果大于等于子节点或者没有子节点，停止比较；否则，选择子节点中最大的元素，进行交换，执行此步，直到结束。</p>
-<h4 id="3-4-实现优化"><a href="#3-4-实现优化" class="headerlink" title="3.4 实现优化"></a>3.4 实现优化</h4><p>在优化的时候，有两个部分需要做：</p>
-<ol>
-<li><code>swap</code>操作应该被替换为：单次赋值，<strong>减少赋值次数</strong></li>
-<li>入堆操作：空间不够的时候，应该开辟 2 倍空间，<strong>防止数组溢出</strong></li>
-</ol>
-<h3 id="3-5堆排序"><a href="#3-5堆排序" class="headerlink" title="3.5堆排序"></a>3.5堆排序</h3><p>根据实现的<code>MaxHeap</code>类，实现堆排序很简单：将元素逐步<code>insert</code>进入堆，然后再<code>extract_max</code>逐个取出即可。当然，这个建堆的平均时间复杂度是<code>O(n*log2_n)</code>代码如下：</p>
-<p>过程叫做<code>heapify</code>,实现思路如下：</p>
-<ol>
-<li>将数组的值逐步复制到<code>this-&gt;data</code></li>
-<li>从第一个非叶子节点开始，执行<code>shift_down</code></li>
-<li>重复第 2 步，直到堆顶元素</li>
-</ol>
-<p>这种建堆方法的时间复杂度是: <code>O(n)</code>。因此, 编写<code>heap_sort2</code>函数：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">MaxHeap</span><span class="params">(Item arr[])</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> n = arr.length;</span><br><span class="line">		<span class="comment">//创建一个可比较类型的数组，作为堆的底层，data从1开始</span></span><br><span class="line">		data = (Item[])<span class="keyword">new</span> Comparable[n+<span class="number">1</span>];</span><br><span class="line">		capacity = n;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//在堆中，为了方便计算，从1开始</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;n;i++)</span><br><span class="line">			data[i+<span class="number">1</span>] = arr[i];</span><br><span class="line">		count = n; <span class="comment">//堆中元素个数</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">//heapify过程。找到堆中第一个非叶子节点，作为开始</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = count/<span class="number">2</span>;i&gt;=<span class="number">1</span>;i--)</span><br><span class="line">			shiftDown(i); </span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>整体代码实现</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MaxHeap</span>&lt;<span class="title">Item</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&gt; </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">protected</span> Item[] data; <span class="comment">//作为堆的底层的数组</span></span><br><span class="line">	<span class="keyword">protected</span> <span class="keyword">int</span> count;   <span class="comment">//堆中元素个数</span></span><br><span class="line">	<span class="keyword">protected</span> <span class="keyword">int</span> capacity;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//构造函数，构建一个空堆，可容纳capacity个元素</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MaxHeap</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</span><br><span class="line">		data = (Item[]) <span class="keyword">new</span> Comparable[capacity+<span class="number">1</span>];</span><br><span class="line">		count = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">this</span>.capacity = capacity;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//构造函数，通过一个给定数组创建一个最大堆</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MaxHeap</span><span class="params">(Item arr[])</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> n = arr.length;</span><br><span class="line">		<span class="comment">//创建一个可比较类型的数组，作为堆的底层，data从1开始</span></span><br><span class="line">		data = (Item[])<span class="keyword">new</span> Comparable[n+<span class="number">1</span>];</span><br><span class="line">		capacity = n;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//在堆中，为了方便计算，从1开始</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;n;i++)</span><br><span class="line">			data[i+<span class="number">1</span>] = arr[i];</span><br><span class="line">		count = n; <span class="comment">//堆中元素个数</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">//heapify过程。找到堆中第一个非叶子节点，作为开始</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = count/<span class="number">2</span>;i&gt;=<span class="number">1</span>;i--)</span><br><span class="line">			shiftDown(i); </span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//返回堆中元素个数</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> count;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//返回一个布尔值，表示堆中是否为空</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> count == <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//向最大堆中插入一个新元素item</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(Item item)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//先判断是否超过容量</span></span><br><span class="line">		<span class="keyword">assert</span> count+<span class="number">1</span> &lt;= capacity;</span><br><span class="line">		data[count+<span class="number">1</span>] = item; <span class="comment">//把元素加到末尾</span></span><br><span class="line">		count++;              <span class="comment">//增加count数量</span></span><br><span class="line">		shiftUp(count);       <span class="comment">//把新添加的元素放到其合适的位置</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//从最大堆中取出堆顶元素，即堆中所存储的最大数据</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Item <span class="title">extractMax</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">//先判断堆中有元素</span></span><br><span class="line">		<span class="keyword">assert</span> count&gt;<span class="number">0</span>;</span><br><span class="line">		Item ret = data[<span class="number">1</span>];</span><br><span class="line">		<span class="comment">//交换堆顶和末尾元素</span></span><br><span class="line">		swap(<span class="number">1</span>,count);</span><br><span class="line">		count--;     <span class="comment">//减少count的数量</span></span><br><span class="line">		shiftDown(<span class="number">1</span>);<span class="comment">//把放到堆顶的末尾元素放到合适的位置去</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> ret;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//获取最大堆中的堆顶元素</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Item <span class="title">getMax</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">assert</span> (count&gt;<span class="number">0</span>);</span><br><span class="line">		<span class="keyword">return</span> data[<span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//交换堆中索引为i和j的两个元素</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">		Item t = data[i];</span><br><span class="line">		data[i] = data[j];</span><br><span class="line">		data[j] = t;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//重要辅助函数</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">shiftUp</span><span class="params">(<span class="keyword">int</span> idx)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//当前节点不是root节点且当前节点idx大于母节点idx/2。</span></span><br><span class="line">		<span class="keyword">while</span>(idx&gt;<span class="number">1</span> &amp;&amp; data[idx/<span class="number">2</span>].compareTo(data[idx])&lt;<span class="number">0</span>) &#123;</span><br><span class="line">		<span class="comment">//则元素交换。idx变成idx/2</span></span><br><span class="line">		        swap(idx/<span class="number">2</span>,k);</span><br><span class="line">			idx = idx/<span class="number">2</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">shiftDown</span><span class="params">(<span class="keyword">int</span> idx)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">while</span>(<span class="number">2</span>*idx &lt;= count) &#123;<span class="comment">//保证节点idx是有孩子的。idx只要有左孩子，证明一点有孩子</span></span><br><span class="line">			<span class="keyword">int</span> j = <span class="number">2</span>*idx; <span class="comment">//j是k的左孩子</span></span><br><span class="line">			</span><br><span class="line">			<span class="keyword">if</span>(j+<span class="number">1</span>&lt;= count &amp;&amp; data[idx+<span class="number">1</span>].compareTo(data[j])&gt;<span class="number">0</span>)</span><br><span class="line">				j++; <span class="comment">//j是idx的右孩子</span></span><br><span class="line">			<span class="comment">//保证data[idx]是data[2*idx]和data[2*idx+1]中的最大值</span></span><br><span class="line">			<span class="comment">//这样才能保证换上来的元素是最大的</span></span><br><span class="line">			<span class="keyword">if</span>(data[idx].compareTo(data[j])&gt;=<span class="number">0</span>)</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			swap(idx,j);</span><br><span class="line">			idx = j;</span><br><span class="line">	</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 测试 MaxHeap</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        MaxHeap&lt;Integer&gt; maxHeap = <span class="keyword">new</span> MaxHeap&lt;Integer&gt;(<span class="number">100</span>);</span><br><span class="line">        <span class="keyword">int</span> N = <span class="number">100</span>; <span class="comment">// 堆中元素个数</span></span><br><span class="line">        <span class="keyword">int</span> M = <span class="number">100</span>; <span class="comment">// 堆中元素取值范围[0, M)</span></span><br><span class="line">        <span class="keyword">for</span>( <span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; N ; i ++ )</span><br><span class="line">            maxHeap.insert( <span class="keyword">new</span> Integer((<span class="keyword">int</span>)(Math.random() * M)) );</span><br><span class="line"></span><br><span class="line">        Integer[] arr = <span class="keyword">new</span> Integer[N];</span><br><span class="line">        <span class="comment">// 将maxheap中的数据逐渐使用extractMax取出来</span></span><br><span class="line">        <span class="comment">// 取出来的顺序应该是按照从大到小的顺序取出来的</span></span><br><span class="line">        <span class="keyword">for</span>( <span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; N ; i ++ )&#123;</span><br><span class="line">            arr[i] = maxHeap.extractMax();</span><br><span class="line">            System.out.print(arr[i] + <span class="string">&quot; &quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 确保arr数组是从大到小排列的</span></span><br><span class="line">        <span class="keyword">for</span>( <span class="keyword">int</span> i = <span class="number">1</span> ; i &lt; N ; i ++ )</span><br><span class="line">            <span class="keyword">assert</span> arr[i-<span class="number">1</span>] &gt;= arr[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Python代码–最大堆的实现</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="comment">#创建Array类固定长度的数组</span></span><br><span class="line"><span class="comment">#一个下划线开头的实例变量名，比如_name，这样的实例变量外部是可以访问的，</span></span><br><span class="line"><span class="comment">#但是，按照约定俗成的规定，当你看到这样的变量时，意思就是，</span></span><br><span class="line"><span class="comment"># “虽然我可以被访问，但是，请把我视为私有变量，不要随意访问”。</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Array</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,size=<span class="number">32</span></span>):</span> <span class="comment">#默认长度32</span></span><br><span class="line">        self._size = size      <span class="comment">#_size可以被外部访问但是要视为私有变量</span></span><br><span class="line">        self._items = [<span class="literal">None</span>]*size <span class="comment">#用*号创建长度为size，元素全为None的列表</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span>(<span class="params">self,index</span>):</span> <span class="comment">#模式方法。实现通过[]进行访问</span></span><br><span class="line">        <span class="keyword">return</span> self._items[index]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__setitem__</span>(<span class="params">self, index, value</span>):</span> <span class="comment">#设置相应位置的元素</span></span><br><span class="line">        self._items[index] = value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span>(<span class="params">self</span>):</span>  <span class="comment">#返回长度值</span></span><br><span class="line">        <span class="keyword">return</span> self._size</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clear</span>(<span class="params">self,value=<span class="literal">None</span></span>):</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(self._items):</span><br><span class="line">            self._items[i]=value</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span>(<span class="params">self</span>):</span> <span class="comment">#遍历数组</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> self._items:</span><br><span class="line">            <span class="keyword">yield</span> item</span><br><span class="line">            </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MaxHeap</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,capacity=<span class="literal">None</span></span>):</span></span><br><span class="line"></span><br><span class="line">        self.capacity = capacity+<span class="number">1</span> <span class="comment">#堆的容量</span></span><br><span class="line">        self._data = Array(self.capacity) <span class="comment">#创建内部数组，用来实现最大堆</span></span><br><span class="line">        self._count = <span class="number">0</span>  <span class="comment">#堆中元素个数</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span>(<span class="params">self</span>):</span>  <span class="comment">#最大堆的长度</span></span><br><span class="line">        <span class="keyword">return</span> self._count</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add</span>(<span class="params">self,item</span>):</span> <span class="comment">#向堆中添加元素</span></span><br><span class="line">        <span class="keyword">if</span> self._count&gt;=self.capacity:</span><br><span class="line">            <span class="keyword">raise</span> Exception(<span class="string">&#x27;full&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        self._count += <span class="number">1</span></span><br><span class="line">        self._data[self._count] = item</span><br><span class="line">        self.__shiftUp(self._count)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">size</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.count</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isEmpty</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.count ==<span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">extractMax</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">if</span> self._count &lt;=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">raise</span> Exception(<span class="string">&quot;empty&quot;</span>)</span><br><span class="line">        ret = self._data[<span class="number">1</span>] <span class="comment">#存储顶点元素</span></span><br><span class="line">        self._data[<span class="number">1</span>],self._data[self._count] = self._data[self._count],self._data[<span class="number">1</span>]</span><br><span class="line">        self._count-=<span class="number">1</span></span><br><span class="line">        self.__shiftDown(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__shiftUp</span>(<span class="params">self,k</span>):</span>  <span class="comment">#</span></span><br><span class="line">        <span class="comment"># 指针k对应节点不是root节点且子节点大于父节点</span></span><br><span class="line">        <span class="keyword">while</span>(k&gt;<span class="number">1</span> <span class="keyword">and</span> self._data[k]&gt;self._data[k//<span class="number">2</span>]):</span><br><span class="line">            self._data[k//<span class="number">2</span>],self._data[k]=self._data[k],self._data[k//<span class="number">2</span>]</span><br><span class="line">            k //=<span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__shiftDown</span>(<span class="params">self,k</span>):</span></span><br><span class="line">        <span class="keyword">while</span>(<span class="number">2</span>*k&lt;=self._count): <span class="comment">#该节点有左孩子（证明肯定有孩子）</span></span><br><span class="line">            j = k*<span class="number">2</span></span><br><span class="line">            <span class="comment">#如果该节点有右孩子且右孩子更大时，指针指向右孩子</span></span><br><span class="line">            <span class="keyword">if</span>(j+<span class="number">1</span>&lt;=self._count <span class="keyword">and</span> self._data[j+<span class="number">1</span>]&gt;self._data[j]):</span><br><span class="line">                j+=<span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span>(self._data[k]&gt;=self._data[j]):</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            self._data[k],self._data[j]=self._data[j],self._data[k]</span><br><span class="line">            k=j</span><br><span class="line">            </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_MaxHeap</span>():</span></span><br><span class="line">    arr = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">33</span>))</span><br><span class="line">    random.shuffle(arr)</span><br><span class="line">    print(arr)</span><br><span class="line">    heap = MaxHeap(<span class="built_in">len</span>(arr))</span><br><span class="line">    res = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(arr)): <span class="comment">#将随机生成的arr元素入堆</span></span><br><span class="line">        heap.add(arr[i])</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(arr)): <span class="comment">#堆中元素出堆</span></span><br><span class="line">        res.append(heap.extractMax())</span><br><span class="line">    print(res) <span class="comment">#从大到小</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(arr) // <span class="number">2</span>): <span class="comment">#反转数组</span></span><br><span class="line">        res[i], res[<span class="built_in">len</span>(res) - <span class="number">1</span> - i] = res[<span class="built_in">len</span>(res) - <span class="number">1</span> - i], res[i]</span><br><span class="line">    print(res)</span><br></pre></td></tr></table></figure>
-
-<h1 id="数据结构–索引堆"><a href="#数据结构–索引堆" class="headerlink" title="数据结构–索引堆"></a><strong>数据结构–索引堆</strong></h1><p><strong>何为索引堆？</strong></p>
-<p>索引堆是对堆进行了优化。关于堆的介绍可以查看<a target="_blank" rel="noopener" href="https://www.yasinshaw.com/article/15">数据结构–堆</a>。</p>
-<p><strong>优化了什么？</strong></p>
-<p>在堆中，构建堆、插入、删除过程都需要大量的交换操作。在之前的实现中，进行交换操作是直接交换<code>datas</code>数组中两个元素。而索引堆<strong>交换的是这两个元素的索引，而不是直接交换元素</strong>。</p>
-<p><strong>有什么好处？</strong></p>
-<p>主要有两个好处：</p>
-<ol>
-<li>减小交换操作的消耗，尤其是对于元素交换需要很多资源的对象来说，比如大字符串。</li>
-<li>可以根据原位置找到元素，即便这个元素已经换了位置。</li>
-</ol>
-<h3 id="如何做到的？"><a href="#如何做到的？" class="headerlink" title="如何做到的？"></a><strong>如何做到的？</strong></h3><p>索引堆使用了一个新的<code>int</code>类型的数组，用于存放索引信息。部分代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 属性</span><br><span class="line">T[] datas; &#x2F;&#x2F; 存放数据的数组 datas[1..n]</span><br><span class="line">int[] indexes; &#x2F;&#x2F; 索引数组</span><br></pre></td></tr></table></figure>
-
-<p>这里这个<code>indexes</code>数组，存放的是什么信息呢？它是如何工作的呢？假如我们有这样一个最小堆：</p>
-<p>用数组表示是：</p>
-<blockquote>
-<p>datas: [-, 1, 15, 20, 34, 7]</p>
-</blockquote>
-<p>现在要维护最小堆的有序性，就需要交换<code>15</code>和<code>7</code>这两个元素。交换之后的元素数组是：</p>
-<blockquote>
-<p>datas: [-, 1, 7, 20, 34, 15]</p>
-</blockquote>
-<p>而此时，我们再想找到原来在datas[2]位置的元素，已经找不到了。因为此时data[2]已经换成了<code>7</code>，而系统并没有记录<code>15</code>被换到了什么地方。</p>
-<p>这个时候，想要得到i位置的元素，直接<code>datas[i]</code>就可以了。</p>
-<h3 id="使用索引堆"><a href="#使用索引堆" class="headerlink" title="使用索引堆"></a>使用索引堆</h3><p>元素比较的时候是datas的数据，而交换时候是indexes的数据(索引)，datas不做任何改动。</p>
-<p>使用索引堆后，初始化两个数组应该是这样的：</p>
-<blockquote>
-<ul>
-<li>datas: [-, 1, 15, 20, 34, 7]</li>
-<li>indexes: [-, 1, 2, 3, 4, 5]</li>
-</ul>
-</blockquote>
-<p>这个时候，我们就交换<code>indexes</code>数组里面的索引<code>2</code>和<code>5</code>，而不操作<code>datas</code>数组。交换后两个数组是这个样子：</p>
-<blockquote>
-<ul>
-<li>datas: [-, 1, 15, 20, 34, 7]</li>
-<li>indexes: [-, 1, 5, 3, 4, 2]</li>
-</ul>
-</blockquote>
-<p>这个时候，想要得到i位置的元素，就需要<code>datas[indexes[i]]</code>来获取。</p>
-<p><strong>用图来理解：</strong></p>
-<p>构建前：</p>
-<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/5fedfd68c76434560f6f481ecbe146a7e7876f27a15ebd034db8bfa911d30b74/687474703a2f2f696d672e646f6e67636f6465722e636f6d2f75702f696e666f2f3230313830372f32303138303731393233333835393538343335312e706e67"><img src="https://camo.githubusercontent.com/5fedfd68c76434560f6f481ecbe146a7e7876f27a15ebd034db8bfa911d30b74/687474703a2f2f696d672e646f6e67636f6465722e636f6d2f75702f696e666f2f3230313830372f32303138303731393233333835393538343335312e706e67" alt="img"></a></p>
-<p>构建后：</p>
-<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/784285013c86d0a66a83e29589858d232a625a42530ac798d0f02fc535714f95/687474703a2f2f696d672e646f6e67636f6465722e636f6d2f75702f696e666f2f3230313830372f32303138303731393233333835393838303233312e706e67"><img src="https://camo.githubusercontent.com/784285013c86d0a66a83e29589858d232a625a42530ac798d0f02fc535714f95/687474703a2f2f696d672e646f6e67636f6465722e636f6d2f75702f696e666f2f3230313830372f32303138303731393233333835393838303233312e706e67" alt="img"></a></p>
-<h3 id="索引堆的优化"><a href="#索引堆的优化" class="headerlink" title="索引堆的优化"></a>索引堆的优化</h3><p>前面的index heap 虽然解决了改变堆中元素，由于data位置是不改变的，所以可以通过 data[i] = newItem; 但是，改变index数组以维护队的性质这个操作就无法通过一步实现了，此时，需要先遍历indexes数组，时间复杂度是O(N)，再调整的时间复杂度是O(logN),所以T(N) = O(N0+O(logN)。</p>
-<p>比如，我们想要改变所以位置4的data，更改后要维护这个堆，这个堆中存储的元素是上一行的索引，所以要在indexes数组中找到4所在位置，需要遍历indexes数组，找到是第9个位置，然后对滴9个位置调整，如果，我们在对这个类中添加一个reverse属性，关系如下：</p>
-<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/0b7c02ae2e73eb8cc6a9907a6af1f002a74a2f53a96708b5309ff4ca4f3ecdbe/687474703a2f2f696d672e646f6e67636f6465722e636f6d2f75702f696e666f2f3230313830372f32303138303731393233333930303132353333322e706e67"><img src="https://camo.githubusercontent.com/0b7c02ae2e73eb8cc6a9907a6af1f002a74a2f53a96708b5309ff4ca4f3ecdbe/687474703a2f2f696d672e646f6e67636f6465722e636f6d2f75702f696e666f2f3230313830372f32303138303731393233333930303132353333322e706e67" alt="img"></a></p>
-<p><strong>rev与index的关系：</strong></p>
-<p><a target="_blank" rel="noopener" href="https://camo.githubusercontent.com/0561b59822a3bd036fa2179cc92dc81d5714aec0670394a21902cec55c262880/687474703a2f2f696d672e646f6e67636f6465722e636f6d2f75702f696e666f2f3230313830372f32303138303731393233333930303239343236372e706e67"><img src="https://camo.githubusercontent.com/0561b59822a3bd036fa2179cc92dc81d5714aec0670394a21902cec55c262880/687474703a2f2f696d672e646f6e67636f6465722e636f6d2f75702f696e666f2f3230313830372f32303138303731393233333930303239343236372e706e67" alt="img"></a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1383,7 +1301,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
