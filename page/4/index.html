@@ -147,6 +147,99 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2018/12/20/return%E5%9C%A8try-catch-finally%E8%AF%AD%E5%8F%A5%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/20/return%E5%9C%A8try-catch-finally%E8%AF%AD%E5%8F%A5%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">return在try-catch-finally语句中的使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-20 22:27:29" itemprop="dateCreated datePublished" datetime="2018-12-20T22:27:29+10:00">2018-12-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-31 23:02:28" itemprop="dateModified" datetime="2020-12-31T23:02:28+10:00">2020-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="return在try-catch-finally语句中的使用"><a href="#return在try-catch-finally语句中的使用" class="headerlink" title="return在try-catch-finally语句中的使用"></a>return在try-catch-finally语句中的使用</h1><h2 id="return在try-catch-finally语句中的使用-1"><a href="#return在try-catch-finally语句中的使用-1" class="headerlink" title="return在try-catch-finally语句中的使用"></a>return在try-catch-finally语句中的使用</h2><p>若在 try或catch语句里面有return语句，finally语句和return语句的执行顺序问题：</p>
+<ul>
+<li>若有finally语句，则无论如何，都会执行该语句，在try或catch中的return语句会将它的返回值压入栈内，然后执行finally语句，当finally执行完成后，若finally语句里有return语句，则执行return语句并结束。</li>
+<li>若finally没有return语句，则返回被保存的栈里的return语句，再执行。然而，在压栈时候，要注意压入栈内的是什么东西，是值本身还是引用，若是引用则引用的值会改变，若是变量值，则不会改变。</li>
+</ul>
+<p>例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">public class TestFinal &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        System.out.println(&quot;test1:&quot; + testFinal1());  </span><br><span class="line">        System.out.println(&quot;test2:&quot; + testFinal2());  </span><br><span class="line">        System.out.println(&quot;test3:&quot; + testFinal3());  </span><br><span class="line">        System.out.println(&quot;test4:&quot; + testFinal4());  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    static int testFinal1() &#123;  </span><br><span class="line">        int i &#x3D; 1;  </span><br><span class="line">        try &#123;  </span><br><span class="line">            return i;  </span><br><span class="line">        &#125; finally &#123;  </span><br><span class="line">            System.out.println(&quot;in testFinal1():finally 肯定会被执行的！&quot;);  </span><br><span class="line">            i &#x3D; 48;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    static String testFinal2() &#123;  </span><br><span class="line">        String str &#x3D; &quot;try&quot;;  </span><br><span class="line">        try &#123;  </span><br><span class="line">            return str;  </span><br><span class="line">        &#125; finally &#123;  </span><br><span class="line">            System.out.println(&quot;in testFinal2():finally 肯定会被执行的！&quot;);  </span><br><span class="line">            str &#x3D; &quot;finally&quot;;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    static StringBuilder testFinal3() &#123;  </span><br><span class="line">        StringBuilder build &#x3D; new StringBuilder(&quot;try &quot;);  </span><br><span class="line">        try &#123;  </span><br><span class="line">            return build;  </span><br><span class="line">        &#125; finally &#123;  </span><br><span class="line">            System.out.println(&quot;in testFinal3():finally 肯定会被执行的！&quot;);  </span><br><span class="line">            build.append(&quot;finally&quot;);  </span><br><span class="line">            build &#x3D; new StringBuilder(&quot;你猜我是谁！&quot;);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    static String testFinal4() &#123;  </span><br><span class="line">        try &#123;  </span><br><span class="line">            return &quot;return in try&quot;;  </span><br><span class="line">        &#125; finally &#123;  </span><br><span class="line">            System.out.println(&quot;in testFinal4():finally 肯定会被执行的！&quot;);  </span><br><span class="line">            return &quot;return in finally&quot;;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">输出是：</span><br><span class="line"></span><br><span class="line">in testFinal1():finally 肯定会被执行的！</span><br><span class="line"></span><br><span class="line">test1:1</span><br><span class="line"></span><br><span class="line">in testFinal2():finally 肯定会被执行的！</span><br><span class="line"></span><br><span class="line">test2:try</span><br><span class="line"></span><br><span class="line">in testFinal3():finally 肯定会被执行的！</span><br><span class="line"></span><br><span class="line">test3:try finally</span><br><span class="line"></span><br><span class="line">in testFinal4():finally 肯定会被执行的！</span><br><span class="line"></span><br><span class="line">test4:return in finally</span><br></pre></td></tr></table></figure>
+
+<p>结论很明显，finally的语句确实执行了，而且肯定是在方法return之前执行的，而且，如果finally中有return语句的话，方法直接结束。这里需要注意的只有一点：在try中的return语句会将返回结果值压栈，然后转入到finally子过程，等到finally子过程执行完毕之后（没有return），再返回。</p>
+<p>下面具体看4个例子：</p>
+<ul>
+<li>在testFinal1()中，return i;会将结果i的值，也就是1压入栈。即使在finally中将i修改了（i=48），也不回对已经压入栈里的1造成任何影响。</li>
+<li>在testFinal2()中，return str;将str的内容压入栈，比如我们假设str的内容为0x108(只是一个地址值),通过这个地址值我们能找到”try”，那栈里的内容就是0x108。执行str = “finally”，这时候str这个变量的内容可能变为0x237了，这是串”finally”的地址。方法调用结束后，返回的是什么？return时压入栈里的0x108。所以在打印结果时，我们打印的是通过0x108找到的字符串”try”。</li>
+<li>在testFinal3()中，return 压栈的是build这个变量的值，比如是0x3579，通过这个值我们可以找到StringBuilder对象。finally语句块中通过append方法对这个对象的内容进行了修改。而build = new StringBuilder(“你猜我是谁！”);让build变量指向了一个新的对象，这时候build的值可能是0x4579了。<br><strong>但是，别忘了，原来的StringBuilder对象仍然在0x3579处，而我们压栈的正是0x3579啊！方法返回后，我们得到的返回值0x3579，通过这个引用值找到相应的StringBuilder对象，所以打印的结果是test3:try finally。</strong></li>
+<li>在testFinal4()中，finally有return语句，直接返回，方法结束。</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
     <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2018/12/16/Java%E4%B8%ADint%E4%B8%8EInteger%E7%94%A8==%E6%AF%94%E8%BE%83%E8%AF%A6%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -713,7 +806,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">35</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
