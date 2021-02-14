@@ -147,6 +147,89 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2021/02/14/DI%E5%AE%B9%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/14/DI%E5%AE%B9%E5%99%A8/" class="post-title-link" itemprop="url">DI容器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-02-14 22:27:29 / Modified: 22:57:53" itemprop="dateCreated datePublished" datetime="2021-02-14T22:27:29+09:00">2021-02-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/go/" itemprop="url" rel="index"><span itemprop="name">go</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="DI容器"><a href="#DI容器" class="headerlink" title="DI容器"></a>DI容器</h2><h3 id="了解设计的第一步：模型"><a href="#了解设计的第一步：模型" class="headerlink" title="了解设计的第一步：模型"></a>了解设计的第一步：模型</h3><p>理解一个模型的关键在于，要了解这个模型设计的来龙去脉，知道它是如何解决相应的问题。</p>
+<p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1613203014663.png" alt="1613203014663"></p>
+<h3 id="耦合的依赖"><a href="#耦合的依赖" class="headerlink" title="耦合的依赖"></a>耦合的依赖</h3><p>DI（Dependency Injection）容器，解决的是<strong>组件创建和组装</strong>的问题。</p>
+<p>例子：假设有一个AritcleService提供根据标题查询文章的功能。当然，数据需要持久化的，所以，这里还有一个ArticleRepository，用来与持久化数据打交道。</p>
+<ul>
+<li>repository层：和DB进行连接</li>
+<li>service层：调用repository</li>
+<li>调用层：操作全体的层</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/14/DI%E5%AE%B9%E5%99%A8/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
     <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2021/02/07/HTTP%E7%9A%84Body/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -908,97 +991,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
-    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/12/16/k8s-A%20quick%20note%20on%20editing%20PODs%20and%20Deployments/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="HOU YINGQIAO">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="MyNote">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/16/k8s-A%20quick%20note%20on%20editing%20PODs%20and%20Deployments/" class="post-title-link" itemprop="url">k8s-A quick note on editing PODs and Deployments</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-12-16 21:27:29" itemprop="dateCreated datePublished" datetime="2020-12-16T21:27:29+09:00">2020-12-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-05 14:28:54" itemprop="dateModified" datetime="2021-01-05T14:28:54+09:00">2021-01-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="A-quick-note-on-editing-PODs-and-Deployments"><a href="#A-quick-note-on-editing-PODs-and-Deployments" class="headerlink" title="A quick note on editing PODs and Deployments"></a>A quick note on editing PODs and Deployments</h1><h4 id="Edit-a-POD"><a href="#Edit-a-POD" class="headerlink" title="Edit a POD"></a>Edit a POD</h4><p>Remember, you CANNOT edit specifications of an existing POD other than the below.</p>
-<ul>
-<li>spec.containers[*].image</li>
-<li>spec.initContainers[*].image</li>
-<li>spec.activeDeadlineSeconds</li>
-<li>spec.tolerations</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/12/16/k8s-A%20quick%20note%20on%20editing%20PODs%20and%20Deployments/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1068,7 +1060,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

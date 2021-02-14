@@ -147,6 +147,97 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/12/16/k8s-A%20quick%20note%20on%20editing%20PODs%20and%20Deployments/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/16/k8s-A%20quick%20note%20on%20editing%20PODs%20and%20Deployments/" class="post-title-link" itemprop="url">k8s-A quick note on editing PODs and Deployments</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-12-16 21:27:29" itemprop="dateCreated datePublished" datetime="2020-12-16T21:27:29+09:00">2020-12-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-01-05 14:28:54" itemprop="dateModified" datetime="2021-01-05T14:28:54+09:00">2021-01-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/k8s-udemy/" itemprop="url" rel="index"><span itemprop="name">k8s_udemy</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="A-quick-note-on-editing-PODs-and-Deployments"><a href="#A-quick-note-on-editing-PODs-and-Deployments" class="headerlink" title="A quick note on editing PODs and Deployments"></a>A quick note on editing PODs and Deployments</h1><h4 id="Edit-a-POD"><a href="#Edit-a-POD" class="headerlink" title="Edit a POD"></a>Edit a POD</h4><p>Remember, you CANNOT edit specifications of an existing POD other than the below.</p>
+<ul>
+<li>spec.containers[*].image</li>
+<li>spec.initContainers[*].image</li>
+<li>spec.activeDeadlineSeconds</li>
+<li>spec.tolerations</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/16/k8s-A%20quick%20note%20on%20editing%20PODs%20and%20Deployments/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
     <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/11/28/go%20context/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -970,120 +1061,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
-    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2019/11/12/set%E5%92%8Cmap%E4%B8%8D%E5%90%8C%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8C%BA%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="HOU YINGQIAO">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="MyNote">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/12/set%E5%92%8Cmap%E4%B8%8D%E5%90%8C%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">set和map不同底层实现的区别</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-11-12 21:27:29" itemprop="dateCreated datePublished" datetime="2019-11-12T21:27:29+09:00">2019-11-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 22:50:50" itemprop="dateModified" datetime="2020-12-31T22:50:50+09:00">2020-12-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/data-structures-and-algorithms/" itemprop="url" rel="index"><span itemprop="name">data structures and algorithms</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="set和map不同底层实现的区别"><a href="#set和map不同底层实现的区别" class="headerlink" title="set和map不同底层实现的区别"></a>set和map不同底层实现的区别</h2><h3 id="python-list-tuple-dictionary-set的底层细节"><a href="#python-list-tuple-dictionary-set的底层细节" class="headerlink" title="[python]list, tuple, dictionary, set的底层细节"></a>[python]list, tuple, dictionary, set的底层细节</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/siyue0211/article/details/80560783">https://blog.csdn.net/siyue0211/article/details/80560783</a></p>
-<h3 id="Python中dict的实现细节"><a href="#Python中dict的实现细节" class="headerlink" title="Python中dict的实现细节"></a>Python中dict的实现细节</h3><p>CPython使用伪随机探测(pseudo-random probing)的<strong>散列表(hash table)作为字典的底层数据结构。由于这个实现细节，只有可哈希</strong>的对象才能作为字典的键。</p>
-<p><strong>Python中所有不可变的内置类型都是可哈希的。可变类型（如列表，字典和集合）就是不可哈希的，因此不能作为字典的键。</strong></p>
-<p>字典的三个基本操作（添加元素，获取元素和删除元素）的平均事件复杂度为O(1)，但是他们的平摊最坏情况复杂度要高得多，为O(N).</p>
-<p>操作 平均复杂度 平摊最坏情况复杂度 获取元素 O(1) O(n) 修改元素 O(1) O(n) 删除元素 O(1) O(n) 复制 O(n) O(n) 遍历 O(n) O(n) 还有一点很重要，在复制和遍历字典的操作中，最坏的复杂度中的n是字典曾经达到的最大元素数目，而不是当前的元素数目。换句话说，如果一个字典曾经元素个数很多，后来又大大减小了，那么遍历这个字典可能会花费相当长的事件。因此在某些情况下，如果需要频繁的遍历某个词典，那么最好创建一个新的字典对象，而不是仅在旧字典中删除元素。</p>
-<h3 id="Python中set的实现"><a href="#Python中set的实现" class="headerlink" title="Python中set的实现"></a>Python中set的实现</h3><h3 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h3><h3 id="Leetcode242-Valid-Anagram"><a href="#Leetcode242-Valid-Anagram" class="headerlink" title="Leetcode242 Valid Anagram"></a>Leetcode242 Valid Anagram</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/valid-anagram/">https://leetcode.com/problems/valid-anagram/</a></p>
-<p>判断字符串t是否是字符串s变换字符顺序后得到的结果</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: s &#x3D; &quot;anagram&quot;, t &#x3D; &quot;nagaram&quot;</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
-
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: s &#x3D; &quot;rat&quot;, t &#x3D; &quot;car&quot;</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
-
-<h4 id="解题："><a href="#解题：" class="headerlink" title="解题："></a>解题：</h4><p>创建两个dict分别记录s和t的字符和该字符出现的频率，再比较两个记录的dict是否相等。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isAnagram</span>(<span class="params">self, s: <span class="built_in">str</span>, t: <span class="built_in">str</span></span>) -&gt; bool:</span></span><br><span class="line">        record = &#123;&#125;</span><br><span class="line">        record2 = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(s)):</span><br><span class="line">            record[s[i]] = record.get(s[i],<span class="number">0</span>)+<span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(t)):</span><br><span class="line">            record2[t[i]] = record2.get(t[i],<span class="number">0</span>)+<span class="number">1</span></span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> record2 == record</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
-
-<h3 id="Leetcode202-Happy-Number"><a href="#Leetcode202-Happy-Number" class="headerlink" title="Leetcode202 Happy Number"></a>Leetcode202 Happy Number</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/happy-number/">https://leetcode.com/problems/happy-number/</a></p>
-<p>一个数将其替换为其各位数字的平方和，重复这个过程，如果最终能得到1，这是happy number，如果这个过程陷入了一个不包含1的循环，则不是happy number</p>
-<p><strong>Example:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: 19</span><br><span class="line">Output: true</span><br><span class="line">Explanation: </span><br><span class="line">12 + 92 &#x3D; 82</span><br><span class="line">82 + 22 &#x3D; 68</span><br><span class="line">62 + 82 &#x3D; 100</span><br><span class="line">12 + 02 + 02 &#x3D; 1</span><br></pre></td></tr></table></figure>
-
-<h4 id="解题：-1"><a href="#解题：-1" class="headerlink" title="解题："></a>解题：</h4><p>用set()记录每次操作的num，如果该num没有在set中出现，则才能进行循环操作；</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">happyNumber</span>(<span class="params">num</span>):</span></span><br><span class="line">    record = <span class="built_in">set</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> num <span class="keyword">not</span> <span class="keyword">in</span> record:<span class="comment">#如果num不在set中进行循环操作；若在set中证明进入死循环，不符合题目要求</span></span><br><span class="line">        record.add(num) <span class="comment">#记录每次操作的num</span></span><br><span class="line">        squareSum = <span class="number">0</span> <span class="comment">#每次的和是要重新计算的</span></span><br><span class="line">       </span><br><span class="line">        <span class="comment">#把一个数字的所有位数取出，并进行操作</span></span><br><span class="line">        <span class="keyword">while</span> num&gt;<span class="number">0</span>: </span><br><span class="line">            remain = num%<span class="number">10</span></span><br><span class="line">            squareSum += remain*remain</span><br><span class="line">            num = num//<span class="number">10</span></span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> squareSum ==<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            num = squareSum</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Leetcode290-Word-Pattern"><a href="#Leetcode290-Word-Pattern" class="headerlink" title="Leetcode290 Word Pattern"></a>Leetcode290 Word Pattern</h3><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/word-pattern/">https://leetcode.com/problems/word-pattern/</a></p>
-<p>给出一个模式(pattern)以及一个字符串，判断这个字符串是否符合模式？</p>
-<p><strong>Example 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: pattern &#x3D; &quot;abba&quot;, str &#x3D; &quot;dog cat cat dog&quot;</span><br><span class="line">Output: true</span><br></pre></td></tr></table></figure>
-
-<p><strong>Example 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input:pattern &#x3D; &quot;abba&quot;, str &#x3D; &quot;dog cat cat fish&quot;</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
-
-<p><strong>Example 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: pattern &#x3D; &quot;aaaa&quot;, str &#x3D; &quot;dog cat cat dog&quot;</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
-
-<p><strong>Example 4:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: pattern &#x3D; &quot;abba&quot;, str &#x3D; &quot;dog dog dog dog&quot;</span><br><span class="line">Output: false</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意：</strong>字符集？ 空串符合任意模式？还是不符合任意模式？</p>
-<h4 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wordPattern</span>(<span class="params">pattern, word_str</span>):</span></span><br><span class="line"></span><br><span class="line">        words = word_str.split(<span class="string">&quot; &quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(pattern) != <span class="built_in">len</span>(words):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">        pattern_map, word_map = &#123;&#125;, &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(pattern)):</span><br><span class="line">            <span class="keyword">if</span> pattern_map.get(pattern[i], -<span class="number">1</span>) != word_map.get(words[i],-<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">            pattern_map[pattern[i]] = pattern_map.get(pattern[i], <span class="number">0</span>)+i</span><br><span class="line">            word_map[words[i]] = word_map.get(words[i],<span class="number">0</span>)+i</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="Leetcode205-Isomorphic-Strings"><a href="#Leetcode205-Isomorphic-Strings" class="headerlink" title="Leetcode205.Isomorphic Strings"></a>Leetcode205.Isomorphic Strings</h3><h3 id="Leetcode451-Sort-Characters-By-Frequency"><a href="#Leetcode451-Sort-Characters-By-Frequency" class="headerlink" title="Leetcode451 Sort Characters By Frequency"></a>Leetcode451 Sort Characters By Frequency</h3>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1153,7 +1130,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

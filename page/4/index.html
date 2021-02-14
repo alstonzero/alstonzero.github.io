@@ -147,6 +147,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2019/05/03/Chp2%E7%AE%80%E5%8D%95%E6%8E%92%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/03/Chp2%E7%AE%80%E5%8D%95%E6%8E%92%E5%BA%8F/" class="post-title-link" itemprop="url">Chp2简单排序</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-03 21:27:29" itemprop="dateCreated datePublished" datetime="2019-05-03T21:27:29+09:00">2019-05-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-31 22:26:46" itemprop="dateModified" datetime="2020-12-31T22:26:46+09:00">2020-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/data-structures-and-algorithms/" itemprop="url" rel="index"><span itemprop="name">data structures and algorithms</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Chp2简单排序"><a href="#Chp2简单排序" class="headerlink" title="Chp2简单排序"></a>Chp2简单排序</h1><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p><strong>思路：</strong></p>
+<p>1，将最小的数据放在数组的最开始（index为0），并将最大数据放在数组的最后（数组下标为nELem-1）。</p>
+<p>2，外层for循环的计数器out从数组最后开始，即out等于nElems-1，每次循环一次out减一。index大于out的数据已经排好序了。变量out在每完成一次内部循环（计数器为in）后就左移一位，因此算法就不再处理那些已经排好序的数据了,最终到index为1。</p>
+<p>3，内层for从循环计数器in从index 0开始，每循环一次in加一，当in等于out时结束一次循环。在内层for循环体中，数组下标index为in和in+1的两个数据项进行比较，如果下标index为in的数据项大于index为in+1的数据项，则交换两个数据项。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public void bubbleSort()&#123;</span><br><span class="line">    int out,in;</span><br><span class="line">    int temp;</span><br><span class="line">    for(out&#x3D;nElems-1;out&gt;1;out--)&#123;</span><br><span class="line">        for(in&#x3D;0;in&lt;out;in++)&#123;</span><br><span class="line">            if(a[in]&gt;a[in+1])&#123;</span><br><span class="line">                temp &#x3D; a[in];</span><br><span class="line">                a[in] &#x3D; a[in+1];</span><br><span class="line">                a[in+1]&#x3D;temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><p><strong>思路：</strong></p>
+<p>1，外层循环用循环变量out，从数组开头开始（index为0）向高位增长。内层循环用循环变量in，从index为out+1开始，同样是向右移位。</p>
+<p>2，在每一个in的新位置，数据项a[in]和a[min]进行比较。如果a[in]更小，则min被赋值为in的值。在内层循环的最后，min指向最小的数据项，然后交换out和min指向的数组数据项。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public void selectionSort()&#123;</span><br><span class="line">    int out,in,min;</span><br><span class="line">    int temp;</span><br><span class="line">    for(out&#x3D;0;out&lt;nElems-1;out++)&#123;</span><br><span class="line">        min &#x3D; out;                     &#x2F;&#x2F;minimum</span><br><span class="line">        fot(in&#x3D;out+1;in&lt;nElems;in++)   &#x2F;&#x2F;inner loop</span><br><span class="line">            if(a[in]&lt;a[min])           &#x2F;&#x2F;if min greater</span><br><span class="line">                min &#x3D; in;              &#x2F;&#x2F;we have a new min</span><br><span class="line">        temp &#x3D; a[out];</span><br><span class="line">        a[out] &#x3D; a[min];</span><br><span class="line">        a[min] &#x3D; temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="选择排序的效率"><a href="#选择排序的效率" class="headerlink" title="选择排序的效率"></a>选择排序的效率</h4><p>选择排序与冒泡排序执行了相同次数的比较：N*(N-1)/2。对于10个数据项，需要45次比较。但只需要少于10次的交换。当N值很大时，比较的次数是很重要的，结论上选择排序和冒泡排序一样运行了O(N^2)时间。但是，选择排序无疑更快，因为它进行的交换少得多。</p>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><p><strong>思路：</strong></p>
+<p>在数组中间有一个作为标记元素。在这个标记元素左边的所有元素已经是局部有序的，右边所有元素是无序的</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
     <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2019/05/01/Chp1%20Array/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1040,7 +1127,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
