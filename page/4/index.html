@@ -147,6 +147,119 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2019/05/06/Chp3%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/06/Chp3%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" class="post-title-link" itemprop="url">Chp3栈和队列</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-06 21:27:29" itemprop="dateCreated datePublished" datetime="2019-05-06T21:27:29+09:00">2019-05-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-31 22:27:24" itemprop="dateModified" datetime="2020-12-31T22:27:24+09:00">2020-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/data-structures-and-algorithms/" itemprop="url" rel="index"><span itemprop="name">data structures and algorithms</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Chp3栈和队列"><a href="#Chp3栈和队列" class="headerlink" title="Chp3栈和队列"></a>Chp3栈和队列</h1><h3 id="栈-Stack"><a href="#栈-Stack" class="headerlink" title="栈 Stack"></a>栈 Stack</h3><h4 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h4><p>栈是一种线性结构；</p>
+<p>相比数组，栈对应操作的是数组的子集；</p>
+<p>只能从一端添加元素，也只能从一段取出元素；</p>
+<p><strong>这一段称作栈顶。</strong></p>
+<h4 id="性质："><a href="#性质：" class="headerlink" title="性质："></a>性质：</h4><p>栈是一种<strong>先进后出</strong>的数据结构；Last In First Out;在计算机的世界里栈有着不可思议的作用。</p>
+<h4 id="栈的应用："><a href="#栈的应用：" class="headerlink" title="栈的应用："></a>栈的应用：</h4><p>Undo操作(撤销)</p>
+<h4 id="栈的实现"><a href="#栈的实现" class="headerlink" title="栈的实现"></a>栈的实现</h4><p>Stack</p>
+<p>构造方法：根据参数规定的容量创建一个新栈，栈的域包括表示最大容量的变量(即数组的大小)。</p>
+<p><strong>push()方法：</strong>将top(栈顶)的值增加一，使它指向原顶端数据项上面的一个位置，并在这个位置上存储一个数据项。</p>
+<p><strong>pop()方法：</strong> 从栈中移除数据项。返回index为top(栈顶)的数据项值，然后top减一。</p>
+<p><strong>peek()方法：</strong>返回栈顶（top）元素所指的数据项的值，不对栈做任何变动。</p>
+<h3 id="LeetCode例题"><a href="#LeetCode例题" class="headerlink" title="LeetCode例题"></a>LeetCode例题</h3><p>给定一个只包括</p>
+<p><strong>思路</strong></p>
+<p>1，import java.util.Stack。并声明一个栈</p>
+<p>2，遍历这个字符串，每次用charAt()具体来看字符串中第i个字符是什么样子的，存成 char c</p>
+<p>3，如果c==’(‘ || ‘[‘ ||’{‘ 满足这个条件，将c push进入栈中；否则 (如果当前栈顶没有字符的话，显然匹配失败，则直接return false。)用pop方法查看当前栈顶的字符topchar，如果c是’)’但是当前的topchar不是’(‘则匹配失败;同理，如果c是’]’但是当前的topchar不是’[‘则匹配失败;</p>
+<p>4，在循环之外，如果栈里还有字符串则匹配失败。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Stack</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isVaild</span><span class="params">(String s)</span></span>&#123;</span><br><span class="line">             Stack&lt;Character&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;(); <span class="comment">//声明这个栈</span></span><br><span class="line">             <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;s.length();i++)&#123; <span class="comment">//遍历字符串</span></span><br><span class="line">                 <span class="keyword">char</span> c = s.charAt(i); <span class="comment">//查看字符串中第i个字符是什么样子的，存成char c</span></span><br><span class="line">                 <span class="keyword">if</span>（c == <span class="string">&#x27;(&#x27;</span>|| c==<span class="string">&#x27;[&#x27;</span> || c==<span class="string">&#x27;&#123;&#x27;</span>）</span><br><span class="line">                      stack.push(c); <span class="comment">//如果符合条件，则push压入栈中，以便后期pop出来匹配</span></span><br><span class="line">                 <span class="keyword">else</span>&#123;</span><br><span class="line">                     <span class="keyword">if</span>(stack.isEmpty()) <span class="comment">//如果没有要匹配的字符串</span></span><br><span class="line">                         <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                     <span class="keyword">char</span> topChar = stack.pop();<span class="comment">//pop使元素出栈，将栈顶元素存入topChar中</span></span><br><span class="line">                     <span class="comment">//如果不能匹配成功</span></span><br><span class="line">                     <span class="keyword">if</span>(c == <span class="string">&#x27;)&#x27;</span> &amp;&amp; topChar != <span class="string">&#x27;(&#x27;</span>)</span><br><span class="line">			   <span class="comment">//如果检索到的符号和pop出的符号无法匹配则失败</span></span><br><span class="line">			    	     <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">			         <span class="keyword">if</span>(c == <span class="string">&#x27;]&#x27;</span> &amp;&amp; topChar != <span class="string">&#x27;[&#x27;</span>)</span><br><span class="line">			    	     <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">			         <span class="keyword">if</span>(c == <span class="string">&#x27;&#125;&#x27;</span> &amp;&amp; topChar != <span class="string">&#x27;&#125;&#x27;</span>)</span><br><span class="line">			    	     <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;</span><br><span class="line">             <span class="comment">//如果栈为空则匹配成功</span></span><br><span class="line">             <span class="keyword">return</span> stack.isEmpty();</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="队列-Quene"><a href="#队列-Quene" class="headerlink" title="队列 Quene"></a>队列 Quene</h3><p><strong>特点：先进先出</strong></p>
+<h4 id="创建循环队列–对长度取余数"><a href="#创建循环队列–对长度取余数" class="headerlink" title="创建循环队列–对长度取余数"></a>创建循环队列–对长度取余数</h4><p><strong>属性：</strong>头front，尾tail。front == tail 队列为空；(front+1)%data.length == tail 队列满</p>
+<h4 id="几个重要方法"><a href="#几个重要方法" class="headerlink" title="几个重要方法"></a>几个重要方法</h4><p><strong>enqueue()方法:</strong> 从队尾入队。</p>
+<p>1，判断队列是否已经满了（tail转了一圈之后，与front是否相等），若满了则进行扩容。</p>
+<p>2，把元素加到队尾(下标为tail)。</p>
+<p>3，tail向后移动一位（为了实现循环，因此需要对长度取余数），size数量增加。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">enqueue</span><span class="params">(E e)</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>((tail+<span class="number">1</span>)%data.length == front) <span class="comment">//如果队列已经满了(已经转了一圈了)</span></span><br><span class="line">        resize(<span class="number">2</span>*data.length);        <span class="comment">//进行扩容</span></span><br><span class="line">    </span><br><span class="line">    data[tail] = e;                   <span class="comment">//把元素加到队尾</span></span><br><span class="line">    tail = (tail+<span class="number">1</span>)%data.length;      <span class="comment">//队尾下标加一，并对数组长度取余数，以便循环。</span></span><br><span class="line">    size++;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>**dequeue()方法:**从队首出队。</p>
+<p>1，判断队列是否为空，若为空则抛出异常。</p>
+<p>2，把要被删除的元素（下标为front）存入ret中，后删除这个元素（指向null）。</p>
+<p>3，front向后移动一位（为了实现循环，因此需要对长度取余数），size数量减少</p>
+<p>4，为了节约空间，有必要进行缩容。但是缩容的这个值不应该为0。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">dequeue</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(isEmpty())                      <span class="comment">//如果队列为空，则抛出异常</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Cannot dequeue from an empty queue.&quot;</span>);</span><br><span class="line">    E ret = data[front];               <span class="comment">//把要删除的元素存在ret中</span></span><br><span class="line">    data[front] = <span class="keyword">null</span>;</span><br><span class="line">    front = (front+<span class="number">1</span>) % data.length;   <span class="comment">//front向后移动一位，为了实现循环，因此对长度取余数</span></span><br><span class="line">    size--;</span><br><span class="line">                                       <span class="comment">//进行缩容，以免空间被浪费</span></span><br><span class="line">    <span class="keyword">if</span>(size == getCapacity()/<span class="number">4</span> &amp;&amp; getCapacity()/<span class="number">2</span> != <span class="number">0</span> )</span><br><span class="line">        resize(getCapacity()/<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>resize()方法：</strong>调整队列的容量。</p>
+<p>1，新建数组newData</p>
+<p>2，通过循环，把旧数组中元素都复制到新数组中。但是，在原来的data中有可能front不是0，可是我们要把它放在新的空间的0的位置，因此存在front个偏移，由于是循环队列i+front会越界，因此加上偏移后还有对长度取余数。</p>
+<p>3，把引用变量指向新数组，并设置front为0，tail为size</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">resize</span><span class="params">(<span class="keyword">int</span> newCapacity)</span></span>&#123;</span><br><span class="line">    E[] newData =(E[]) <span class="keyword">new</span> Object[newCapacity+<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; size;i++)</span><br><span class="line">        newData[i] = data[(i+front)%data.length];</span><br><span class="line">    data = newData;</span><br><span class="line">    front = <span class="number">0</span>;</span><br><span class="line">    tail = size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="整体实现——代码实例"><a href="#整体实现——代码实例" class="headerlink" title="整体实现——代码实例"></a>整体实现——代码实例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoopQuene</span>&lt;<span class="title">E</span>&gt;</span>&#123;            <span class="comment">//支持泛型</span></span><br><span class="line">    <span class="keyword">private</span> E[] data;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> front,tail;           <span class="comment">//队首和队尾的下标</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size;                 <span class="comment">//元素的数量</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoopQuene</span><span class="params">(<span class="keyword">int</span> capacity)</span></span>&#123;   <span class="comment">//有参的构造方法</span></span><br><span class="line">        data = (E[]) <span class="keyword">new</span> Object[capacity+<span class="number">1</span>]; <span class="comment">//新建一个泛型数组</span></span><br><span class="line">        front = <span class="number">0</span>;                    <span class="comment">//此时队列中没有元素</span></span><br><span class="line">        tail = <span class="number">0</span>;                     </span><br><span class="line">        size = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoopQuene</span><span class="params">()</span></span>&#123;               <span class="comment">//无参的构造方法</span></span><br><span class="line">        <span class="keyword">this</span>(<span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCapacity</span><span class="params">()</span></span>&#123;         <span class="comment">//队列的容量</span></span><br><span class="line">        <span class="keyword">return</span> data.length-<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>&#123;         <span class="comment">//是否为空</span></span><br><span class="line">        <span class="keyword">return</span> front == tail;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSize</span><span class="params">()</span></span>&#123;             <span class="comment">//队列中元素的个数</span></span><br><span class="line">        <span class="keyword">return</span> size;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">enqueue</span><span class="params">(E e)</span></span>&#123;         <span class="comment">//入队</span></span><br><span class="line">        <span class="keyword">if</span>((front+<span class="number">1</span>)%data.length == tail)</span><br><span class="line">            resize(<span class="number">2</span>*data.length);</span><br><span class="line">        data[tail] = e;</span><br><span class="line">        tail = (tail+<span class="number">1</span>)%data.length;</span><br><span class="line">        size++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">dequeue</span><span class="params">()</span></span>&#123;               <span class="comment">//出队</span></span><br><span class="line">        <span class="keyword">if</span>(isEmpty())                 <span class="comment">//若队列为空，则抛出异常</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgument(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        E ret = data[front];</span><br><span class="line">        front = (front+<span class="number">1</span>)%data.length; <span class="comment">//front向前移动</span></span><br><span class="line">        data[front] = <span class="keyword">null</span>;            <span class="comment">//将front对应元素设置为null，真正删除</span></span><br><span class="line">        size--;                        <span class="comment">//元素数量减少</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(getCapacity == size/<span class="number">4</span> &amp;&amp; getCapacity) <span class="comment">//缩容，但是缩容的这个值不应该为0</span></span><br><span class="line">            resize(getCapacity/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">resize</span><span class="params">(<span class="keyword">int</span> newCapacity)</span></span>&#123;</span><br><span class="line">        E[] newData = (E[])<span class="keyword">new</span> Object[newCapacity+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>;i&lt;size;i++)      <span class="comment">//解释同上</span></span><br><span class="line">            newData[i] = data[(i+front)%data.length];  </span><br><span class="line">        data = newData;</span><br><span class="line">        front = <span class="number">0</span> ;</span><br><span class="line">        tail = size;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> E <span class="title">getFront</span><span class="params">()</span></span>&#123;              <span class="comment">//得到队首元素</span></span><br><span class="line">        <span class="keyword">if</span>(isEmpty())</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;Queue is empty.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> data[front];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
     <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2019/05/03/Chp2%E7%AE%80%E5%8D%95%E6%8E%92%E5%BA%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1127,7 +1240,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

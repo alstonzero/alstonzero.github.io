@@ -147,6 +147,91 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2021/02/22/k8s-Authorization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/22/k8s-Authorization/" class="post-title-link" itemprop="url">k8s-Authorization</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-02-22 22:27:29 / Modified: 20:31:06" itemprop="dateCreated datePublished" datetime="2021-02-22T22:27:29+09:00">2021-02-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="k8s-Authorization"><a href="#k8s-Authorization" class="headerlink" title="k8s-Authorization"></a>k8s-Authorization</h1><p>Authorization鉴权</p>
+<h2 id="RBAC授权模式"><a href="#RBAC授权模式" class="headerlink" title="RBAC授权模式"></a>RBAC授权模式</h2><p>RBAC（Role-Based Access Control）基于角色的访问控制，拥有以下的优势：</p>
+<ul>
+<li>对cluster中的resource资源和非资源均有完整的覆盖</li>
+<li>整个RBAC完全由几个API对象完成，和其他API对象一样，可以用kubectl或者API进行操作。</li>
+<li>可以在运行时进行调整，无需重启API server</li>
+</ul>
+<h3 id="RBAC的API-资源对象"><a href="#RBAC的API-资源对象" class="headerlink" title="RBAC的API 资源对象"></a>RBAC的API 资源对象</h3><p>RBAC API声明了4个最高级别的类型：<strong>Role</strong>、<strong>ClusterRole</strong>、<strong>RoleBinding</strong>、<strong>ClusterRoleBinding</strong>，4种对象类型都可以使用<code>kubectl</code>和<code>API</code>进行操作。</p>
+<p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1613959572193.png" alt="1613959572193"></p>
+<p>需要注意的是，<strong>k8s并不会提供用户管理</strong>，那么User、Group、ServiceAccount指定的用户又是从哪里来的呢？</p>
+<p>k8s组件（kubectl、kube-proxy）或是其他自定义的用户在向CA申请证书时，需要提供一个<strong>证书请求文件</strong>,例如：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/22/k8s-Authorization/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
     <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2021/02/14/DI%E5%AE%B9%E5%99%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -903,94 +988,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
-    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/12/29/kind%EF%BC%88Kubernetes%20in%20Docker%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="HOU YINGQIAO">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="MyNote">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/29/kind%EF%BC%88Kubernetes%20in%20Docker%EF%BC%89/" class="post-title-link" itemprop="url">kind（Kubernetes in Docker）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-12-29 21:27:29" itemprop="dateCreated datePublished" datetime="2020-12-29T21:27:29+09:00">2020-12-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-05 14:27:01" itemprop="dateModified" datetime="2021-01-05T14:27:01+09:00">2021-01-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/k8s%E3%82%AC%E3%82%A4%E3%83%89%E3%83%96%E3%83%83%E3%82%AF/" itemprop="url" rel="index"><span itemprop="name">k8sガイドブック</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="kind（Kubernetes-in-Docker）"><a href="#kind（Kubernetes-in-Docker）" class="headerlink" title="kind（Kubernetes in Docker）"></a>kind（Kubernetes in Docker）</h2><h3 id="kindの仕組み："><a href="#kindの仕組み：" class="headerlink" title="kindの仕組み："></a>kindの仕組み：</h3><p>Docker コンテナを複数個起動し、そのコンテナを Kubernetes Node として利用することで、複数台構成の Kubernetes クラスタを構築します。</p>
-<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/3-5.png"></p>
-<p><a target="_blank" rel="noopener" href="https://kind.sigs.k8s.io/docs/user/quick-start/#installation">kindのインストール</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.9.0/kind-linux-amd64</span><br><span class="line">chmod +x ./kind</span><br><span class="line">mv ./kind /usr/<span class="built_in">local</span>/bin/kind</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/12/29/kind%EF%BC%88Kubernetes%20in%20Docker%EF%BC%89/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1060,7 +1057,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
