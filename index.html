@@ -147,6 +147,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2021/02/23/k8s-Job&CornJob/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/02/23/k8s-Job&CornJob/" class="post-title-link" itemprop="url">k8s-Authorization</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-02-23 22:27:29 / Modified: 21:13:10" itemprop="dateCreated datePublished" datetime="2021-02-23T22:27:29+09:00">2021-02-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/k8s%E3%82%AC%E3%82%A4%E3%83%89%E3%83%96%E3%83%83%E3%82%AF/" itemprop="url" rel="index"><span itemprop="name">k8sガイドブック</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="k8s-Job-amp-CornJob"><a href="#k8s-Job-amp-CornJob" class="headerlink" title="k8s-Job&amp;CornJob"></a>k8s-Job&amp;CornJob</h1><p>(翻译自k8sガイドブック)</p>
+<h2 id="Job"><a href="#Job" class="headerlink" title="Job"></a>Job</h2><p>Job：コンテナを利用して<strong>一度限りの処理</strong>を実行させるリソースです。</p>
+<h3 id="ReplicaSet和Job的不同点"><a href="#ReplicaSet和Job的不同点" class="headerlink" title="ReplicaSet和Job的不同点"></a>ReplicaSet和Job的不同点</h3><ul>
+<li>Job: Pod の停止が正常終了と期待される用途に向いています</li>
+<li>ReplicaSet: Pod の停止は予期せぬエラー</li>
+</ul>
+<h3 id="创建Job"><a href="#创建Job" class="headerlink" title="创建Job"></a>创建Job</h3><p>例子：创建sleep 60s的Job。（虽然和ReplicaSet一样，可以明确的赋予label和selector，由于k8s会自动生成unique的uuid，因此在Job中并不推荐明确赋予。）<code>sample-job.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">batch/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Job</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-job</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">completions:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">parallelism:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">backoffLimit:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">tools-container</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">amsy810/tools:v2.0</span></span><br><span class="line">        <span class="attr">command:</span> [<span class="string">&quot;sleep&quot;</span>]</span><br><span class="line">        <span class="attr">args:</span> [<span class="string">&quot;60&quot;</span>]</span><br><span class="line">      <span class="attr">restartPolicy:</span> <span class="string">Never</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#创建job</span><br><span class="line">kubectl apply -f sample-job.yaml</span><br></pre></td></tr></table></figure>
+
+<p><code>kubectl get</code>进行Job的确认，不同与ReplicaSet等表示READY的container数量，Job表示正常结束的Pod数（COMPLETIONS）。而且Job和ReplicaSet一样，是创建Pod的资源</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/02/23/k8s-Job&CornJob/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
     <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2021/02/22/k8s-Authorization/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -900,94 +990,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
-    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2020/12/30/Kubernetes%20%E3%81%AE%E5%9F%BA%E7%A4%8E/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="HOU YINGQIAO">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="MyNote">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/30/Kubernetes%20%E3%81%AE%E5%9F%BA%E7%A4%8E/" class="post-title-link" itemprop="url">Kubernetes の基礎</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-12-30 21:27:29" itemprop="dateCreated datePublished" datetime="2020-12-30T21:27:29+09:00">2020-12-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-01-05 14:26:46" itemprop="dateModified" datetime="2021-01-05T14:26:46+09:00">2021-01-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/k8s%E3%82%AC%E3%82%A4%E3%83%89%E3%83%96%E3%83%83%E3%82%AF/" itemprop="url" rel="index"><span itemprop="name">k8sガイドブック</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Kubernetes-の基礎"><a href="#Kubernetes-の基礎" class="headerlink" title="Kubernetes の基礎"></a>Kubernetes の基礎</h2><p>Kubernetes は、Kubernetes Master と Kubernetes Node の 2 種類のノードから成り立っています。</p>
-<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/4-1.png"></p>
-<p>CLI ツールのkubectl はマニフェストファイル（<code>.yaml</code>,<code>.yml</code>,<code>.json</code>）の情報を元にKubernetes Master が持つ API にリクエストを送ることで Kubernetes を操作します。</p>
-<p>また、Kubernetes　Master の API は、一般的な RESTful API として実装されているので、各種プログラム言語の RESTful API ライブラリや<code> curl</code> などのコマンドラインツールを利用して、直接 API を呼び出して Kubernetes を操作することも可能です。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/12/30/Kubernetes%20%E3%81%AE%E5%9F%BA%E7%A4%8E/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1057,7 +1059,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
