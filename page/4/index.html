@@ -147,6 +147,89 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2019/05/30/Chp5%E9%93%BE%E8%A1%A8%E5%92%8C%E9%80%92%E5%BD%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/30/Chp5%E9%93%BE%E8%A1%A8%E5%92%8C%E9%80%92%E5%BD%92/" class="post-title-link" itemprop="url">Chp5链表和递归</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-30 21:27:29" itemprop="dateCreated datePublished" datetime="2019-05-30T21:27:29+09:00">2019-05-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-31 22:13:02" itemprop="dateModified" datetime="2020-12-31T22:13:02+09:00">2020-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/data-structures-and-algorithms/" itemprop="url" rel="index"><span itemprop="name">data structures and algorithms</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Chp5链表和递归"><a href="#Chp5链表和递归" class="headerlink" title="Chp5链表和递归"></a>Chp5链表和递归</h1><h3 id="LeetCode中链表的相关问题"><a href="#LeetCode中链表的相关问题" class="headerlink" title="LeetCode中链表的相关问题"></a>LeetCode中链表的相关问题</h3><p>删除链表中等于给定值val的所有元素。</p>
+<p><strong>示例</strong></p>
+<p>给定：1–&gt;2–&gt;6–&gt;3–&gt;4–&gt;5–&gt;6 ,val =6</p>
+<p>返回：1–&gt;2–&gt;3–&gt;4–&gt;5</p>
+<p><strong>解题思路：</strong>调用在LeetCode中定义好的LinkedList类</p>
+<p>1，首先要求头结点不是空的，如果头节点中包含val，则直接删除，<strong>但是要用循环</strong>，因为head.next和之后的Node中也许会还包含指定元素</p>
+<p>2，如果链表中从开始到最后都是要删除的节点，则直接返回空。</p>
+<p>3，找到待删除元素的前一个节点。因为此时的，head肯定不为空，所以把prev设为head。</p>
+<p>4，只要该节点（prev）的下一个节点（prev.next）不为空，如果有包含val的节点。则删除该节点；否则prev向后移动一位。</p>
+<p>5，结束所有的操作后最后返回head节点。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">removeElements</span><span class="params">(ListNode head, <span class="keyword">int</span> val)</span> </span>&#123;<span class="comment">//传入头结点和要删除元素所包含的节点。 </span></span><br><span class="line">        <span class="keyword">while</span>(head != <span class="keyword">null</span> &amp;&amp; head.val == val)&#123;</span><br><span class="line">            ListNode delNode = head;  <span class="comment">//定义待删除的节点</span></span><br><span class="line">            head = head.next;         <span class="comment">//绕过我们要删除的节点</span></span><br><span class="line">            delNode.next = <span class="keyword">null</span>;      </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(head == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;              <span class="comment">//也许该链表中所有节点都是要被删除的节点</span></span><br><span class="line">        </span><br><span class="line">        ListNode prev = head;         <span class="comment">//找到待删除元素前一个节点</span></span><br><span class="line">        <span class="keyword">while</span>(prev.next ！= <span class="keyword">null</span>)&#123;    </span><br><span class="line">            <span class="keyword">if</span>(prev.next.val == val)&#123; <span class="comment">//删除prev.next但是prev不用向后挪。</span></span><br><span class="line">                ListNode delNode = prev.next;</span><br><span class="line">                prev.next = delNode.next;</span><br><span class="line">                delNode = <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                prev = prev.next;    <span class="comment">//prev向后挪一位</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
     <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2019/05/07/Chp4%20Array/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1092,212 +1175,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
-    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2018/05/28/java%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="HOU YINGQIAO">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="MyNote">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/05/28/java%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" class="post-title-link" itemprop="url">Java基础语法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-05-28 21:27:29" itemprop="dateCreated datePublished" datetime="2018-05-28T21:27:29+09:00">2018-05-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-12-31 21:36:26" itemprop="dateModified" datetime="2020-12-31T21:36:26+09:00">2020-12-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Java基础语法"><a href="#Java基础语法" class="headerlink" title="Java基础语法"></a>Java基础语法</h1><h3 id="1-1如何命名Java变量"><a href="#1-1如何命名Java变量" class="headerlink" title="1-1如何命名Java变量"></a>1-1如何命名Java变量</h3><p><img src="http://img.mukewang.com/535a3ad60001057407870199.jpg" alt="enter image description here"></p>
-<p>以下变量的命名都是符合规范的：</p>
-<p><img src="http://img.mukewang.com/5358cea90001072d02280072.jpg" alt="enter image description here"></p>
-<p>错误的例子<br><img src="http://img.mukewang.com/536887ea0001bf2004800148.jpg" alt="enter image description here"></p>
-<h4 id="优秀攻城师的习惯："><a href="#优秀攻城师的习惯：" class="headerlink" title="优秀攻城师的习惯："></a>优秀攻城师的习惯：</h4><p>1、变量名由多单词组成时，第一个单词的首字母小写，其后单词的首字母大写，俗称骆驼式命名法（也称驼峰命名法），如 myAge</p>
-<p>2、变量命名时，尽量简短且能清楚的表达变量的作用，做到见名知意。如：定义变量名 stuName 保存“学生姓名”信息</p>
-<p>PS： Java 变量名的长度没有限制，但 Java 语言是区分大小写的，所以 price 和 Price 是两个完全不同的变量哦！</p>
-<h3 id="1-2-Java中的数据类型"><a href="#1-2-Java中的数据类型" class="headerlink" title="1-2 Java中的数据类型"></a>1-2 Java中的数据类型</h3><p>Java 语言是一种强类型语言。<br>通俗点说就是，在 Java 中存储的数据都是有类型的，而且必须在编译时就确定其类型。<br>Java 中有两类数据类型：</p>
-<p><img src="http://img.mukewang.com/535a6fc10001b8f604930247.jpg" alt="enter image description here"></p>
-<p>在 Java 的领域里，基本数据类型变量存的是数据本身，而引用类型变量存的是保存数据的空间地址。</p>
-<p>说白了，基本数据类型变量里存储的是直接放在抽屉里的东西，而引用数据类型变量里存储的是这个抽屉的钥匙，钥匙和抽屉一一对应。</p>
-<p>常用的基本数据类型有：</p>
-<p><img src="http://img.mukewang.com/540d468d000167bd07000130.jpg" alt="enter image description here"></p>
-<p>例子：<br><img src="http://img.mukewang.com/536888bb0001b9f803900106.jpg" alt="enter image description here"></p>
-<h3 id="1-3-Java中的自动类型转换"><a href="#1-3-Java中的自动类型转换" class="headerlink" title="1-3 Java中的自动类型转换"></a>1-3 Java中的自动类型转换</h3><p>当然自动类型转换是需要满足特定的条件的：</p>
-<ol>
-<li>目标类型能与源类型兼容，如 double 型兼容 int 型，但是 char 型不能兼容 int 型</li>
-</ol>
-<p><img src="http://img.mukewang.com/53688a3200014fc803800109.jpg" alt="enter image description here"></p>
-<ol>
-<li>目标类型大于源类型，如 double 类型长度为 8 字节， int 类型为 4 字节，因此 double 类型的变量里直接可以存放 int 类型的数据，但反过来就不可以了</li>
-</ol>
-<p><img src="http://img.mukewang.com/53688a460001539403740086.jpg" alt="enter image description here"></p>
-<h3 id="1-4-Java中的强制类型转换"><a href="#1-4-Java中的强制类型转换" class="headerlink" title="1-4 Java中的强制类型转换"></a>1-4 Java中的强制类型转换</h3><p>例如，当程序中需要将 double 型变量的值赋给一个 int 型变量，该如何实现呢？</p>
-<p>显然，这种转换是不会自动进行的！因为 int 型的存储范围比 double 型的小。此时就需要通过强制类型转换来实现了。</p>
-<p><img src="http://img.mukewang.com/53688a9a0001f73404330109.jpg" alt="enter image description here"><br>()里面填入要转换成的类型</p>
-<h3 id="1-5-Java常量的应用"><a href="#1-5-Java常量的应用" class="headerlink" title="1-5 Java常量的应用"></a>1-5 Java常量的应用</h3><p>所谓常量，我们可以理解为是一种特殊的变量，它的值被设定后，在程序运行过程中不允许改变。</p>
-<h4 id="语法：final-常量名-值"><a href="#语法：final-常量名-值" class="headerlink" title="语法：final 常量名 = 值;"></a>语法：final 常量名 = 值;</h4><p><img src="http://img.mukewang.com/53689a880001620703990081.jpg" alt="enter image description here"></p>
-<h4 id="程序中使用常量可以提高代码的可维护性。"><a href="#程序中使用常量可以提高代码的可维护性。" class="headerlink" title="程序中使用常量可以提高代码的可维护性。"></a>程序中使用常量可以提高代码的可维护性。</h4><p>例如，在项目开发时，我们需要指定用户的性别，此时可以定义一个常量 SEX，赋值为 “男”，在需要指定用户性别的地方直接调用此常量即可，避免了由于用户的不规范赋值导致程序出错的情况。</p>
-<p>伙计们注意啦：常量名一般使用大写字符</p>
-<h3 id="1-6-如何在Java中使用注释"><a href="#1-6-如何在Java中使用注释" class="headerlink" title="1-6 如何在Java中使用注释"></a>1-6 如何在Java中使用注释</h3><p>Java 中注释有三种类型：单行注释、多行注释、文档注释</p>
-<p><img src="http://img.mukewang.com/535ce105000118b504440337.jpg" alt="enter image description here"></p>
-<h3 id="2-1-Java中的算术运算符"><a href="#2-1-Java中的算术运算符" class="headerlink" title="2-1 Java中的算术运算符"></a>2-1 Java中的算术运算符</h3><p>Java 中常用的算术运算符：</p>
-<p><img src="http://img.mukewang.com/5368a1a10001da7603050148.jpg" alt="enter image description here"></p>
-<h4 id="其中，-和-–-既可以出现在操作数的左边，也可以出现在右边，但结果是不同滴"><a href="#其中，-和-–-既可以出现在操作数的左边，也可以出现在右边，但结果是不同滴" class="headerlink" title="其中，++ 和 – 既可以出现在操作数的左边，也可以出现在右边，但结果是不同滴"></a>其中，++ 和 – 既可以出现在操作数的左边，也可以出现在右边，但结果是不同滴</h4><p>例1：<br><img src="http://img.mukewang.com/5368a1f1000171c403980094.jpg" alt="enter image description here"></p>
-<p>运行结果：<br><img src="http://img.mukewang.com/535e6a9c000128ef00900039.jpg" alt="enter image description here"></p>
-<p>例2：<br><img src="http://img.mukewang.com/5368a0ae00016f2603970091.jpg" alt="enter image description here"></p>
-<p>运行结果：<br><img src="http://img.mukewang.com/535e6b040001403800890034.jpg" alt="enter image description here"></p>
-<h4 id="一定要注意哦！自增和自减运算符只能用于操作变量，不能直接用于操作数值或常量！"><a href="#一定要注意哦！自增和自减运算符只能用于操作变量，不能直接用于操作数值或常量！" class="headerlink" title="一定要注意哦！自增和自减运算符只能用于操作变量，不能直接用于操作数值或常量！"></a>一定要注意哦！自增和自减运算符只能用于操作变量，不能直接用于操作数值或常量！</h4><h4 id="例如-5-、-8-等写法都是错误滴！"><a href="#例如-5-、-8-等写法都是错误滴！" class="headerlink" title="例如 5++ 、 8- - 等写法都是错误滴！"></a>例如 5++ 、 8- - 等写法都是错误滴！</h4><h3 id="2-2-Java中的赋值运算符"><a href="#2-2-Java中的赋值运算符" class="headerlink" title="2-2 Java中的赋值运算符"></a>2-2 Java中的赋值运算符</h3><p>赋值运算符是指为变量或常量指定数值的符号。如可以使用 “=” 将右边的表达式结果赋给左边的操作数。</p>
-<p>Java 支持的常用赋值运算符，如下表所示：</p>
-<p><img src="http://img.mukewang.com/5360ebdb0001401b04430144.jpg" alt="enter image description here"></p>
-<p>例子：请在编辑器中，空白处编写代码，应用赋值运算符实现如下结果：</p>
-<p><img src="http://img.mukewang.com/53605c560001a9fb02230112.jpg" alt="enter image description here"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class HelloWorld&#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">	    int one &#x3D; 10 ;</span><br><span class="line">        int two &#x3D; 20 ;</span><br><span class="line">        int three &#x3D; 0 ;</span><br><span class="line">        three &#x3D; one+two;</span><br><span class="line">        System.out.println(&quot;three &#x3D; one +two &#x3D;&#x3D;&gt;&quot;+ three);</span><br><span class="line">        three +&#x3D;one;</span><br><span class="line">        System.out.println(&quot;three +&#x3D; one &#x3D;&#x3D;&gt;&quot;+ three);</span><br><span class="line">        three -&#x3D; one;</span><br><span class="line">        System.out.println(&quot;three -&#x3D; one &#x3D;&#x3D;&gt;&quot;+ three);</span><br><span class="line">        three *&#x3D; one;</span><br><span class="line">        System.out.println(&quot;three *&#x3D; one &#x3D;&#x3D;&gt;&quot;+ three);</span><br><span class="line">        three &#x2F;&#x3D; one;</span><br><span class="line">        System.out.println(&quot;three &#x2F;&#x3D; one &#x3D;&#x3D;&gt;&quot;+ three);</span><br><span class="line">        three %&#x3D; one;</span><br><span class="line">        System.out.println(&quot;three %&#x3D; one &#x3D;&#x3D;&gt;&quot;+ three);</span><br><span class="line">        </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">three &#x3D; one +two &#x3D;&#x3D;&gt;30</span><br><span class="line">three +&#x3D; one &#x3D;&#x3D;&gt;40</span><br><span class="line">three -&#x3D; one &#x3D;&#x3D;&gt;30</span><br><span class="line">three *&#x3D; one &#x3D;&#x3D;&gt;300</span><br><span class="line">three &#x2F;&#x3D; one &#x3D;&#x3D;&gt;30</span><br><span class="line">three %&#x3D; one &#x3D;&#x3D;&gt;0</span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="2-3-Java中的比较运算符"><a href="#2-3-Java中的比较运算符" class="headerlink" title="2-3 Java中的比较运算符"></a>2-3 Java中的比较运算符</h3><p>比较运算符用于判断两个数据的大小，例如：大于、等于、不等于。比较的结果是一个布尔值（ true 或 false ）。</p>
-<p>Java 中常用的比较运算符如下表所示：</p>
-<p><img src="http://img.mukewang.com/536063f00001b7b904350145.jpg" alt="enter image description here"></p>
-<h4 id="注意哦："><a href="#注意哦：" class="headerlink" title="注意哦："></a>注意哦：</h4><p>1、 &gt; 、 &lt; 、 &gt;= 、 &lt;= 只支持左右两边操作数是数值类型</p>
-<p>2、 == 、 != 两边的操作数既可以是数值类型，也可以是引用类型</p>
-<p>3、 = （一个等号）表示赋值</p>
-<h3 id="2-4-Java中的逻辑运算符"><a href="#2-4-Java中的逻辑运算符" class="headerlink" title="2-4 Java中的逻辑运算符"></a>2-4 Java中的逻辑运算符</h3><p>逻辑运算符主要用于进行逻辑运算。Java 中常用的逻辑运算符如下表所示：</p>
-<p><img src="http://img.mukewang.com/5360ef9700017b9405870095.jpg" alt="enter image description here"></p>
-<p>我们可以从“投票选举”的角度理解逻辑运算符：</p>
-<p>1、 与：要求所有人都投票同意，才能通过某议题</p>
-<p>2、 或：只要求一个人投票同意就可以通过某议题</p>
-<p>3、 非：某人原本投票同意，通过非运算符，可以使其投票无效</p>
-<p>4、 异或：有且只能有一个人投票同意，才可以通过某议题</p>
-<p>当使用逻辑运算符时，我们会遇到一种很有趣的“短路”现象。</p>
-<p>譬如：( one &gt; two ) &amp;&amp; ( one &lt; three ) 中，如果能确定左边 one &gt; two 运行结果为 false , 则系统就认为已经没有必要执行右侧的 one &lt; three 啦。</p>
-<p>同理，在( one &gt; two ) || ( one &lt; three ) 中，如果能确定左边表达式的运行结果为 true , 则系统也同样会认为已经没有必要再进行右侧的 one &lt; three 的执行啦！</p>
-<h3 id="2-5-Java中的条件运算符"><a href="#2-5-Java中的条件运算符" class="headerlink" title="2-5 Java中的条件运算符"></a>2-5 Java中的条件运算符</h3><p>条件运算符（ ? : ）也称为 “三元运算符”。</p>
-<h4 id="语法形式：布尔表达式-？-表达式1-：表达式2"><a href="#语法形式：布尔表达式-？-表达式1-：表达式2" class="headerlink" title="语法形式：布尔表达式 ？ 表达式1 ：表达式2"></a>语法形式：布尔表达式 ？ 表达式1 ：表达式2</h4><p>运算过程：如果布尔表达式的值为 true ，则返回 表达式1 的值，否则返回 表达式2 的值</p>
-<p>例如：<br><img src="http://img.mukewang.com/535f7d130001a84f04340051.jpg" alt="enter image description here"></p>
-<p>因为，表达式 8&gt;5 的值为 true ，所以，返回： 8大于5</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class HelloWorld&#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">		int score&#x3D;68;</span><br><span class="line">		String mark &#x3D; (score&gt;60) ? &quot;及格&quot; : &quot;不及格&quot;;</span><br><span class="line">		System.out.println(&quot;考试成绩如何：&quot;+mark);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="2-6-Java中运算符的优先级"><a href="#2-6-Java中运算符的优先级" class="headerlink" title="2-6 Java中运算符的优先级"></a>2-6 Java中运算符的优先级</h3><p>所谓优先级，就是在表达式中的运算顺序。Java 中常用的运算符的优先级如下表所示：<br><img src="http://img.mukewang.com/5360ffb90001b4f002620224.jpg" alt="enter image description here"></p>
-<p>实际上没必要去死记运算符的优先级顺序，实际开发中，一般会使用小括号辅助进行优先级管理。例如：<br><img src="http://img.mukewang.com/5361000a000129a005060071.jpg" alt="enter image description here"></p>
-<h3 id="3-1-Java条件语句之-if"><a href="#3-1-Java条件语句之-if" class="headerlink" title="3-1 Java条件语句之 if"></a>3-1 Java条件语句之 if</h3><p>语法：<br><img src="http://img.mukewang.com/5364ef240001832c01830068.jpg" alt="enter image description here"></p>
-<p>执行过程：<br><img src="http://img.mukewang.com/53635a6b00011ebc01660184.jpg" alt="enter image description here"></p>
-<p>例子 ：判断变量 one 的值是否是偶数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class HelloWorld &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">		int one &#x3D; 20 ;</span><br><span class="line">	    if (one%2 &#x3D;&#x3D;0)&#123;</span><br><span class="line">	        System.out.println(&quot;one是偶数&quot;);</span><br><span class="line">	    &#125; </span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="3-2-Java条件语句之-if…else"><a href="#3-2-Java条件语句之-if…else" class="headerlink" title="3-2 Java条件语句之 if…else"></a>3-2 Java条件语句之 if…else</h3><p>if…else 语句的操作比 if 语句多了一步: 当条件成立时，则执行 if 部分的代码块； 条件不成立时，则进入 else 部分。</p>
-<p>语法：<br><img src="http://img.mukewang.com/5364f0f300019c8c01880110.jpg" alt="enter image description here"></p>
-<p>执行过程：<br><img src="http://img.mukewang.com/536369030001ee7402510205.jpg" alt="enter image description here"></p>
-<p>例子：如果年龄大于等于 18 岁，则提示成年了，否则提示未成年</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class HelloWorld &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">		int age&#x3D;25;</span><br><span class="line">		if(age&gt;&#x3D;18)&#123;</span><br><span class="line">		    System.out.println(&quot;成年&quot;);</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">		    System.out.println(&quot;未成年&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="3-3-Java条件语句之多重-if"><a href="#3-3-Java条件语句之多重-if" class="headerlink" title="3-3 Java条件语句之多重 if"></a>3-3 Java条件语句之多重 if</h3><p>多重 if 语句，在条件 1 不满足的情况下，才会进行条件 2 的判断；当前面的条件均不成立时，才会执行 else 块内的代码。</p>
-<p>语法：<br><img src="http://img.mukewang.com/5364f177000198dd01660156.jpg" alt="enter image description here"></p>
-<p>执行过程：<br><img src="http://img.mukewang.com/5364a1db0001b6fb03790248.jpg" alt="enter image description here"></p>
-<p>例子：假设年龄大于 60 岁，则提示“老年”；如果年龄介于 40 岁至 60 岁之间，则提示“中年”；如果年龄介于 18 岁至 40 岁之间，则提示“少年”； 18 岁以下则提示“童年”。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class HelloWorld &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">		int age&#x3D;25;</span><br><span class="line">	    if (age&gt;60)&#123;</span><br><span class="line">	        System.out.println(&quot;老年&quot;);</span><br><span class="line">	    &#125;else if(age&gt;40)&#123;</span><br><span class="line">	        System.out.println(&quot;中年&quot;);</span><br><span class="line">	    &#125;else if(age&gt;18)&#123;</span><br><span class="line">	        System.out.println(&quot;少年&quot;);</span><br><span class="line">	    &#125;else &#123;</span><br><span class="line">	        System.out.println(&quot;童年&quot;);</span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="3-4-Java条件语句之嵌套-if"><a href="#3-4-Java条件语句之嵌套-if" class="headerlink" title="3-4 Java条件语句之嵌套 if"></a>3-4 Java条件语句之嵌套 if</h3><p>嵌套 if 语句，只有当外层 if 的条件成立时，才会判断内层 if 的条件。</p>
-<p>语法：<br><img src="http://img.mukewang.com/5364f3be000121bf01480198.jpg" alt="enter image description here"></p>
-<p>执行过程：<br><img src="http://img.mukewang.com/5364bd8f0001c91e03690285.jpg" alt="enter image description here"></p>
-<p>例如：<br>例如，活动计划的安排，如果今天是工作日，则去上班，如果今天是周末，则外出游玩；同时，如果周末天气晴朗，则去室外游乐场游玩，否则去室内游乐场游玩。<br><img src="http://img.mukewang.com/53703cb10001f78a06340312.jpg" alt="enter image description here"></p>
-<h3 id="3-5-Java循环语句之-for"><a href="#3-5-Java循环语句之-for" class="headerlink" title="3-5 Java循环语句之 for"></a>3-5 Java循环语句之 for</h3><p>语法：<br><img src="http://img.mukewang.com/536af1e60001f83604160073.jpg" alt="enter image description here"></p>
-<p>执行过程：</p>
-<p>&lt;1&gt;、 执行循环变量初始化部分，设置循环的初始状态，此部分在整个循环中只执行一次</p>
-<p>&lt;2&gt;、 进行循环条件的判断，如果条件为 true ，则执行循环体内代码；如果为 false ，则直接退出循环</p>
-<p>&lt;3&gt;、 执行循环变量变化部分，改变循环变量的值，以便进行下一次条件判断</p>
-<p>&lt;4&gt;、 依次重新执行&lt; 2 &gt;、&lt; 3 &gt;、&lt; 4 &gt;，直到退出循环</p>
-<h4 id="需要留心的几个小细节："><a href="#需要留心的几个小细节：" class="headerlink" title="需要留心的几个小细节："></a>需要留心的几个小细节：</h4><p>1、 for 关键字后面括号中的三个表达式必须用 “;” 隔开，三个表达式都可以省略，但 “;” 不能省略。</p>
-<p>a. 省略“循环变量初始化”，可以在 for 语句之前由赋值语句进行变量初始化操作，如:<br><img src="http://img.mukewang.com/536c6cc80001c00505490117.jpg" alt="enter image description here"></p>
-<p>b. 省略“循环条件”，可能会造成循环将一直执行下去，也就是我们常说的“死循环”现象，如:<br><img src="http://img.mukewang.com/536c6d060001fa4405310092.jpg" alt="enter image description here"><br>在编程过程中要避免“死循环”的出现，因此，对于上面的代码可以在循环体中使用 break 强制跳出循环。</p>
-<p>c. 省略“循环变量变化”，可以在循环体中进行循环变量的变化，如：<br><img src="http://img.mukewang.com/53704a7b0001217905270113.jpg" alt="enter image description here"></p>
-<p>2、 for 循环变量初始化和循环变量变化部分，可以是使用 “,” 同时初始化或改变多个循环变量的值，如：<br><img src="http://img.mukewang.com/536c8b620001eb1005560086.jpg" alt="enter image description here"></p>
-<p>代码中，初始化变量部分同时对两个变量 i 和 j 赋初值，循环变量变化部分也同时对两个变量进行变化，运行结果：<br><img src="http://img.mukewang.com/536c8dc50001b60e00730112.jpg" alt="enter image description here"></p>
-<p>3、 循环条件部分可以使用逻辑运算符组合的表达式，表示复杂判断条件，但一定注意运算的优先级，如：<br><img src="http://img.mukewang.com/536c8e120001306804240071.jpg" alt="enter image description here"><br>代码中，必须同时满足变量 i 小于 10 ，并且 i 不等于 5 时才会进行循环，输出变量 i 的值。</p>
-<p>例子：计算 1 到 100 之间不能被 3 整除的数之和</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class HelloWorld &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">		int sum &#x3D; 0; &#x2F;&#x2F; 保存不能被3整除的数之和</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F; 循环变量 i 初始值为 1 ,每执行一次对变量加 1，只要小于等于 100 就重复执行循环</span><br><span class="line">		for (int i &#x3D; 1; i&lt;&#x3D;100 ; i++ ) &#123;</span><br><span class="line">			</span><br><span class="line">			&#x2F;&#x2F; 变量 i 与 3 进行求模（取余），如果不等于 0 ，则表示不能被 3 整除</span><br><span class="line">			if (i % 3 !&#x3D; 0) &#123; </span><br><span class="line">				sum &#x3D; sum + i; &#x2F;&#x2F; 累加求和</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;1到100之间不能被3整除的数之和为：&quot; + sum);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="3-6-Java循环跳转语句之-break"><a href="#3-6-Java循环跳转语句之-break" class="headerlink" title="3-6 Java循环跳转语句之 break"></a>3-6 Java循环跳转语句之 break</h3><h4 id="break-语句退出指定的循环，直接执行循环后面的代码。"><a href="#break-语句退出指定的循环，直接执行循环后面的代码。" class="headerlink" title="break 语句退出指定的循环，直接执行循环后面的代码。"></a>break 语句退出指定的循环，直接执行循环后面的代码。</h4><p>比如，如在参加 10000 米长跑时，才跑了 500 米就由于体力不支，需要退出比赛。</p>
-<p>实现代码：<br><img src="http://img.mukewang.com/536b36a80001ed4b05420273.jpg" alt="enter image description here"></p>
-<p>运行结果：<br><img src="http://img.mukewang.com/536b36d70001a8f200670071.jpg" alt="enter image description here"></p>
-<p>例子：循环将 1 到 10 之间的整数相加，如果累加值大于 20，则跳出循环，并输出当前的累加值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public class HelloWorld &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F; 保存累加值</span><br><span class="line">		int sum &#x3D; 0;</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F; 从1循环到10</span><br><span class="line">		for (int i &#x3D; 1; i &lt;&#x3D; 10; i++) &#123;</span><br><span class="line">			</span><br><span class="line">			&#x2F;&#x2F; 每次循环时累加求和</span><br><span class="line">			sum &#x3D; sum + i;</span><br><span class="line">			</span><br><span class="line">			&#x2F;&#x2F; 判断累加值是否大于20，如果满足条件则退出循环</span><br><span class="line">			if ( sum&gt;20 ) &#123;</span><br><span class="line">			</span><br><span class="line">				System.out.print(&quot;当前的累加值为:&quot; + sum);</span><br><span class="line">				break; &#x2F;&#x2F;退出循环</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="3-7-Java循环跳转语句之-continue"><a href="#3-7-Java循环跳转语句之-continue" class="headerlink" title="3-7 Java循环跳转语句之 continue"></a>3-7 Java循环跳转语句之 continue</h3><h4 id="continue-的作用是跳过循环体中剩余的语句执行下一次循环。"><a href="#continue-的作用是跳过循环体中剩余的语句执行下一次循环。" class="headerlink" title="continue 的作用是跳过循环体中剩余的语句执行下一次循环。"></a>continue 的作用是跳过循环体中剩余的语句执行下一次循环。</h4><p>例如，打印 1–10 之间所有的偶数，使用 continue 语句实现代码为：<br><img src="http://img.mukewang.com/536b50410001d1a706020200.jpg" alt="enter image description here"></p>
-<p>运行结果：<br><img src="http://img.mukewang.com/536b50770001d42a00350109.jpg" alt="enter image description here"></p>
-<p>例子： 求 1 到 10 之间的所有偶数的和。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*定义一个变量 sum 保存累加值，定义一个变量 i 保存 1 到 10 之间的整数，循环遍历并进行判断，如果 i 不能被 2 整除，则结束本次循环，继续执行下一次循环，否则进行累加求和。</span><br><span class="line">*&#x2F;</span><br><span class="line"></span><br><span class="line">public class HelloWorld &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">		int sum &#x3D; 0; &#x2F;&#x2F; 保存累加值</span><br><span class="line">		for (int i &#x3D; 1; i &lt;&#x3D; 10; i++) &#123;</span><br><span class="line">			&#x2F;&#x2F; 如果i为奇数,结束本次循环，进行下一次循环</span><br><span class="line">			if (  i % 2  !&#x3D;0      ) &#123;</span><br><span class="line">				continue;</span><br><span class="line">			&#125;</span><br><span class="line">			sum &#x3D; sum + i;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.print(&quot;1到10之间的所有偶数的和为：&quot; + sum);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1363,7 +1244,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

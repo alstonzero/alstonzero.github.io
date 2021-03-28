@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en,default">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"alstonzero.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Service6.1 Service APIs的概要Service APIs：给cluster上的container提供endpoint，label一致的contianer的discovery  Service ClusterIP ExternalIP NodePort LoadBalancer Headless ExternalName None-Selector   Ingress(提供L7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Service">
+<meta property="og:url" content="https://alstonzero.github.io/2021/03/28/Service/index.html">
+<meta property="og:site_name" content="MyNote">
+<meta property="og:description" content="Service6.1 Service APIs的概要Service APIs：给cluster上的container提供endpoint，label一致的contianer的discovery  Service ClusterIP ExternalIP NodePort LoadBalancer Headless ExternalName None-Selector   Ingress(提供L7">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/service01.png">
+<meta property="og:image" content="https://alstonzero.github.io/2021/03/28/Service/raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/service02.png">
+<meta property="og:image" content="c:/Users/alston/AppData/Roaming/Typora/typora-user-images/1616899429590.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/service03.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/service04.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/service05.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/service06.png">
+<meta property="article:published_time" content="2021-03-28T13:27:29.000Z">
+<meta property="article:modified_time" content="2021-03-28T11:36:43.069Z">
+<meta property="article:author" content="HOU YINGQIAO">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/service01.png">
+
+<link rel="canonical" href="https://alstonzero.github.io/2021/03/28/Service/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Service | MyNote</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MyNote</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/alstonzero" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2021/03/28/Service/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Service
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-03-28 22:27:29 / Modified: 20:36:43" itemprop="dateCreated datePublished" datetime="2021-03-28T22:27:29+09:00">2021-03-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/k8s%E3%82%AC%E3%82%A4%E3%83%89%E3%83%96%E3%83%83%E3%82%AF/" itemprop="url" rel="index"><span itemprop="name">k8sガイドブック</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h1><h2 id="6-1-Service-APIs的概要"><a href="#6-1-Service-APIs的概要" class="headerlink" title="6.1 Service APIs的概要"></a>6.1 Service APIs的概要</h2><p>Service APIs：给cluster上的container提供endpoint，label一致的contianer的discovery</p>
+<ul>
+<li>Service<ul>
+<li>ClusterIP</li>
+<li>ExternalIP</li>
+<li>NodePort</li>
+<li>LoadBalancer</li>
+<li>Headless</li>
+<li>ExternalName</li>
+<li>None-Selector</li>
+</ul>
+</li>
+<li>Ingress(提供L7 loadBalancing)</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="6-2-Kubernetes-cluster的network和Service"><a href="#6-2-Kubernetes-cluster的network和Service" class="headerlink" title="6.2 Kubernetes cluster的network和Service"></a>6.2 Kubernetes cluster的network和Service</h2><p>由于包含在同一个Pod中的多个container被分配的是相同的IP address。因此，同一个Pod内部contianer之间的通信以发给localhost进行通信。而当某一个Pod的contianer向其他Pod的container进行通信的场合，以Pod的IP address为目的地址进行通信。</p>
+<h3 id="Kubernetes-cluster的内部网络"><a href="#Kubernetes-cluster的内部网络" class="headerlink" title="Kubernetes cluster的内部网络"></a>Kubernetes cluster的内部网络</h3><p>当构建kubernetes cluster时，在node里服务Pod的内部网络则被自动创建。</p>
+<p>基本上在每个node的构建的是不同的network segment ，而且node之间通过使用VXLAN或者L2 Routing等技术来转发traffic(流量)，从而node之间能相互通信。</p>
+<p>由于k8s自动构筑了这样的内部网络，Pod之间不需要使用Service也能够进行通信。但是，使用Service有2大优势：</p>
+<ul>
+<li>发送到Pod的traffic的load balancling （发送到Pod流量的负载均衡）</li>
+<li>Service Discovery （服务发现）和cluster内DNS</li>
+</ul>
+<h3 id="6-2-1-发送到Pod的流量的负载均衡"><a href="#6-2-1-发送到Pod的流量的负载均衡" class="headerlink" title="6.2.1 发送到Pod的流量的负载均衡"></a>6.2.1 发送到Pod的流量的负载均衡</h3><p>Service提供了把收到的流量负载均衡到多个Pod的功能。例如：由于一个Deployment启动了多个Pod，而每个Pod都被赋予了不同的IP address，因此要实现load balancing的功能就需要每次都查找各个Pod的IP address并设定为转发目的地。</p>
+<p>因此，Service提供了作为负载均衡连接口的endpoint。endpoint提供了，供外部load balancer使用的virtual ip address（虚拟ip address）和只能在cluster内部使用的virtual IP address。</p>
+<p><code>sample-deployment.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-deployment</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">sample-app</span></span><br><span class="line">    <span class="attr">template:</span></span><br><span class="line">      <span class="attr">metadata:</span></span><br><span class="line">        <span class="attr">labels:</span></span><br><span class="line">          <span class="attr">app:</span> <span class="string">sample-app</span></span><br><span class="line">        <span class="attr">spec:</span></span><br><span class="line">          <span class="attr">containers:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx-container</span></span><br><span class="line">            <span class="attr">image:</span> <span class="string">nginx</span></span><br></pre></td></tr></table></figure>
+
+<p>由该Deployment创建的Pod会被自动赋予<code>app: sample-app</code>的label。</p>
+<p>使用特点的jsonpath输出label</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl get pod sample-deployment-dcc7d5c94-m9f7x -o jsonpath=&#x27;&#123;.metadata.labels&#125;&#x27;</span></span><br><span class="line">&#123;<span class="string">&quot;app&quot;</span>:<span class="string">&quot;sample-app&quot;</span>,<span class="string">&quot;pod-template-hash&quot;</span>:<span class="string">&quot;dcc7d5c94&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="ClusterIP"><a href="#ClusterIP" class="headerlink" title="ClusterIP"></a>ClusterIP</h4><p>Cluster IP是一个虚拟的IP，只能在Cluster内部使用。</p>
+<p>Cluster构成了load balancer。该LB提供的endpoint是只能在Cluster内部使用虚拟IP。</p>
+<p><strong>Service是根据<code>spec.selector</code>所定义的Selector的条件来进行流量转发。</strong></p>
+<p>例如：下面的ClusterIP是把流量负载均衡到拥有<code>app:sample</code>标签的Pod上。</p>
+<p><code>sample-clusterip.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-clusterip</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;http-port&quot;</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">&quot;TCP&quot;</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8080</span>  <span class="comment">#ClusterIP的endpoint的port</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">80</span> <span class="comment">#Pod的port</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">sample-app</span></span><br></pre></td></tr></table></figure>
+
+<p>首先，来确认label为<code>app:sample-app</code>的Pod的IP address。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl get pods -l app=sample-app -o custom-columns=&quot;NAME:&#123;metadata.name&#125;,IP:&#123;status.podIP&#125;&quot;</span></span><br><span class="line">NAME                                IP</span><br><span class="line">sample-deployment-dcc7d5c94-5dcfx   10.244.1.18</span><br><span class="line">sample-deployment-dcc7d5c94-88zxp   10.244.2.25</span><br><span class="line">sample-deployment-dcc7d5c94-m9f7x   10.244.1.17</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接下来，创建Service，并确认Service的详细情报。可以在Endpoints一栏中看到流量转发目的地的IP address和Port是和拥有<code>app: sample-app</code>标签的Pod的IP address是相同的。而CLUSTER-IP或者IP栏的IP address则是为了实现负载均衡的endpoint的虚拟IP。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl apply -f sample-clusterip.yaml </span></span><br><span class="line">service/sample-clusterip created</span><br><span class="line"><span class="comment"># 确认Service的情报</span></span><br><span class="line"><span class="comment"># kubectl get service sample-clusterip</span></span><br><span class="line">NAME               TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE</span><br><span class="line">sample-clusterip   ClusterIP   10.100.40.52   &lt;none&gt;        8080/TCP   7m28s</span><br><span class="line"><span class="comment"># kubectl describe service sample-clusterip</span></span><br><span class="line">Name:              sample-clusterip</span><br><span class="line">Namespace:         default</span><br><span class="line">Labels:            &lt;none&gt;</span><br><span class="line">Annotations:       &lt;none&gt;</span><br><span class="line">Selector:          app=sample-app</span><br><span class="line">Type:              ClusterIP</span><br><span class="line">IP Families:       &lt;none&gt;</span><br><span class="line">IP:                10.100.40.52</span><br><span class="line">IPs:               10.100.40.52</span><br><span class="line">Port:              http-port  8080/TCP</span><br><span class="line">TargetPort:        80/TCP</span><br><span class="line">Endpoints:         10.244.1.17:80,10.244.1.18:80,10.244.2.25:80</span><br><span class="line">Session Affinity:  None</span><br><span class="line">Events:            &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/service01.png"></p>
+<p>最后来确认，创建的load balancer是否把流量负载均衡到了各个Pod上。</p>
+<p>由于本例使用的Service type是ClusterIP，因此endpoint的虚拟IP address只能在cluster内部来访问。所以需要通过在cluster内部再创建一个container来向该endpoint发送HTTP request来进行确认。</p>
+<p>创建一个临时的Pod</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl run --image=amsy810/tools:v2.0 --restart=Never --rm -i testpod --command -- curl -s http://10.100.40.52:8080</span></span><br><span class="line">Host=10.100.40.52  Path=/  From=sample-deployment-55b544cd4-g7sfx  ClientIP=10.244.2.28  XFF=</span><br><span class="line">pod <span class="string">&quot;testpod&quot;</span> deleted</span><br><span class="line"><span class="comment"># kubectl run --image=amsy810/tools:v2.0 --restart=Never --rm -i testpod --command -- curl -s http://10.100.40.52:8080</span></span><br><span class="line">Host=10.100.40.52  Path=/  From=sample-deployment-55b544cd4-g7sfx  ClientIP=10.244.2.29  XFF=</span><br><span class="line">pod <span class="string">&quot;testpod&quot;</span> deleted</span><br><span class="line"><span class="comment"># kubectl run --image=amsy810/tools:v2.0 --restart=Never --rm -i testpod --command -- curl -s http://10.100.40.52:8080</span></span><br><span class="line">Host=10.100.40.52  Path=/  From=sample-deployment-55b544cd4-lg6wk  ClientIP=10.244.2.30  XFF=</span><br><span class="line">pod <span class="string">&quot;testpod&quot;</span> deleted</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在执行多次之后通过返回的Pod名来看到对每个Pod都进行了request。</p>
+<h4 id="分配多个Port"><a href="#分配多个Port" class="headerlink" title="分配多个Port"></a>分配多个Port</h4><p>一个Service可以分配多个Port。例如：对ClusterIP的8080/TCP Port发送的request，负载均衡到Pod的80/TCP Port;而对ClusterIP的8443/TCP Port发送的request，则负载均衡到Pod的443/TCP Port。（由于使用的Deployment的Pod没有监听443Port，因此<code>https-port</code>不会疏通）</p>
+<p><img src="raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/service02.png"></p>
+<p><img src="C:\Users\alston\AppData\Roaming\Typora\typora-user-images\1616899429590.png" alt="1616899429590"></p>
+<p><code>sample-clusterip-multi.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-clusterip-multi</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;http-port&quot;</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">&quot;TCP&quot;</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;https-port&quot;</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">&quot;TCP&quot;</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8443</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">443</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">sample-app</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="通过port的name来设置targetPort"><a href="#通过port的name来设置targetPort" class="headerlink" title="通过port的name来设置targetPort"></a>通过port的name来设置targetPort</h4><p>在定义Pod的port时通过给port命名，可以使用port的name来进行Service的targePort的指定。</p>
+<p><code>sample-named-port-pods.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-named-port-pod-80</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">sample-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx-container</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">amsy810/echo-nginx:v2.0</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">http</span> <span class="comment">#给port命名</span></span><br><span class="line">      <span class="attr">containerPort:</span> <span class="number">80</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-named-port-pod-81</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">sample-app</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx-container</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">amsy810/echo-nginx:v2.0</span></span><br><span class="line">    <span class="attr">env:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">NGINX_PORT</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">&quot;81&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">http</span> <span class="comment">#给port命名</span></span><br><span class="line">      <span class="attr">containerPort:</span> <span class="number">81</span></span><br></pre></td></tr></table></figure>
+
+<p><code>sample-named-port-service.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-named-port-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;http-port&quot;</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">&quot;TCP&quot;</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="string">http</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">sample-app</span></span><br></pre></td></tr></table></figure>
+
+<p>在上面的例子中，由于port80和port81的name都为http，因此在Service的Endpoints的目的IP地址中也都分别登陆了这两个port。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl describe svc sample-named-port-service</span></span><br><span class="line">Name:              sample-named-port-service</span><br><span class="line">Namespace:         default</span><br><span class="line">Labels:            &lt;none&gt;</span><br><span class="line">Annotations:       &lt;none&gt;</span><br><span class="line">Selector:          app=sample-app</span><br><span class="line">Type:              ClusterIP</span><br><span class="line">IP Families:       &lt;none&gt;</span><br><span class="line">IP:                10.110.38.208</span><br><span class="line">IPs:               10.110.38.208</span><br><span class="line">Port:              http-port  8080/TCP</span><br><span class="line">TargetPort:        http/TCP</span><br><span class="line">Endpoints:         10.244.2.39:80,10.244.1.21:81</span><br><span class="line">Session Affinity:  None</span><br><span class="line">Events:            &lt;none&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># kubectl get po -o wide</span></span><br><span class="line">NAME                                READY   STATUS    RESTARTS   AGE     IP            NODE     NOMINATED NODE   READINESS GATES</span><br><span class="line">sample-named-port-pod-80            1/1     Running   0          6m14s   10.244.2.39   node02   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">sample-named-port-pod-81            1/1     Running   0          3m8s    10.244.1.21   node01   &lt;none&gt;           &lt;none&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看到ClusterIP的endpoint分别登陆了这两个Pod的<code>ip address:port</code></p>
+<h3 id="6-2-2-cluster内部DNS和service-discovery-service发现"><a href="#6-2-2-cluster内部DNS和service-discovery-service发现" class="headerlink" title="6.2.2 cluster内部DNS和service discovery(service发现)"></a>6.2.2 cluster内部DNS和service discovery(service发现)</h3><p>service discovery: 列举特定条件的对象的member（成员），并判别从名称到endpoint的功能。在k8s层面上来讲就是，列举属于Service的Pod，并返回从Service的名称到endpoint的信息。</p>
+<p>service发现是k8s中的一个重要机制，其基本功能为：在cluster内通过service名对service进行访问，即需要完成从service名到ClusterIP的解析。</p>
+<p>Service 发现的方法主要有3种：</p>
+<ul>
+<li>使用环境变量</li>
+<li>使用DNS A record</li>
+<li>使用DNS SRV record</li>
+</ul>
+<p>在使用DNS的service discovery中，使用的是自动登陆到cluster内部DNS sever的service endpoint。</p>
+<h4 id="使用环境变量的service-discovery"><a href="#使用环境变量的service-discovery" class="headerlink" title="使用环境变量的service discovery"></a>使用环境变量的service discovery</h4><p>从Pod内部可以通过环境变量来确认在同一namespace下的service信息。</p>
+<p>需要注意的是，当Pod创建之后，伴随创建或者删除的Service而产生变更的环境变量并不会自动登陆到之前已经启动的Pod的环境中。因此，需要重新创建Pod。</p>
+<h4 id="使用DNS-A-record的service-discovery"><a href="#使用DNS-A-record的service-discovery" class="headerlink" title="使用DNS A record的service discovery"></a>使用DNS A record的service discovery</h4><p>从其他的Pod连接到Service除了使用IP Address还可以使用自动登录的DNS record。由于每当创建Service时，分配给Service的IP Address会产生变化。因此，如果使用DNS的话，就无需在意由于Service 。</p>
+<p>对<code>http://sample-clusterip:8080</code>发送request，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl run --image=amsy810/tools:v2.0 --restart=Never --rm -i testpod --command -- curl -s http://sample-clusterip:8080</span></span><br><span class="line">Host=sample-clusterip  Path=/  From=sample-deployment-55b544cd4-vjbj2  ClientIP=10.244.2.46  XFF=</span><br><span class="line">pod <span class="string">&quot;testpod&quot;</span> deleted</span><br><span class="line"><span class="comment"># kubectl run --image=amsy810/tools:v2.0 --restart=Never --rm -i testpod --command -- curl -s http://sample-clusterip:8080</span></span><br><span class="line">Host=sample-clusterip  Path=/  From=sample-deployment-55b544cd4-tpntb  ClientIP=10.244.2.47  XFF=</span><br><span class="line">pod <span class="string">&quot;testpod&quot;</span> deleted</span><br><span class="line"><span class="comment"># kubectl run --image=amsy810/tools:v2.0 --restart=Never --rm -i testpod --command -- curl -s http://sample-clusterip:8080</span></span><br><span class="line">Host=sample-clusterip  Path=/  From=sample-deployment-55b544cd4-kmqkk  ClientIP=10.244.2.48  XFF=</span><br><span class="line">pod <span class="string">&quot;testpod&quot;</span> deleted</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>实际上，登录的正式FQDN是，<code>[Service名称].[Namespace名称].svc.cluster.local</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl run --image=amsy810/tools:v2.0 --restart=Never --rm -i testpod --command -- dig sample-clusterip.default.svc.cluster.local</span></span><br><span class="line">...(省略)...</span><br><span class="line">;; QUESTION SECTION:</span><br><span class="line">;sample-clusterip.default.svc.cluster.local. IN A</span><br><span class="line"></span><br><span class="line">;; ANSWER SECTION:</span><br><span class="line">sample-clusterip.default.svc.cluster.local. 30 IN A 10.96.59.224</span><br><span class="line">...(省略)...</span><br></pre></td></tr></table></figure>
+
+<p>在同一个Namespace下，根据<code>Service名称</code>来区分；不同的Namespace的情况下，则通过Namespace名来进行区分。</p>
+<h4 id="使用-DNS-SRV-record"><a href="#使用-DNS-SRV-record" class="headerlink" title="使用 DNS SRV record"></a>使用 DNS SRV record</h4><h2 id="6-3-ClusterIP-Service"><a href="#6-3-ClusterIP-Service" class="headerlink" title="6.3 ClusterIP Service"></a>6.3 ClusterIP Service</h2><p>当创建<code>type:ClusterIP</code>的Service时，会被分配由Internal Network所创建的只能从<strong>k8s cluster内部</strong>使用的虚拟IP address，因此被称作ClusterIP。而发送到ClusterIP的通信，则会通过运行在各个node上的system component中的kube-proxy来向Pod进行转发。</p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/service03.png"></p>
+<h3 id="6-3-1-ClusterIP-Service的创建"><a href="#6-3-1-ClusterIP-Service的创建" class="headerlink" title="6.3.1 ClusterIP Service的创建"></a>6.3.1 ClusterIP Service的创建</h3><p><code>sample-clusterip.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-clusterip</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;http-port&quot;</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">&quot;TCP&quot;</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">  <span class="attr">selector:</span> <span class="string">sample-app</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>创建方法：指定<code>type:ClusterIP</code>。</p>
+</li>
+<li><p><code>sepc.ports[].port</code>是ClusterIP用来接受信息的port。</p>
+</li>
+<li><p><code>spec.ports[].port</code>是ClusterIP把信息发送目的地Pod中的container的port。</p>
+</li>
+</ul>
+<p>接下来还是使用<code>sample-deployment.yaml</code>创建Deployment后，并发起向ClusterIP发起HTTP request，会发现发送到ClusterIP的traffic会被转送到各个Pod。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl run --image=amsy810/tools:v2.0 --restart=Never --rm -i testpod --command -- curl -s http://sample-clusterip:8080</span></span><br><span class="line">Host=sample-clusterip  Path=/  From=sample-deployment-55b544cd4-tpntb  ClientIP=10.244.2.41  XFF=</span><br><span class="line">pod <span class="string">&quot;testpod&quot;</span> deleted</span><br><span class="line"><span class="comment"># kubectl run --image=amsy810/tools:v2.0 --restart=Never --rm -i testpod --command -- curl -s http://sample-clusterip:8080</span></span><br><span class="line">Host=sample-clusterip  Path=/  From=sample-deployment-55b544cd4-vjbj2  ClientIP=10.244.2.42  XFF=</span><br><span class="line">pod <span class="string">&quot;testpod&quot;</span> deleted</span><br><span class="line"><span class="comment">#多次执行之后....</span></span><br><span class="line"><span class="comment"># kubectl run --image=amsy810/tools:v2.0 --restart=Never --rm -i testpod --command -- curl -s http://sample-clusterip:8080</span></span><br><span class="line">Host=sample-clusterip  Path=/  From=sample-deployment-55b544cd4-kmqkk  ClientIP=10.244.1.26  XFF=</span><br><span class="line">pod <span class="string">&quot;testpod&quot;</span> deleted</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-3-2指定ClusterIP的虚拟IP为静态IP"><a href="#6-3-2指定ClusterIP的虚拟IP为静态IP" class="headerlink" title="6.3.2指定ClusterIP的虚拟IP为静态IP"></a>6.3.2指定ClusterIP的虚拟IP为静态IP</h3><p>通过指定<code>spec.ClusterIP</code>字段来手动指定ClusterIP的IP address。</p>
+<p><code>sample-clusterip-vip.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-clusterip-vip</span></span><br><span class="line"><span class="attr">sepc:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">clusterIP:</span> <span class="number">10.11</span><span class="number">.253</span><span class="number">.81</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;http-port&quot;</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">&quot;TCP&quot;</span></span><br><span class="line">    <span class="attr">prot:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">sample-app</span></span><br></pre></td></tr></table></figure>
+
+<p>对于已经创建的Service来说，之后不能变更ClusterIP。虽然使用<code>kubectl apply</code>可以更新设定值，但是包括<code>ClusterIP</code>的值等一部分字段是不能变更的(Immutable)。当想要指定ClusterIP的时候，首先需要删除之后再创建。</p>
+<h2 id="6-4-ExternalIP-Service"><a href="#6-4-ExternalIP-Service" class="headerlink" title="6.4 ExternalIP Service"></a>6.4 ExternalIP Service</h2><p>ExternalIP Service是把从特定的k8s Node的<code>IPaddress:Port</code>接受的信息转发到container的确立外部连通性的Service。（不过，目前<strong>更推荐使用NodePort</strong>）</p>
+<p><code>sample-externalip.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-externalip</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">externalIPs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">61.210</span><span class="number">.160</span><span class="number">.120</span> <span class="comment"># node的IP address</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">61.210</span><span class="number">.163</span><span class="number">.59</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;http-port&quot;</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">&quot;TCP&quot;</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">sample-app</span></span><br></pre></td></tr></table></figure>
+
+<p>ExternalIP并不需要指定<code>type: ExternalIP</code>。ExternalIP能够使用的IP address是node的IP address</p>
+<p>可以使用以下命令获得node的IP address</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl get nodes -o custom-columns=&quot;NAME:&#123;metadata.name&#125;,IP:&#123;status.addresses[].address&#125;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>当创建好ExternalIP Service后，可以使用<code>curl</code>验证外部连通性。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># curl 61.210.160.120:8080</span></span><br><span class="line">Host=61.210.160.120  Path=/  From=sample-deployment-55b544cd4-tpntb  ClientIP=10.244.1.0  XFF=</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-5-NodePort-Service"><a href="#6-5-NodePort-Service" class="headerlink" title="6.5 NodePort Service"></a>6.5 NodePort Service</h2><p>NodePort与ExternalIP类似。不同的是，ExternalIP是通过指定的Node的<code>IP address:Port</code>来接受信息，并转发到container。而NodePort则是接受<strong>所有的</strong>Node的<code>IP address:Port</code>的信息并转发到container。严格的来说，NodePort是通过监听<code>0.0.0.0:Port</code>来Bind所有的IP address。</p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/service04.png"></p>
+<p><code>sample-nodeport.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadta:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-nodeport</span></span><br><span class="line"><span class="attr">sepc:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">ports:</span> </span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;http-port&quot;</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">&quot;TCP&quot;</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">    <span class="attr">nodePort:</span> <span class="number">30080</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">sample-app</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>spec.ports[].port</code>是ClusterIP用来接收信息的Port</li>
+<li><code>spec.ports[].targetPort</code>是转发目的地container的Port</li>
+<li><code>spec.ports[].nodePort</code>是所有k8s Node用来接收信息的Port</li>
+</ul>
+<p>由于是在所有k8s Node的IP address上进行监听，<code>spec.ports[].nodePort</code>所指定的Port要避免冲突。如果</p>
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/service05.png"></p>
+<p>临时创建Pod，确认NodePort Service的名字是否解决</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl run --image=amsy810/tools:v2.0 --restart=Never --rm -i testpod --command -- dig sample-nodeport.default.svc.cluster.local</span></span><br><span class="line">...(省略)...</span><br><span class="line"></span><br><span class="line">;; QUESTION SECTION:</span><br><span class="line">;sample-nodeport.default.svc.cluster.local. IN A</span><br><span class="line"></span><br><span class="line">;; ANSWER SECTION:</span><br><span class="line">sample-nodeport.default.svc.cluster.local. 30 IN A 10.97.127.165</span><br><span class="line"></span><br><span class="line">...(省略)...</span><br></pre></td></tr></table></figure>
+
+<p>用<code>curl</code>进行外部连通性确认，多次执行后确认三个Pod的出现频率相同。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># curl -s 61.210.163.59:30080</span></span><br><span class="line">Host=61.210.163.59  Path=/  From=sample-deployment-55b544cd4-tpntb  ClientIP=10.244.2.1  XFF=</span><br><span class="line"><span class="comment"># curl -s 61.210.163.59:30080</span></span><br><span class="line">Host=61.210.163.59  Path=/  From=sample-deployment-55b544cd4-kmqkk  ClientIP=10.244.2.0  XFF=</span><br><span class="line"><span class="comment"># curl -s 61.210.163.59:30080</span></span><br><span class="line">Host=61.210.163.59  Path=/  From=sample-deployment-55b544cd4-vjbj2  ClientIP=10.244.2.0  XFF=</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-5-2-NodePort的注意事项"><a href="#6-5-2-NodePort的注意事项" class="headerlink" title="6.5.2 NodePort的注意事项"></a>6.5.2 NodePort的注意事项</h3><h4 id="NodePort的Port的范围应该设定在30000-32767之间，如果不在这个范围之内，则会报错。"><a href="#NodePort的Port的范围应该设定在30000-32767之间，如果不在这个范围之内，则会报错。" class="headerlink" title="NodePort的Port的范围应该设定在30000~32767之间，如果不在这个范围之内，则会报错。"></a>NodePort的Port的范围应该设定在<code>30000~32767</code>之间，如果不在这个范围之内，则会报错。</h4><p>当指定<code>nodePort:8888</code>时，报错的例子</p>
+<p><code>sample-nodeport-fail.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-nodeport-fail</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;http-port&quot;</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">&quot;TCP&quot;</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">    <span class="attr">nodePort:</span> <span class="number">8888</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">sample-app</span></span><br></pre></td></tr></table></figure>
+
+<p>创建产生error</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl apply -f sample-nodeport-fail.yaml </span></span><br><span class="line">The Service <span class="string">&quot;sample-nodeport-fail&quot;</span> is invalid: spec.ports[0].nodePort: Invalid value: 8888: provided port is not <span class="keyword">in</span> the valid range. The range of valid ports is 30000-32767</span><br></pre></td></tr></table></figure>
+
+<p><strong>The range of valid ports is 30000-32767</strong></p>
+<h4 id="多个NodePort不能同时使用一个Port"><a href="#多个NodePort不能同时使用一个Port" class="headerlink" title="多个NodePort不能同时使用一个Port"></a>多个NodePort不能同时使用一个Port</h4><p><code>sample-nodeport-fail2.yaml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">sample-nodeport-fail2</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">&quot;http-port&quot;</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">&quot;TCP&quot;</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8080</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">80</span></span><br><span class="line">    <span class="attr">nodePort:</span> <span class="number">30080</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">sample-app</span></span><br></pre></td></tr></table></figure>
+
+<p>由于之前已经创建了port为30080的nodePort，因此报错</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubectl apply -f sample-nodeport-fail2.yaml </span></span><br><span class="line">The Service <span class="string">&quot;sample-nodeport-fail2&quot;</span> is invalid: spec.ports[0].nodePort: Invalid value: 30080: provided port is already allocated</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/alstonzero/k8s_Learning/master/pic/k8s-guidebook-images/service06.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/k8s/" rel="tag"># k8s</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/23/k8s-Job&CornJob/" rel="prev" title="k8s-Job&CornJob">
+      <i class="fa fa-chevron-left"></i> k8s-Job&CornJob
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Service"><span class="nav-number">1.</span> <span class="nav-text">Service</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-Service-APIs%E7%9A%84%E6%A6%82%E8%A6%81"><span class="nav-number">1.1.</span> <span class="nav-text">6.1 Service APIs的概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-Kubernetes-cluster%E7%9A%84network%E5%92%8CService"><span class="nav-number">1.2.</span> <span class="nav-text">6.2 Kubernetes cluster的network和Service</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kubernetes-cluster%E7%9A%84%E5%86%85%E9%83%A8%E7%BD%91%E7%BB%9C"><span class="nav-number">1.2.1.</span> <span class="nav-text">Kubernetes cluster的内部网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-1-%E5%8F%91%E9%80%81%E5%88%B0Pod%E7%9A%84%E6%B5%81%E9%87%8F%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="nav-number">1.2.2.</span> <span class="nav-text">6.2.1 发送到Pod的流量的负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ClusterIP"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">ClusterIP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E9%85%8D%E5%A4%9A%E4%B8%AAPort"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">分配多个Port</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87port%E7%9A%84name%E6%9D%A5%E8%AE%BE%E7%BD%AEtargetPort"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">通过port的name来设置targetPort</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-2-cluster%E5%86%85%E9%83%A8DNS%E5%92%8Cservice-discovery-service%E5%8F%91%E7%8E%B0"><span class="nav-number">1.2.3.</span> <span class="nav-text">6.2.2 cluster内部DNS和service discovery(service发现)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E7%9A%84service-discovery"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">使用环境变量的service discovery</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8DNS-A-record%E7%9A%84service-discovery"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">使用DNS A record的service discovery</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-DNS-SRV-record"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">使用 DNS SRV record</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-ClusterIP-Service"><span class="nav-number">1.3.</span> <span class="nav-text">6.3 ClusterIP Service</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-1-ClusterIP-Service%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">1.3.1.</span> <span class="nav-text">6.3.1 ClusterIP Service的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-2%E6%8C%87%E5%AE%9AClusterIP%E7%9A%84%E8%99%9A%E6%8B%9FIP%E4%B8%BA%E9%9D%99%E6%80%81IP"><span class="nav-number">1.3.2.</span> <span class="nav-text">6.3.2指定ClusterIP的虚拟IP为静态IP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-ExternalIP-Service"><span class="nav-number">1.4.</span> <span class="nav-text">6.4 ExternalIP Service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-5-NodePort-Service"><span class="nav-number">1.5.</span> <span class="nav-text">6.5 NodePort Service</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-2-NodePort%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">1.5.1.</span> <span class="nav-text">6.5.2 NodePort的注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NodePort%E7%9A%84Port%E7%9A%84%E8%8C%83%E5%9B%B4%E5%BA%94%E8%AF%A5%E8%AE%BE%E5%AE%9A%E5%9C%A830000-32767%E4%B9%8B%E9%97%B4%EF%BC%8C%E5%A6%82%E6%9E%9C%E4%B8%8D%E5%9C%A8%E8%BF%99%E4%B8%AA%E8%8C%83%E5%9B%B4%E4%B9%8B%E5%86%85%EF%BC%8C%E5%88%99%E4%BC%9A%E6%8A%A5%E9%94%99%E3%80%82"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">NodePort的Port的范围应该设定在30000~32767之间，如果不在这个范围之内，则会报错。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AANodePort%E4%B8%8D%E8%83%BD%E5%90%8C%E6%97%B6%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAPort"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">多个NodePort不能同时使用一个Port</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">HOU YINGQIAO</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/alstonzero" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;alstonzero" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://qiita.com/alstonzero" title="Qiita → https:&#x2F;&#x2F;qiita.com&#x2F;alstonzero" rel="noopener" target="_blank"><i class="qiita fa-fw"></i>Qiita</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://linux.51yip.com/" title="http:&#x2F;&#x2F;linux.51yip.com&#x2F;" rel="noopener" target="_blank">Linux命令手册</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HOU YINGQIAO</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
