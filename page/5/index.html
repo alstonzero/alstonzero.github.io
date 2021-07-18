@@ -147,6 +147,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
+    <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2018/12/02/Java%20%E5%A4%9A%E6%80%81%E7%90%86%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="HOU YINGQIAO">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyNote">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/02/Java%20%E5%A4%9A%E6%80%81%E7%90%86%E8%A7%A3/" class="post-title-link" itemprop="url">Java 多态理解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-02 21:27:29" itemprop="dateCreated datePublished" datetime="2018-12-02T21:27:29+09:00">2018-12-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-12-31 22:01:48" itemprop="dateModified" datetime="2020-12-31T22:01:48+09:00">2020-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Java-多态理解"><a href="#Java-多态理解" class="headerlink" title="Java 多态理解"></a>Java 多态理解</h1><p>多态的3个必要条件：</p>
+<h3 id="1-继承-2-重写-3-父类引用指向子类对象。"><a href="#1-继承-2-重写-3-父类引用指向子类对象。" class="headerlink" title="1.继承 2.重写 3.父类引用指向子类对象。"></a>1.继承 2.重写 3.父类引用指向子类对象。</h3><p>要理解多态性，首先要知道什么是“向上转型”。</p>
+<p>我定义了一个子类Cat，它继承了Animal类，那么后者就是前者是父类。我可以通过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cat c &#x3D; new Cat();</span><br></pre></td></tr></table></figure>
+
+<p>实例化一个Cat的对象，这个不难理解。<br>但当我这样定义时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Animal a &#x3D; new Cat();</span><br></pre></td></tr></table></figure>
+
+<p>表示定义了一个Animal类型的引用，指向新建的Cat类型的对象。由于Cat是继承自它的父类Animal，所以Animal类型的引用是可以指向Cat类型的对象的。</p>
+<hr>
+<h4 id="那么这样做有什么意义呢？"><a href="#那么这样做有什么意义呢？" class="headerlink" title="那么这样做有什么意义呢？"></a>那么这样做有什么意义呢？</h4><p>因为子类是对父类的一个改进和扩充，所以一般子类在功能上较父类更强大，属性较父类更独特， 定义一个父类类型的引用指向一个子类的对象既可以使用子类强大的功能，又可以抽取父类的共性。</p>
+<h3 id="父类引用的特点："><a href="#父类引用的特点：" class="headerlink" title="父类引用的特点："></a>父类引用的特点：</h3><h4 id="父类类型的引用可以调用父类中定义的所有属性和方法；"><a href="#父类类型的引用可以调用父类中定义的所有属性和方法；" class="headerlink" title="父类类型的引用可以调用父类中定义的所有属性和方法；"></a>父类类型的引用可以调用父类中定义的所有属性和方法；</h4><h4 id="而无法调用子类中定义的，但是父类中没有的方法。"><a href="#而无法调用子类中定义的，但是父类中没有的方法。" class="headerlink" title="而无法调用子类中定义的，但是父类中没有的方法。"></a>而无法调用子类中定义的，但是父类中没有的方法。</h4><p>同时，</p>
+<h4 id="父类中的一个方法只有在父类中定义而在子类中没有重写的情况下，才可以被父类类型的引用调用；"><a href="#父类中的一个方法只有在父类中定义而在子类中没有重写的情况下，才可以被父类类型的引用调用；" class="headerlink" title="父类中的一个方法只有在父类中定义而在子类中没有重写的情况下，才可以被父类类型的引用调用；"></a>父类中的一个方法只有在父类中定义而在子类中没有重写的情况下，才可以被父类类型的引用调用；</h4><h4 id="对于父类中定义的方法，如果子类中重写了该方法，那么父类类型的引用将会调用子类中的这个方法，这就是动态连接。也可以叫做动态绑定。"><a href="#对于父类中定义的方法，如果子类中重写了该方法，那么父类类型的引用将会调用子类中的这个方法，这就是动态连接。也可以叫做动态绑定。" class="headerlink" title="对于父类中定义的方法，如果子类中重写了该方法，那么父类类型的引用将会调用子类中的这个方法，这就是动态连接。也可以叫做动态绑定。"></a>对于父类中定义的方法，如果子类中重写了该方法，那么父类类型的引用将会调用子类中的这个方法，这就是动态连接。也可以叫做动态绑定。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Father &#123;</span><br><span class="line">    public void func1() </span><br><span class="line"></span><br><span class="line">   &#123;</span><br><span class="line">        func2();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"> &#x2F;&#x2F; 这是父类中的func2()方法，因为下面的子类中重写了该方法 ，所以在父类类型的引用中调用时，这个方法将不再有效，取而代之的是将调用子类中重写的func2()方法</span><br><span class="line">    public void func2() &#123;</span><br><span class="line">        System.out.println(&quot;AAA&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Child extends Father &#123; &#x2F;&#x2F; func1(int i)是对func1()方法的一个重载由于在父类中没有定义这个方法，所以它不能被父类类型的引用调用所以在下面的main方法中child.func1(68)是不对的</span><br><span class="line">    public void func1(int i) &#123;</span><br><span class="line">        System.out.println(&quot;BBB&quot;);</span><br><span class="line">    &#125; &#x2F;&#x2F; func2()重写了父类Father中的func2()方法   如果父类类型的引用中调用了func2()方法，那么必然是子类中重写的这个方法</span><br><span class="line">    public void func2() &#123;</span><br><span class="line">        System.out.println(&quot;CCC&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class PolymorphismTest &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Father child &#x3D; new Child();</span><br><span class="line">        child.func1();&#x2F;&#x2F; 打印结果将会是什么？ &#125; &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的程序是个很典型的多态的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">子类Child继承了父类Father，并重载了父类的func1()方法，重写了父类的func2()方法。重载后的 func1(int i)和func1()不再是同一个方法，由于父类中没有func1(int i)，那么，父类类型的引用child就不能调用func1(int  i)方法。而子类重写了func2()方法，那么父类类型的引用child在调用该方法时将会调用子类中重写的func2()  </span><br></pre></td></tr></table></figure>
+
+<p>那么该程序将会打印出什么样的结果呢？ 很显然，应该是“CCC”。</p>
+<p>对于多态，可以总结它为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">一、使用父类类型的引用指向子类的对象；</span><br><span class="line"></span><br><span class="line">二、该引用只能调用父类中定义的方法和变量；</span><br><span class="line"></span><br><span class="line">三、如果子类中重写了父类中的一个方法，那么在调用这个方法的时候，将会调用子类中的这个方法；（动态连接、动态调用）</span><br><span class="line"></span><br><span class="line">四、变量不能被重写（覆盖），”重写“的概念只针对方法，如果在子类中”重写“了父类中的变量，那么在编译时会报错。</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en,default">
     <link itemprop="mainEntityOfPage" href="https://alstonzero.github.io/2018/05/28/java%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -414,18 +508,18 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
